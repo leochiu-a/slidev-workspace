@@ -30,7 +30,7 @@ export function loadConfig(): SlidevWorkspaceConfig {
 
   for (const configPath of configPaths) {
     const fullPath = join(projectRoot, configPath);
-    
+
     if (existsSync(fullPath)) {
       try {
         if (configPath.endsWith(".yml") || configPath.endsWith(".yaml")) {
@@ -51,17 +51,19 @@ export function loadConfig(): SlidevWorkspaceConfig {
 
 export function resolveSlidesDirs(config: SlidevWorkspaceConfig): string[] {
   const currentDir = dirname(fileURLToPath(import.meta.url));
-  const projectRoot = resolve(currentDir, "..");
+  const projectRoot = resolve(currentDir, "../..");
 
-  return (config.slidesDir || []).map(dir => {
-    if (resolve(dir) === dir) {
-      // Absolute path
-      return dir;
-    } else {
-      // Relative path
-      return resolve(projectRoot, dir);
-    }
-  }).filter(dir => existsSync(dir));
+  return (config.slidesDir || [])
+    .map((dir) => {
+      if (resolve(dir) === dir) {
+        // Absolute path
+        return dir;
+      } else {
+        // Relative path
+        return resolve(projectRoot, dir);
+      }
+    })
+    .filter((dir) => existsSync(dir));
 }
 
 export { type SlidevWorkspaceConfig };

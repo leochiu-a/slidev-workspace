@@ -1,6 +1,12 @@
 <template>
-  <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" @click="$emit('close')">
-    <div class="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto" @click.stop>
+  <div
+    class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+    @click="$emit('close')"
+  >
+    <div
+      class="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto"
+      @click.stop
+    >
       <div class="p-6">
         <div class="flex items-start justify-between mb-6">
           <div class="flex-1">
@@ -28,15 +34,17 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <!-- Preview Image -->
           <div class="space-y-4">
-            <div class="aspect-video bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg overflow-hidden">
-              <img 
-                :src="slide.image" 
+            <div
+              class="aspect-video bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg overflow-hidden"
+            >
+              <img
+                :src="slide.image"
                 :alt="slide.title"
                 class="w-full h-full object-cover"
                 @error="handleImageError"
               />
             </div>
-            
+
             <!-- Slide Actions -->
             <div class="flex gap-2">
               <Button @click="openInSlidev" class="flex-1">
@@ -60,7 +68,9 @@
             <div>
               <h3 class="font-semibold mb-2">Frontmatter</h3>
               <div class="bg-gray-50 rounded-lg p-4">
-                <pre class="text-sm overflow-x-auto">{{ formatFrontmatter(slide.frontmatter) }}</pre>
+                <pre class="text-sm overflow-x-auto">{{
+                  formatFrontmatter(slide.frontmatter)
+                }}</pre>
               </div>
             </div>
 
@@ -69,19 +79,25 @@
               <div class="space-y-2 text-sm">
                 <div class="flex justify-between">
                   <span class="text-muted-foreground">ID:</span>
-                  <code class="bg-gray-100 px-2 py-1 rounded">{{ slide.id }}</code>
+                  <code class="bg-gray-100 px-2 py-1 rounded">{{
+                    slide.id
+                  }}</code>
                 </div>
                 <div class="flex justify-between">
                   <span class="text-muted-foreground">Path:</span>
-                  <code class="bg-gray-100 px-2 py-1 rounded">{{ slide.path }}</code>
+                  <code class="bg-gray-100 px-2 py-1 rounded">{{
+                    slide.path
+                  }}</code>
                 </div>
                 <div class="flex justify-between">
                   <span class="text-muted-foreground">Source:</span>
-                  <span>{{ slide.sourceDir.split('/').pop() }}</span>
+                  <span>{{ slide.sourceDir.split("/").pop() }}</span>
                 </div>
                 <div class="flex justify-between">
                   <span class="text-muted-foreground">Full Path:</span>
-                  <code class="bg-gray-100 px-2 py-1 rounded text-xs">{{ slide.fullPath }}</code>
+                  <code class="bg-gray-100 px-2 py-1 rounded text-xs">{{
+                    slide.fullPath
+                  }}</code>
                 </div>
               </div>
             </div>
@@ -89,7 +105,10 @@
             <div v-if="slide.content">
               <h3 class="font-semibold mb-2">Content Preview</h3>
               <div class="bg-gray-50 rounded-lg p-4 max-h-60 overflow-y-auto">
-                <pre class="text-sm whitespace-pre-wrap">{{ slide.content.substring(0, 500) }}{{ slide.content.length > 500 ? '...' : '' }}</pre>
+                <pre class="text-sm whitespace-pre-wrap"
+                  >{{ slide.content.substring(0, 500)
+                  }}{{ slide.content.length > 500 ? "..." : "" }}</pre
+                >
               </div>
             </div>
           </div>
@@ -100,35 +119,42 @@
 </template>
 
 <script setup lang="ts">
-import { X, User, Calendar, Palette, ExternalLink, Copy } from 'lucide-vue-next'
-import { Button } from '@/components/ui/button'
-import type { SlideData } from '@/utils/getSlides'
+import {
+  X,
+  User,
+  Calendar,
+  Palette,
+  ExternalLink,
+  Copy,
+} from "lucide-vue-next";
+import { Button } from "@/components/ui/button";
+import type { SlideData } from "@/utils/getSlides";
 
 defineProps<{
-  slide: SlideData
-}>()
+  slide: SlideData;
+}>();
 
 defineEmits<{
-  close: []
-}>()
+  close: [];
+}>();
 
 const formatFrontmatter = (frontmatter: any) => {
-  return JSON.stringify(frontmatter, null, 2)
-}
+  return JSON.stringify(frontmatter, null, 2);
+};
 
 const handleImageError = (event: Event) => {
-  const target = event.target as HTMLImageElement
-  target.src = 'https://cover.sli.dev'
-}
+  const target = event.target as HTMLImageElement;
+  target.src = "https://cover.sli.dev";
+};
 
 const openInSlidev = () => {
   // This would need to be implemented based on your setup
   // For now, just show an alert
-  alert(`Would open slide "${slide.title}" in Slidev`)
-}
+  alert(`Would open slide "${slide.title}" in Slidev`);
+};
 
 const copyPath = () => {
-  navigator.clipboard.writeText(slide.fullPath)
+  navigator.clipboard.writeText(slide.fullPath);
   // You could add a toast notification here
-}
+};
 </script>

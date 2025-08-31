@@ -1,11 +1,13 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-gray-100 via-white to-gray-200 py-16 px-4">
+  <div
+    class="min-h-screen bg-gradient-to-br from-gray-100 via-white to-gray-200 py-16 px-4"
+  >
     <div class="max-w-5xl mx-auto">
       <div class="mb-8">
         <h1 class="text-3xl font-bold mb-2">Slide Deck</h1>
         <p class="text-muted-foreground">
-          Browse all available slide decks and use the search function to quickly find what you
-          need.
+          Browse all available slide decks and use the search function to
+          quickly find what you need.
         </p>
       </div>
 
@@ -16,9 +18,8 @@
             v-model="searchTerm"
           />
         </div>
-        
       </div>
-      
+
       <div class="mb-6">
         <p class="text-sm text-muted-foreground">
           Total slides: {{ slidesApi.slidesCount.value }}
@@ -43,31 +44,30 @@
     </div>
 
     <!-- Slide Detail Modal -->
-    <SlideDetail 
-      v-if="selectedSlide" 
-      :slide="selectedSlide" 
-      @close="closeSlide" 
+    <SlideDetail
+      v-if="selectedSlide"
+      :slide="selectedSlide"
+      @close="closeSlide"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import { slidesApi } from '@/composables/useSlidesApi'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
-import SlideCard from './SlideCard.vue'
-import SlideDetail from './SlideDetail.vue'
+import { ref } from "vue";
+import { slidesApi } from "../composables/useSlidesApi";
+import { Input } from "../components/ui/input";
+import SlideCard from "./SlideCard.vue";
+import SlideDetail from "./SlideDetail.vue";
 
-const searchTerm = ref('')
+const searchTerm = ref("");
 
-const selectedSlide = ref(null)
+const selectedSlide = ref(null);
 
 const openSlide = (slide: any) => {
-  selectedSlide.value = slide
-}
+  selectedSlide.value = slide;
+};
 
 const closeSlide = () => {
-  selectedSlide.value = null
-}
+  selectedSlide.value = null;
+};
 </script>
