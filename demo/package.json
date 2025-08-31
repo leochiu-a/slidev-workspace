@@ -1,0 +1,12 @@
+{
+  "name": "demo",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "echo 'Demo workspace ready'",
+    "build": "echo 'Building demo workspace'",
+    "start": "echo 'Starting demo workspace'"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
