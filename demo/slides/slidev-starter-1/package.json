@@ -1,0 +1,16 @@
+{
+  "name": "slidev-starter-1",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "slidev build",
+    "dev": "slidev --base /slidev-starter-1/",
+    "export": "slidev export"
+  },
+  "dependencies": {
+    "@slidev/cli": "catalog:",
+    "@slidev/theme-default": "catalog:",
+    "@slidev/theme-seriph": "catalog:",
+    "vue": "catalog:"
+  }
+}

@@ -1,0 +1,10 @@
+packages:
+  - "slides/*"
+  - "slide-decks"
+
+catalog:
+  vue: ^3.5.13
+  "@slidev/cli": ^52.0.0
+  "@slidev/theme-default": latest
+  "@slidev/theme-seriph": latest
+  "slidev-theme-dracula": ^0.2.0
