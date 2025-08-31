@@ -1,0 +1,55 @@
+{
+  "name": "vue-components-starter",
+  "version": "0.0.0",
+  "description": "A starter for creating a Vue component library.",
+  "type": "module",
+  "license": "MIT",
+  "homepage": "https://github.com/author/library#readme",
+  "bugs": {
+    "url": "https://github.com/author/library/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/author/library.git"
+  },
+  "author": "Author Name <author.name@mail.com>",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js",
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "dev": "tsdown --watch",
+    "playground": "vite",
+    "test": "vitest",
+    "typecheck": "vue-tsc --noEmit",
+    "release": "bumpp && pnpm publish",
+    "prepublishOnly": "pnpm run build"
+  },
+  "peerDependencies": {
+    "vue": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.17",
+    "@vitejs/plugin-vue": "^5.2.4",
+    "@vue/test-utils": "^2.4.6",
+    "bumpp": "^10.1.0",
+    "happy-dom": "^17.4.7",
+    "tsdown": "^0.11.9",
+    "typescript": "^5.8.3",
+    "vite": "npm:rolldown-vite@latest",
+    "vitest": "^3.1.3",
+    "vue": "^3.5.13",
+    "vue-tsc": "^3.0.3"
+  },
+  "packageManager": "pnpm@10.14.0+sha512.ad27a79641b49c3e481a16a805baa71817a04bbe06a38d17e60e2eaee83f6a146c6a688125f5792e48dd5ba30e7da52a5cda4c3992b9ccf333f9ce223af84748"
+}
