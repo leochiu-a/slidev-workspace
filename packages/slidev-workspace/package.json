@@ -1,0 +1,82 @@
+{
+  "name": "slidev-workspace",
+  "version": "0.1.0",
+  "description": "A workspace tool for managing multiple Slidev presentations with API-based content management",
+  "type": "module",
+  "license": "MIT",
+  "homepage": "https://github.com/author/slidev-workspace#readme",
+  "bugs": {
+    "url": "https://github.com/author/slidev-workspace/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/author/slidev-workspace.git"
+  },
+  "author": "Author Name <author.name@mail.com>",
+  "bin": {
+    "slidev-workspace": "./dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "slide-decks/dist",
+    "scripts"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js",
+    "./package.json": "./package.json",
+    "./scripts": "./scripts"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "pnpm run build:scripts && pnpm run build:app",
+    "build:scripts": "tsdown",
+    "build:app": "cd slide-decks && pnpm run build",
+    "dev": "cd slide-decks && pnpm run dev",
+    "slidev-workspace:dev": "vite",
+    "slidev-workspace:build": "pnpm run build",
+    "test": "vitest",
+    "typecheck": "vue-tsc --noEmit",
+    "lint": "cd slide-decks && pnpm run lint",
+    "format": "cd slide-decks && pnpm run format"
+  },
+  "dependencies": {
+    "yaml": "^2.8.0",
+    "@vueuse/core": "^13.5.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-vue-next": "^0.525.0",
+    "tailwind-merge": "^3.3.1",
+    "tw-animate-css": "^1.3.5",
+    "vue": "^3.5.17"
+  },
+  "devDependencies": {
+    "tsdown": "^0.11.9",
+    "typescript": "^5.8.3",
+    "vitest": "^3.1.3",
+    "vue-tsc": "^3.0.3",
+    "@tailwindcss/vite": "^4.1.11",
+    "@tsconfig/node22": "^22.0.2",
+    "@types/node": "^22.15.32",
+    "@vitejs/plugin-vue": "^6.0.0",
+    "@vue/eslint-config-prettier": "^10.2.0",
+    "@vue/eslint-config-typescript": "^14.5.1",
+    "@vue/tsconfig": "^0.7.0",
+    "autoprefixer": "^10.4.21",
+    "eslint": "^9.29.0",
+    "eslint-plugin-oxlint": "~1.1.0",
+    "eslint-plugin-vue": "~10.2.0",
+    "jiti": "^2.4.2",
+    "npm-run-all2": "^8.0.4",
+    "oxlint": "~1.1.0",
+    "postcss": "^8.5.6",
+    "prettier": "3.5.3",
+    "tailwindcss": "^4.1.11",
+    "vite": "npm:rolldown-vite@latest",
+    "vite-plugin-vue-devtools": "^7.7.7"
+  }
+}
