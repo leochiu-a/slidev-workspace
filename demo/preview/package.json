@@ -5,8 +5,7 @@
   "type": "module",
   "scripts": {
     "preview": "slidev-workspace preview",
-    "build": "slidev-workspace build",
-    "test-api": "node test-api.js"
+    "build": "slidev-workspace build"
   },
   "keywords": [],
   "author": "",

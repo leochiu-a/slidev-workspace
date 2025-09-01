@@ -59,6 +59,8 @@ switch (command) {
 
   case "build":
     console.log("📦 Building Slidev Workspace for production...");
+    // Set the working directory for the configuration system
+    process.env.SLIDEV_WORKSPACE_CWD = process.cwd();
     runCommand("pnpm", ["run", "slidev-workspace:build"]);
     break;
 
