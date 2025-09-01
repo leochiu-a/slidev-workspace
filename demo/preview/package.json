@@ -4,7 +4,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "slidev-workspace dev",
+    "preview": "slidev-workspace preview",
     "build": "slidev-workspace build",
     "test-api": "node test-api.js"
   },

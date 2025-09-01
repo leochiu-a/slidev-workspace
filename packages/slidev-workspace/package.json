@@ -35,6 +35,7 @@
   "scripts": {
     "build": "tsdown",
     "dev": "pnpm run dev",
+    "slidev-workspace:preview": "vite",
     "test": "vitest",
     "typecheck": "vue-tsc --noEmit",
     "lint": "pnpm run lint",
