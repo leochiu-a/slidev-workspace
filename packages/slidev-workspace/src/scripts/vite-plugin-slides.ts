@@ -4,14 +4,15 @@ import { getAllSlidesFrontmatter } from "./getSlideFrontmatter.js";
 import { loadConfig, resolveSlidesDirs } from "./config.js";
 
 export function slidesPlugin(): Plugin {
-  const config = loadConfig();
-  const slidesDirs = resolveSlidesDirs(config);
-
   return {
     name: "vite-plugin-slides",
 
     configureServer(server) {
       const watchers: ReturnType<typeof watch>[] = [];
+
+      // Resolve slides directories at runtime, not build time
+      const config = loadConfig();
+      const slidesDirs = resolveSlidesDirs(config);
 
       // Watch for changes in all slides directories
       slidesDirs.forEach((slidesDir) => {

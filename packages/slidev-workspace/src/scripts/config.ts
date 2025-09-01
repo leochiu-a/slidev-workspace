@@ -1,6 +1,5 @@
 import { readFileSync, existsSync } from "node:fs";
-import { join, dirname, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { join, resolve } from "node:path";
 import { parse as parseYaml } from "yaml";
 
 interface SlidevWorkspaceConfig {
@@ -11,13 +10,13 @@ interface SlidevWorkspaceConfig {
 }
 
 const DEFAULT_CONFIG: SlidevWorkspaceConfig = {
-  slidesDir: ["../../demo/slides", "./slides"],
+  slidesDir: ["./slides"],
   outputDir: "./slide-decks/dist",
   baseUrl: "/",
   exclude: ["node_modules", ".git"],
 };
 
-export function loadConfig(): SlidevWorkspaceConfig {
+export function loadConfig(workingDir?: string): SlidevWorkspaceConfig {
   const configPaths = [
     "slidev-workspace.config.js",
     "slidev-workspace.config.ts",
@@ -25,8 +24,8 @@ export function loadConfig(): SlidevWorkspaceConfig {
     "slidev-workspace.yaml",
   ];
 
-  const currentDir = dirname(fileURLToPath(import.meta.url));
-  const projectRoot = resolve(currentDir, "..");
+  // Use provided working directory, environment variable, or fallback to process.cwd()
+  const projectRoot = workingDir || process.env.SLIDEV_WORKSPACE_CWD || process.cwd();
 
   for (const configPath of configPaths) {
     const fullPath = join(projectRoot, configPath);
@@ -49,11 +48,14 @@ export function loadConfig(): SlidevWorkspaceConfig {
   return DEFAULT_CONFIG;
 }
 
-export function resolveSlidesDirs(config: SlidevWorkspaceConfig): string[] {
-  const currentDir = dirname(fileURLToPath(import.meta.url));
-  const projectRoot = resolve(currentDir, "../..");
+export function resolveSlidesDirs(config: SlidevWorkspaceConfig, workingDir?: string): string[] {
+  const projectRoot = workingDir || process.env.SLIDEV_WORKSPACE_CWD || process.cwd();
 
-  return (config.slidesDir || [])
+  console.log('🔍 Debug resolveSlidesDirs:');
+  console.log('  - projectRoot:', projectRoot);
+  console.log('  - config.slidesDir:', config.slidesDir);
+
+  const resolvedDirs = (config.slidesDir || [])
     .map((dir) => {
       if (resolve(dir) === dir) {
         // Absolute path
@@ -63,7 +65,14 @@ export function resolveSlidesDirs(config: SlidevWorkspaceConfig): string[] {
         return resolve(projectRoot, dir);
       }
     })
-    .filter((dir) => existsSync(dir));
+    .filter((dir) => {
+      const exists = existsSync(dir);
+      console.log(`  - checking ${dir}: ${exists ? '✅ exists' : '❌ not found'}`);
+      return exists;
+    });
+
+  console.log('  - resolved dirs:', resolvedDirs);
+  return resolvedDirs;
 }
 
 export { type SlidevWorkspaceConfig };

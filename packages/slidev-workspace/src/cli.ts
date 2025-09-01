@@ -52,6 +52,8 @@ function runCommand(cmd: string, args: string[] = []) {
 switch (command) {
   case 'dev':
     console.log('🚀 Starting Slidev Workspace development server...')
+    // Set the working directory for the configuration system
+    process.env.SLIDEV_WORKSPACE_CWD = process.cwd()
     runCommand('pnpm', ['run', 'slidev-workspace:dev'])
     break
 
