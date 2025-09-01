@@ -35,11 +35,12 @@
   "scripts": {
     "build": "tsdown",
     "dev": "pnpm run dev",
+    "dev:watch": "tsdown --watch",
     "slidev-workspace:preview": "vite",
     "test": "vitest",
     "typecheck": "vue-tsc --noEmit",
-    "lint": "pnpm run lint",
-    "format": "pnpm run format"
+    "lint": "eslint . --fix",
+    "format": "prettier --write src/"
   },
   "dependencies": {
     "yaml": "^2.8.0",
