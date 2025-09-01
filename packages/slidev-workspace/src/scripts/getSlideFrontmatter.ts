@@ -85,11 +85,7 @@ export function getSlideFrontmatterByPath(slideDir: string, slideName: string): 
 // Get the frontmatter and content for all slides from all configured directories
 export function getAllSlidesFrontmatter(): SlideInfo[] {
   const config = loadConfig();
-  console.log('📊 Debug getAllSlidesFrontmatter:');
-  console.log('  - config:', config);
-  
   const slidesDirs = resolveSlidesDirs(config);
-  console.log('  - slidesDirs:', slidesDirs);
   
   const slides: SlideInfo[] = [];
 

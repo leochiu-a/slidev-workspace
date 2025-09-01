@@ -51,10 +51,6 @@ export function loadConfig(workingDir?: string): SlidevWorkspaceConfig {
 export function resolveSlidesDirs(config: SlidevWorkspaceConfig, workingDir?: string): string[] {
   const projectRoot = workingDir || process.env.SLIDEV_WORKSPACE_CWD || process.cwd();
 
-  console.log('🔍 Debug resolveSlidesDirs:');
-  console.log('  - projectRoot:', projectRoot);
-  console.log('  - config.slidesDir:', config.slidesDir);
-
   const resolvedDirs = (config.slidesDir || [])
     .map((dir) => {
       if (resolve(dir) === dir) {
@@ -67,11 +63,8 @@ export function resolveSlidesDirs(config: SlidevWorkspaceConfig, workingDir?: st
     })
     .filter((dir) => {
       const exists = existsSync(dir);
-      console.log(`  - checking ${dir}: ${exists ? '✅ exists' : '❌ not found'}`);
       return exists;
     });
-
-  console.log('  - resolved dirs:', resolvedDirs);
   return resolvedDirs;
 }
 

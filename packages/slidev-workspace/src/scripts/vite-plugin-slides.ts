@@ -21,24 +21,9 @@ export function slidesPlugin(): Plugin {
           { recursive: true },
           (eventType, filename) => {
             if (filename && filename.endsWith("slides.md")) {
-              console.log(
-                `🔄 Detected change in slides.md: ${filename} (from ${slidesDir})`
-              );
-
               // Reload frontmatter
               try {
                 const slides = getAllSlidesFrontmatter();
-                console.log(
-                  "📊 Updated slides data:",
-                  slides.map((s) => ({
-                    id: s.id,
-                    path: s.path,
-                    title: s.frontmatter.title,
-                    theme: s.frontmatter.theme,
-                    sourceDir: s.sourceDir,
-                    seoMeta: s.frontmatter.seoMeta,
-                  }))
-                );
 
                 // Trigger HMR update
                 server.ws.send({
