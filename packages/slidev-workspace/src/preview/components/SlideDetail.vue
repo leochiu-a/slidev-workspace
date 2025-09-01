@@ -128,7 +128,7 @@ import {
   Copy,
 } from "lucide-vue-next";
 import { Button } from "@/components/ui/button";
-import type { SlideData } from "@/utils/getSlides";
+import type { SlideData } from "../../types/slide";
 
 defineProps<{
   slide: SlideData;

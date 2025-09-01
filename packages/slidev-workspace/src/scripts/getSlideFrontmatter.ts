@@ -1,47 +1,20 @@
 import { readFileSync, readdirSync, existsSync } from "fs";
-import { join, dirname, basename } from "path";
+import { join, basename } from "path";
 import { parse as parseYaml } from "yaml";
-import { fileURLToPath } from "url";
 import { loadConfig, resolveSlidesDirs } from "./config.js";
-
-// Define the structure for slide frontmatter
-export interface SlideFrontmatter {
-  theme?: string;
-  background?: string;
-  title?: string;
-  info?: string;
-  class?: string;
-  drawings?: {
-    persist?: boolean;
-  };
-  transition?: string;
-  mdc?: boolean;
-  seoMeta?: {
-    ogImage?: string;
-    ogTitle?: string;
-    ogDescription?: string;
-  };
-  [key: string]: any;
-}
-
-// Define the structure for slide information
-export interface SlideInfo {
-  id: string; // unique identifier for the slide
-  path: string; // relative path from slides directory
-  fullPath: string; // absolute path to the slide file
-  sourceDir: string; // which slides directory this came from
-  frontmatter: SlideFrontmatter;
-  content: string;
-}
+import type { SlideFrontmatter, SlideInfo } from "../types/slide.js";
 
 // Get the frontmatter and content of a single slide by ID
 export function getSlideFrontmatter(slideId: string): SlideInfo | null {
   const allSlides = getAllSlidesFrontmatter();
-  return allSlides.find(slide => slide.id === slideId) || null;
+  return allSlides.find((slide) => slide.id === slideId) || null;
 }
 
 // Get the frontmatter and content of a slide from a specific path
-export function getSlideFrontmatterByPath(slideDir: string, slideName: string): SlideInfo | null {
+export function getSlideFrontmatterByPath(
+  slideDir: string,
+  slideName: string
+): SlideInfo | null {
   try {
     const fullPath = join(slideDir, slideName, "slides.md");
 
@@ -77,7 +50,10 @@ export function getSlideFrontmatterByPath(slideDir: string, slideName: string): 
       content: content.replace(frontmatterMatch[0], ""), // Remove frontmatter section
     };
   } catch (error) {
-    console.error(`Error parsing frontmatter for ${slideName} in ${slideDir}:`, error);
+    console.error(
+      `Error parsing frontmatter for ${slideName} in ${slideDir}:`,
+      error
+    );
     return null;
   }
 }
@@ -86,7 +62,7 @@ export function getSlideFrontmatterByPath(slideDir: string, slideName: string): 
 export function getAllSlidesFrontmatter(): SlideInfo[] {
   const config = loadConfig();
   const slidesDirs = resolveSlidesDirs(config);
-  
+
   const slides: SlideInfo[] = [];
 
   for (const slidesDir of slidesDirs) {

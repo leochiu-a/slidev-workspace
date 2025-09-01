@@ -1,27 +1,10 @@
 import slidesData from "slidev:content";
-
-export interface SlideData {
-  id: string;
-  title: string;
-  url: string;
-  description: string;
-  image: string;
-  author: string;
-  date: string;
-  theme?: string;
-  transition?: string;
-  class?: string;
-  sourceDir: string;
-  path: string;
-  fullPath: string;
-  frontmatter: any;
-  content: string;
-}
+import type { SlideData, SlideInfo } from "../../types/slide.js";
 
 export function getSlides(): SlideData[] {
   try {
     if (slidesData && slidesData.length > 0) {
-      return slidesData.map((slide) => ({
+      return (slidesData as SlideInfo[]).map((slide) => ({
         id: slide.id,
         title: slide.frontmatter.title || slide.path,
         url: slide.path,
@@ -76,7 +59,7 @@ export function searchSlides(query: string): SlideData[] {
 }
 
 if (import.meta.hot) {
-  import.meta.hot.accept("slidev:content", (newSlidesData) => {
+  import.meta.hot.accept("slidev:content", (_newSlidesData: any) => {
     console.log("Slides data updated");
   });
 }

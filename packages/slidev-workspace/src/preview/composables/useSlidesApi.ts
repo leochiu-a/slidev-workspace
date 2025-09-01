@@ -1,30 +1,6 @@
 import { ref, computed, readonly, type Ref } from "vue";
 import slidesData from "slidev:content";
-import { type SlideData } from "@/utils/getSlides";
-
-// Type for the raw slides data from virtual module
-interface RawSlideData {
-  id: string;
-  path: string;
-  fullPath: string;
-  sourceDir: string;
-  frontmatter: {
-    title?: string;
-    info?: string;
-    background?: string;
-    author?: string;
-    date?: string;
-    theme?: string;
-    transition?: string;
-    class?: string;
-    seoMeta?: {
-      ogImage?: string;
-      ogDescription?: string;
-    };
-    [key: string]: any;
-  };
-  content: string;
-}
+import type { SlideData, SlideInfo } from "../../types/slide.js";
 
 export interface SlidesApiResponse<T = any> {
   data: T;
@@ -156,7 +132,7 @@ export function useSlidesApi() {
   const allSlides = computed(() => {
     if (!slidesData || slidesData.length === 0) return [];
 
-    return (slidesData as RawSlideData[]).map((slide) => ({
+    return (slidesData as SlideInfo[]).map((slide) => ({
       id: slide.id,
       title: slide.frontmatter.title || slide.path,
       url: slide.path,

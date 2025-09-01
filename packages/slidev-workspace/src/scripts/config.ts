@@ -1,13 +1,7 @@
 import { readFileSync, existsSync } from "fs";
 import { join, resolve } from "path";
 import { parse as parseYaml } from "yaml";
-
-interface SlidevWorkspaceConfig {
-  slidesDir?: string[];
-  outputDir?: string;
-  baseUrl?: string;
-  exclude?: string[];
-}
+import type { SlidevWorkspaceConfig } from "../types/config.js";
 
 const DEFAULT_CONFIG: SlidevWorkspaceConfig = {
   slidesDir: ["./slides"],
@@ -25,7 +19,8 @@ export function loadConfig(workingDir?: string): SlidevWorkspaceConfig {
   ];
 
   // Use provided working directory, environment variable, or fallback to process.cwd()
-  const projectRoot = workingDir || process.env.SLIDEV_WORKSPACE_CWD || process.cwd();
+  const projectRoot =
+    workingDir || process.env.SLIDEV_WORKSPACE_CWD || process.cwd();
 
   for (const configPath of configPaths) {
     const fullPath = join(projectRoot, configPath);
@@ -48,8 +43,12 @@ export function loadConfig(workingDir?: string): SlidevWorkspaceConfig {
   return DEFAULT_CONFIG;
 }
 
-export function resolveSlidesDirs(config: SlidevWorkspaceConfig, workingDir?: string): string[] {
-  const projectRoot = workingDir || process.env.SLIDEV_WORKSPACE_CWD || process.cwd();
+export function resolveSlidesDirs(
+  config: SlidevWorkspaceConfig,
+  workingDir?: string
+): string[] {
+  const projectRoot =
+    workingDir || process.env.SLIDEV_WORKSPACE_CWD || process.cwd();
 
   const resolvedDirs = (config.slidesDir || [])
     .map((dir) => {
@@ -67,5 +66,3 @@ export function resolveSlidesDirs(config: SlidevWorkspaceConfig, workingDir?: st
     });
   return resolvedDirs;
 }
-
-export { type SlidevWorkspaceConfig };

@@ -5,14 +5,8 @@ export {
   getSlideFrontmatterByPath,
 } from "./scripts/getSlideFrontmatter";
 export { slidesPlugin } from "./scripts/vite-plugin-slides";
-export {
-  loadConfig,
-  resolveSlidesDirs,
-  type SlidevWorkspaceConfig,
-} from "./scripts/config";
+export { loadConfig, resolveSlidesDirs } from "./scripts/config";
 
 // Export types
-export type {
-  SlideInfo,
-  SlideFrontmatter,
-} from "./scripts/getSlideFrontmatter";
+export type { SlideInfo, SlideFrontmatter, SlideData } from "./types/slide";
+export type { SlidevWorkspaceConfig } from "./types/config";
