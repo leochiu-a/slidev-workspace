@@ -130,7 +130,7 @@ import {
 import { Button } from "@/components/ui/button";
 import type { SlideData } from "../../types/slide";
 
-defineProps<{
+const props = defineProps<{
   slide: SlideData;
 }>();
 
@@ -150,11 +150,11 @@ const handleImageError = (event: Event) => {
 const openInSlidev = () => {
   // This would need to be implemented based on your setup
   // For now, just show an alert
-  alert(`Would open slide "${slide.title}" in Slidev`);
+  alert(`Would open slide "${props.slide.title}" in Slidev`);
 };
 
 const copyPath = () => {
-  navigator.clipboard.writeText(slide.fullPath);
+  navigator.clipboard.writeText(props.slide.fullPath);
   // You could add a toast notification here
 };
 </script>
