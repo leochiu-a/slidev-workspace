@@ -33,16 +33,12 @@
     "access": "public"
   },
   "scripts": {
-    "build": "pnpm run build:scripts && pnpm run build:app",
-    "build:scripts": "tsdown",
-    "build:app": "cd slide-decks && pnpm run build",
-    "dev": "cd slide-decks && pnpm run dev",
-    "slidev-workspace:dev": "vite",
-    "slidev-workspace:build": "pnpm run build",
+    "build": "tsdown",
+    "dev": "pnpm run dev",
     "test": "vitest",
     "typecheck": "vue-tsc --noEmit",
-    "lint": "cd slide-decks && pnpm run lint",
-    "format": "cd slide-decks && pnpm run format"
+    "lint": "pnpm run lint",
+    "format": "pnpm run format"
   },
   "dependencies": {
     "yaml": "^2.8.0",

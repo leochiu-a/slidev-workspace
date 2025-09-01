@@ -1,7 +1,7 @@
-import { readFileSync, readdirSync, existsSync } from "node:fs";
-import { join, dirname, basename } from "node:path";
+import { readFileSync, readdirSync, existsSync } from "fs";
+import { join, dirname, basename } from "path";
 import { parse as parseYaml } from "yaml";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath } from "url";
 import { loadConfig, resolveSlidesDirs } from "./config.js";
 
 // Define the structure for slide frontmatter

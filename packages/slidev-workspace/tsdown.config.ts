@@ -4,16 +4,17 @@ export default defineConfig([
   // Library build
   {
     entry: ["./src/index.ts"],
-    platform: "neutral",
+    platform: "node",
     fromVite: true,
     dts: true,
+    external: ["fs", "path", "url", "yaml"],
   },
   // CLI build
   {
     entry: ["./src/cli.ts"],
     platform: "node",
     outDir: "dist",
-    outBase: "src",
+    external: ["fs", "path", "url", "yaml"],
     banner: {
       js: "#!/usr/bin/env node",
     },

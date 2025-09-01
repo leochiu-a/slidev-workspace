@@ -1,5 +1,5 @@
-import { readFileSync, existsSync } from "node:fs";
-import { join, resolve } from "node:path";
+import { readFileSync, existsSync } from "fs";
+import { join, resolve } from "path";
 import { parse as parseYaml } from "yaml";
 
 interface SlidevWorkspaceConfig {

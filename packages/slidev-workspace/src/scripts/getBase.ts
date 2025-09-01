@@ -1,7 +1,7 @@
-import { readFileSync } from "node:fs";
-import { dirname, join } from "node:path";
+import { readFileSync } from "fs";
+import { dirname, join } from "path";
 import { parse as parseYaml } from "yaml";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath } from "url";
 
 export function getBaseFromYaml() {
   try {
