@@ -49,13 +49,13 @@ export function slidesPlugin(): Plugin {
 
     // Provide a virtual module to get slides data
     resolveId(id) {
-      if (id === "virtual:slides-data") {
+      if (id === "slidev:content") {
         return id;
       }
     },
 
     load(id) {
-      if (id === "virtual:slides-data") {
+      if (id === "slidev:content") {
         try {
           const slides = getAllSlidesFrontmatter();
           return `export const slidesData = ${JSON.stringify(slides, null, 2)};

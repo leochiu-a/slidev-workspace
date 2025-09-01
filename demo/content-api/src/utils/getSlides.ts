@@ -1,4 +1,4 @@
-import slidesData from 'virtual:slides-data'
+import slidesData from 'slidev:content'
 
 export function getSlides() {
   try {

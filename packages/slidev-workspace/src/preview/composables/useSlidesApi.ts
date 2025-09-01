@@ -1,5 +1,5 @@
 import { ref, computed, readonly, type Ref } from "vue";
-import slidesData from "virtual:slides-data";
+import slidesData from "slidev:content";
 import { type SlideData } from "@/utils/getSlides";
 
 // Type for the raw slides data from virtual module

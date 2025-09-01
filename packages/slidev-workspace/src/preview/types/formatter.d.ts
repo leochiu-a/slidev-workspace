@@ -1,4 +1,4 @@
-declare module 'virtual:slides-data' {
+declare module 'slidev:content' {
   interface SlideFrontmatter {
     theme?: string
     background?: string

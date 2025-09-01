@@ -1,4 +1,4 @@
-import slidesData from "virtual:slides-data";
+import slidesData from "slidev:content";
 
 export interface SlideData {
   id: string;
@@ -76,7 +76,7 @@ export function searchSlides(query: string): SlideData[] {
 }
 
 if (import.meta.hot) {
-  import.meta.hot.accept("virtual:slides-data", (newSlidesData) => {
+  import.meta.hot.accept("slidev:content", (newSlidesData) => {
     console.log("Slides data updated");
   });
 }
