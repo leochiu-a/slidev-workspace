@@ -22,22 +22,27 @@
 
       <div class="mb-6">
         <p class="text-sm text-muted-foreground">
-          Total slides: {{ slidesApi.slidesCount.value }}
+          Found {{ filteredSlides.length }} of {{ slidesCount }} slides
+          <template v-if="searchTerm">
+            <span>
+              containing "
+              <span class="font-medium">{{ searchTerm }}</span>
+              "
+            </span>
+          </template>
         </p>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
         <SlideCard
-          v-for="slide in slidesApi.allSlides.value"
-          :key="slide.id"
+          v-for="slide in filteredSlides"
+          :key="slide.title"
           :title="slide.title"
           :image="slide.image"
           :description="slide.description"
           :url="slide.url"
           :author="slide.author"
           :date="slide.date"
-          :theme="slide.theme"
-          :sourceDir="slide.sourceDir"
           @click="() => openSlide(slide)"
         />
       </div>
@@ -53,13 +58,23 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import { slidesApi } from "../composables/useSlidesApi";
+import { ref, computed } from "vue";
+import { useSlides } from "../composables/useSlides";
 import { Input } from "../components/ui/input";
 import SlideCard from "./SlideCard.vue";
 import SlideDetail from "./SlideDetail.vue";
 
 const searchTerm = ref("");
+const { slides, slidesCount } = useSlides();
+
+const filteredSlides = computed(() => {
+  if (!searchTerm.value) return slides.value;
+  return slides.value.filter((slide) =>
+    slide.title.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
+    slide.description.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
+    slide.author.toLowerCase().includes(searchTerm.value.toLowerCase())
+  );
+});
 
 const selectedSlide = ref(null);
 

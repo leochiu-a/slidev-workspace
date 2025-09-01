@@ -47,16 +47,18 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 
-import { getSlides } from '@/utils/getSlides'
+import { useSlides } from 'slidev-workspace'
 import { Input } from '@/components/ui/input'
 
 import SlideCard from './SlideCard.vue'
 
 const searchTerm = ref('')
+const { slides } = useSlides()
 
 const filteredSlides = computed(() => {
-  return getSlides().filter((slide) => {
-    return slide.title.toLowerCase().includes(searchTerm.value.toLowerCase())
-  })
+  if (!searchTerm.value) return slides.value
+  return slides.value.filter((slide) =>
+    slide.title.toLowerCase().includes(searchTerm.value.toLowerCase()),
+  )
 })
 </script>
