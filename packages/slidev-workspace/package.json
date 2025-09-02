@@ -1,6 +1,6 @@
 {
   "name": "slidev-workspace",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "A workspace tool for managing multiple Slidev presentations with API-based content management",
   "type": "module",
   "license": "MIT",
@@ -18,8 +18,8 @@
   },
   "files": [
     "dist",
-    "slide-decks/dist",
-    "scripts"
+    "scripts",
+    "vite.config.ts"
   ],
   "main": "./dist/index.js",
   "module": "./dist/index.js",
