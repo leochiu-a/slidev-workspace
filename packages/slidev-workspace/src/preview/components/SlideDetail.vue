@@ -91,7 +91,9 @@
                 </div>
                 <div class="flex justify-between">
                   <span class="text-muted-foreground">Source:</span>
-                  <span>{{ slide.sourceDir?.split("/").pop() || "Unknown" }}</span>
+                  <span>{{
+                    slide.sourceDir?.split("/").pop() || "Unknown"
+                  }}</span>
                 </div>
                 <div class="flex justify-between">
                   <span class="text-muted-foreground">Full Path:</span>
@@ -127,6 +129,7 @@ import {
   ExternalLink,
   Copy,
 } from "lucide-vue-next";
+import { computed } from "vue";
 import { Button } from "@/components/ui/button";
 import type { SlideData } from "../../types/slide";
 
@@ -138,6 +141,10 @@ defineEmits<{
   close: [];
 }>();
 
+const slidevUrl = computed(() => {
+  return `${window.location.href}/${props.slide.url}`;
+});
+
 const formatFrontmatter = (frontmatter: any) => {
   return JSON.stringify(frontmatter, null, 2);
 };
@@ -148,13 +155,11 @@ const handleImageError = (event: Event) => {
 };
 
 const openInSlidev = () => {
-  // This would need to be implemented based on your setup
-  // For now, just show an alert
-  alert(`Would open slide "${props.slide.title}" in Slidev`);
+  window.open(slidevUrl.value, "_blank");
 };
 
 const copyPath = () => {
-  navigator.clipboard.writeText(props.slide.fullPath);
+  navigator.clipboard.writeText(slidevUrl.value);
   // You could add a toast notification here
 };
 </script>
