@@ -1,17 +1,5 @@
 import { computed, ref } from "vue";
-import type { SlideInfo } from "../../types/slide.js";
-
-export interface SlideData {
-  title: string;
-  url: string;
-  description: string;
-  image: string;
-  author: string;
-  date: string;
-  theme?: string;
-  transition?: string;
-  class?: string;
-}
+import type { SlideData, SlideInfo } from "../../types/slide.js";
 
 export function useSlides() {
   const slidesData = ref<SlideInfo[]>([]);

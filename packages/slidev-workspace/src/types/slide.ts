@@ -29,7 +29,6 @@ export interface SlideInfo {
 }
 
 export interface SlideData {
-  id: string;
   title: string;
   url: string;
   description: string;
@@ -39,9 +38,4 @@ export interface SlideData {
   theme?: string;
   transition?: string;
   class?: string;
-  sourceDir: string;
-  path: string;
-  fullPath: string;
-  frontmatter: SlideFrontmatter;
-  content: string;
 }
