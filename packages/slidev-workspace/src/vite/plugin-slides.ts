@@ -35,7 +35,7 @@ export function slidesPlugin(): Plugin {
                 console.error("❌ Error reading slides frontmatter:", error);
               }
             }
-          }
+          },
         );
 
         watchers.push(watcher);

@@ -8,7 +8,7 @@ export function getBaseFromYaml() {
     const yamlPath = join(
       dirname(fileURLToPath(import.meta.url)),
       "..",
-      "slidev-workspace.yaml"
+      "slidev-workspace.yaml",
     );
     const yamlContent = readFileSync(yamlPath, "utf8");
     const config = parseYaml(yamlContent);

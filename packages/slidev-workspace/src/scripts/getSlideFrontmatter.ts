@@ -13,7 +13,7 @@ export function getSlideFrontmatter(slideId: string): SlideInfo | null {
 // Get the frontmatter and content of a slide from a specific path
 export function getSlideFrontmatterByPath(
   slideDir: string,
-  slideName: string
+  slideName: string,
 ): SlideInfo | null {
   try {
     const fullPath = join(slideDir, slideName, "slides.md");
@@ -52,7 +52,7 @@ export function getSlideFrontmatterByPath(
   } catch (error) {
     console.error(
       `Error parsing frontmatter for ${slideName} in ${slideDir}:`,
-      error
+      error,
     );
     return null;
   }

@@ -14,8 +14,8 @@ import type { VariantProps } from "class-variance-authority";
 
 interface Props {
   as?: string;
-  variant?: VariantProps<typeof buttonVariants>['variant'];
-  size?: VariantProps<typeof buttonVariants>['size'];
+  variant?: VariantProps<typeof buttonVariants>["variant"];
+  size?: VariantProps<typeof buttonVariants>["size"];
 }
 
 const props = withDefaults(defineProps<Props>(), {

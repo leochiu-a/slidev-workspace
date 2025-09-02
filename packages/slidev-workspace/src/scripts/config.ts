@@ -45,7 +45,7 @@ export function loadConfig(workingDir?: string): SlidevWorkspaceConfig {
 
 export function resolveSlidesDirs(
   config: SlidevWorkspaceConfig,
-  workingDir?: string
+  workingDir?: string,
 ): string[] {
   const projectRoot =
     workingDir || process.env.SLIDEV_WORKSPACE_CWD || process.cwd();

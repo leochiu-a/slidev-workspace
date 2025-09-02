@@ -68,7 +68,7 @@ const filteredSlides = computed(() => {
       slide.description
         .toLowerCase()
         .includes(searchTerm.value.toLowerCase()) ||
-      slide.author.toLowerCase().includes(searchTerm.value.toLowerCase())
+      slide.author.toLowerCase().includes(searchTerm.value.toLowerCase()),
   );
 });
 

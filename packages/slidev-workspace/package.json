@@ -44,7 +44,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "yaml": "^2.8.0",
+    "@tailwindcss/vite": "^4.1.11",
     "@vitejs/plugin-vue": "^6.0.0",
     "@vueuse/core": "^13.5.0",
     "class-variance-authority": "^0.7.1",
@@ -54,13 +54,10 @@
     "tw-animate-css": "^1.3.5",
     "vite": "npm:rolldown-vite@latest",
     "vue": "^3.5.17",
-    "@tailwindcss/vite": "^4.1.11"
+    "yaml": "^2.8.0"
   },
   "devDependencies": {
-    "tsdown": "^0.11.9",
-    "typescript": "^5.8.3",
-    "vitest": "^3.1.3",
-    "vue-tsc": "^3.0.3",
+    "@prettier/plugin-oxc": "^0.0.4",
     "@tsconfig/node22": "^22.0.2",
     "@types/node": "^22.15.32",
     "@vue/tsconfig": "^0.7.0",
@@ -70,6 +67,10 @@
     "postcss": "^8.5.6",
     "prettier": "3.5.3",
     "tailwindcss": "^4.1.11",
-    "vite-plugin-vue-devtools": "^7.7.7"
+    "tsdown": "^0.11.9",
+    "typescript": "^5.8.3",
+    "vite-plugin-vue-devtools": "^7.7.7",
+    "vitest": "^3.1.3",
+    "vue-tsc": "^3.0.3"
   }
 }
