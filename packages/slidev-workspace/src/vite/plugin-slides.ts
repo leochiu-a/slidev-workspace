@@ -1,7 +1,7 @@
 import type { Plugin } from "vite";
 import { watch } from "fs";
-import { getAllSlidesFrontmatter } from "./getSlideFrontmatter.js";
-import { loadConfig, resolveSlidesDirs } from "./config.js";
+import { getAllSlidesFrontmatter } from "../scripts/getSlideFrontmatter.js";
+import { loadConfig, resolveSlidesDirs } from "../scripts/config.js";
 
 export function slidesPlugin(): Plugin {
   return {

@@ -1,13 +1,3 @@
-// Export core functionality
-export {
-  getAllSlidesFrontmatter,
-  getSlideFrontmatter,
-  getSlideFrontmatterByPath,
-} from "./scripts/getSlideFrontmatter";
-export { slidesPlugin } from "./scripts/vite-plugin-slides";
-export { loadConfig, resolveSlidesDirs } from "./scripts/config";
-
-// Export composables
 export { useSlides } from "./preview/composables/useSlides";
 
 // Export types

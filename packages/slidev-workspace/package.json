@@ -27,6 +27,7 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": "./dist/index.js",
+    "./vite": "./dist/plugin-slides.js",
     "./package.json": "./package.json",
     "./scripts": "./scripts"
   },

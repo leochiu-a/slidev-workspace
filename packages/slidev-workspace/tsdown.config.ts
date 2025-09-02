@@ -9,6 +9,14 @@ export default defineConfig([
     dts: true,
     external: ["fs", "path", "url", "yaml", "slidev:content"],
   },
+  // Vite plugin build
+  {
+    entry: ["./src/vite/plugin-slides.ts"],
+    platform: "node",
+    fromVite: true,
+    dts: true,
+    external: ["fs", "path", "url", "yaml", "slidev:content", "vite"],
+  },
   // CLI build
   {
     entry: ["./src/cli.ts"],

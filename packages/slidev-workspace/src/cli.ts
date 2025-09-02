@@ -5,7 +5,8 @@ import { dirname, join, resolve } from "node:path";
 import { build, createServer } from "vite";
 import vue from "@vitejs/plugin-vue";
 import tailwindcss from "@tailwindcss/vite";
-import { slidesPlugin, loadConfig } from "./index.js";
+import { slidesPlugin } from "./vite/plugin-slides.js";
+import { loadConfig } from "./scripts/config.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
