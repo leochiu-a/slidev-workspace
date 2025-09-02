@@ -1,6 +1,6 @@
 {
   "name": "slidev-workspace",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A workspace tool for managing multiple Slidev presentations with API-based content management",
   "type": "module",
   "license": "MIT",
@@ -37,7 +37,7 @@
     "dev": "pnpm run dev",
     "dev:watch": "tsdown --watch",
     "slidev-workspace:preview": "vite",
-    "slidev-workspace:build": "npx vite build --config vite.config.ts",
+    "slidev-workspace:build": "vite build --config vite.config.ts",
     "test": "vitest",
     "typecheck": "vue-tsc --noEmit",
     "lint": "eslint . --fix",
@@ -45,12 +45,14 @@
   },
   "dependencies": {
     "yaml": "^2.8.0",
+    "@vitejs/plugin-vue": "^6.0.0",
     "@vueuse/core": "^13.5.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-vue-next": "^0.525.0",
     "tailwind-merge": "^3.3.1",
     "tw-animate-css": "^1.3.5",
+    "vite": "npm:rolldown-vite@latest",
     "vue": "^3.5.17"
   },
   "devDependencies": {
@@ -61,7 +63,6 @@
     "@tailwindcss/vite": "^4.1.11",
     "@tsconfig/node22": "^22.0.2",
     "@types/node": "^22.15.32",
-    "@vitejs/plugin-vue": "^6.0.0",
     "@vue/eslint-config-prettier": "^10.2.0",
     "@vue/eslint-config-typescript": "^14.5.1",
     "@vue/tsconfig": "^0.7.0",
@@ -75,7 +76,6 @@
     "postcss": "^8.5.6",
     "prettier": "3.5.3",
     "tailwindcss": "^4.1.11",
-    "vite": "npm:rolldown-vite@latest",
     "vite-plugin-vue-devtools": "^7.7.7"
   }
 }
