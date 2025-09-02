@@ -1,8 +1,11 @@
 #!/usr/bin/env node
 
-import { spawn } from "node:child_process";
 import { fileURLToPath } from "node:url";
-import { dirname, join } from "node:path";
+import { dirname, join, resolve } from "node:path";
+import { build, createServer } from "vite";
+import vue from "@vitejs/plugin-vue";
+import tailwindcss from "@tailwindcss/vite";
+import { slidesPlugin, loadConfig } from "./index.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -11,6 +14,53 @@ const args = process.argv.slice(2);
 const command = args[0];
 
 const packageRoot = join(__dirname, "..");
+
+function createViteConfig() {
+  const workspaceCwd = process.env.SLIDEV_WORKSPACE_CWD || process.cwd();
+  const config = loadConfig(workspaceCwd);
+
+  return {
+    root: resolve(packageRoot, "src/preview"),
+    plugins: [vue(), tailwindcss(), slidesPlugin()],
+    resolve: {
+      alias: {
+        "@": resolve(packageRoot, "src/preview"),
+      },
+    },
+    build: {
+      outDir: resolve(workspaceCwd, config.outputDir),
+    },
+    server: {
+      port: 3000,
+      open: true,
+    },
+  };
+}
+
+async function runViteBuild() {
+  try {
+    console.log("📦 Building Slidev Workspace for production...");
+    const config = createViteConfig();
+    await build(config);
+    console.log("✅ Build completed successfully!");
+  } catch (error) {
+    console.error("❌ Build failed:", error);
+    process.exit(1);
+  }
+}
+
+async function runVitePreview() {
+  try {
+    console.log("🚀 Starting Slidev Workspace development server...");
+    const config = createViteConfig();
+    const server = await createServer(config);
+    await server.listen();
+    server.printUrls();
+  } catch (error) {
+    console.error("❌ Development server failed:", error);
+    process.exit(1);
+  }
+}
 
 function showHelp() {
   console.log(`
@@ -32,50 +82,38 @@ For more information, visit: https://github.com/author/slidev-workspace
 `);
 }
 
-function runCommand(cmd: string, args: string[] = []) {
-  const child = spawn(cmd, args, {
-    cwd: packageRoot,
-    stdio: "inherit",
-    shell: true,
-  });
+async function main() {
+  switch (command) {
+    case "preview":
+      // Set the working directory for the configuration system
+      process.env.SLIDEV_WORKSPACE_CWD = process.cwd();
+      await runVitePreview();
+      break;
 
-  child.on("error", (error) => {
-    console.error("Error running command:", error.message);
-    process.exit(1);
-  });
+    case "build":
+      // Set the working directory for the configuration system
+      process.env.SLIDEV_WORKSPACE_CWD = process.cwd();
+      await runViteBuild();
+      break;
 
-  child.on("exit", (code) => {
-    process.exit(code || 0);
-  });
-}
-
-switch (command) {
-  case "preview":
-    console.log("🚀 Starting Slidev Workspace development server...");
-    // Set the working directory for the configuration system
-    process.env.SLIDEV_WORKSPACE_CWD = process.cwd();
-    runCommand("pnpm", ["run", "slidev-workspace:preview"]);
-    break;
-
-  case "build":
-    console.log("📦 Building Slidev Workspace for production...");
-    // Set the working directory for the configuration system
-    process.env.SLIDEV_WORKSPACE_CWD = process.cwd();
-    runCommand("pnpm", ["run", "slidev-workspace:build"]);
-    break;
-
-  case "help":
-  case "--help":
-  case "-h":
-    showHelp();
-    break;
-
-  default:
-    if (!command) {
+    case "help":
+    case "--help":
+    case "-h":
       showHelp();
-    } else {
-      console.error(`Unknown command: ${command}`);
-      console.error('Run "slidev-workspace help" for available commands.');
-      process.exit(1);
-    }
+      break;
+
+    default:
+      if (!command) {
+        showHelp();
+      } else {
+        console.error(`Unknown command: ${command}`);
+        console.error('Run "slidev-workspace help" for available commands.');
+        process.exit(1);
+      }
+  }
 }
+
+main().catch((error) => {
+  console.error("❌ An error occurred:", error);
+  process.exit(1);
+});

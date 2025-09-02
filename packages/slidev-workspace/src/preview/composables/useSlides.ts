@@ -1,5 +1,4 @@
-import { computed } from "vue";
-import slidesData from "slidev:content";
+import { computed, ref } from "vue";
 import type { SlideInfo } from "../../types/slide.js";
 
 export interface SlideData {
@@ -15,10 +14,26 @@ export interface SlideData {
 }
 
 export function useSlides() {
-  const slides = computed<SlideData[]>(() => {
-    if (!slidesData || slidesData.length === 0) return [];
+  const slidesData = ref<SlideInfo[]>([]);
+  
+  // Dynamically import slidev:content to avoid build-time issues
+  const loadSlidesData = async () => {
+    try {
+      const module = await import("slidev:content");
+      slidesData.value = module.default || module.slidesData || [];
+    } catch (error) {
+      console.warn("Failed to load slides data:", error);
+      slidesData.value = [];
+    }
+  };
 
-    return (slidesData as SlideInfo[]).map((slide) => ({
+  // Load slides data on initialization
+  loadSlidesData();
+
+  const slides = computed<SlideData[]>(() => {
+    if (!slidesData.value || slidesData.value.length === 0) return [];
+
+    return slidesData.value.map((slide) => ({
       title: slide.frontmatter.title || slide.path,
       url: slide.path,
       description:
@@ -41,6 +56,7 @@ export function useSlides() {
 
   return {
     slides,
-    slidesCount
+    slidesCount,
+    loadSlidesData
   };
 }

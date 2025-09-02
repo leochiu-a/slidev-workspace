@@ -5,7 +5,7 @@ import type { SlidevWorkspaceConfig } from "../types/config.js";
 
 const DEFAULT_CONFIG: SlidevWorkspaceConfig = {
   slidesDir: ["./slides"],
-  outputDir: "./slide-decks/dist",
+  outputDir: "./dist",
   baseUrl: "/",
   exclude: ["node_modules", ".git"],
 };
