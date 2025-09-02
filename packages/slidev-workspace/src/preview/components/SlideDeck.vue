@@ -47,13 +47,6 @@
         />
       </div>
     </div>
-
-    <!-- Slide Detail Modal -->
-    <SlideDetail
-      v-if="selectedSlide"
-      :slide="selectedSlide"
-      @close="closeSlide"
-    />
   </div>
 </template>
 
@@ -62,27 +55,25 @@ import { ref, computed } from "vue";
 import { useSlides } from "../composables/useSlides";
 import { Input } from "../components/ui/input";
 import SlideCard from "./SlideCard.vue";
-import SlideDetail from "./SlideDetail.vue";
+import type { SlideData } from "../../types/slide";
 
 const searchTerm = ref("");
 const { slides, slidesCount } = useSlides();
 
 const filteredSlides = computed(() => {
   if (!searchTerm.value) return slides.value;
-  return slides.value.filter((slide) =>
-    slide.title.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
-    slide.description.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
-    slide.author.toLowerCase().includes(searchTerm.value.toLowerCase())
+  return slides.value.filter(
+    (slide) =>
+      slide.title.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
+      slide.description
+        .toLowerCase()
+        .includes(searchTerm.value.toLowerCase()) ||
+      slide.author.toLowerCase().includes(searchTerm.value.toLowerCase())
   );
 });
 
-const selectedSlide = ref(null);
-
-const openSlide = (slide: any) => {
-  selectedSlide.value = slide;
-};
-
-const closeSlide = () => {
-  selectedSlide.value = null;
+const openSlide = (slide: SlideData) => {
+  const url = `${window.location.href}/${slide.url}`;
+  window.open(url, "_blank");
 };
 </script>
