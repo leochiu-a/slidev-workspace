@@ -40,7 +40,7 @@
     "dev:watch": "tsdown --watch",
     "test": "vitest",
     "typecheck": "vue-tsc --noEmit",
-    "lint": "eslint . --fix",
+    "lint": "oxlint",
     "format": "prettier --write src/"
   },
   "dependencies": {
@@ -63,13 +63,7 @@
     "vue-tsc": "^3.0.3",
     "@tsconfig/node22": "^22.0.2",
     "@types/node": "^22.15.32",
-    "@vue/eslint-config-prettier": "^10.2.0",
-    "@vue/eslint-config-typescript": "^14.5.1",
     "@vue/tsconfig": "^0.7.0",
-    "autoprefixer": "^10.4.21",
-    "eslint": "^9.29.0",
-    "eslint-plugin-oxlint": "~1.1.0",
-    "eslint-plugin-vue": "~10.2.0",
     "jiti": "^2.4.2",
     "npm-run-all2": "^8.0.4",
     "oxlint": "~1.1.0",

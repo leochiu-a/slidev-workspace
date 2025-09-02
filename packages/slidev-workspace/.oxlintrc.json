@@ -1,0 +1,15 @@
+{
+  "rules": {
+    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/no-explicit-any": "warn",
+    "@typescript-eslint/prefer-const": "error",
+    "eqeqeq": "error",
+    "prefer-const": "error",
+    "no-var": "error"
+  },
+  "env": {
+    "node": true,
+    "es2022": true
+  },
+  "ignore_patterns": ["dist/**", "node_modules/**", "*.js"]
+}
