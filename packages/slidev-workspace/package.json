@@ -37,7 +37,7 @@
     "dev": "pnpm run dev",
     "dev:watch": "tsdown --watch",
     "slidev-workspace:preview": "vite",
-    "slidev-workspace:build": "vite build",
+    "slidev-workspace:build": "npx vite build --config vite.config.ts",
     "test": "vitest",
     "typecheck": "vue-tsc --noEmit",
     "lint": "eslint . --fix",
