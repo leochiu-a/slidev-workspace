@@ -15,12 +15,12 @@ export interface SlideData {
 
 export function useSlides() {
   const slidesData = ref<SlideInfo[]>([]);
-  
+
   // Dynamically import slidev:content to avoid build-time issues
   const loadSlidesData = async () => {
     try {
       const module = await import("slidev:content");
-      slidesData.value = module.default || module.slidesData || [];
+      slidesData.value = module.default || [];
     } catch (error) {
       console.warn("Failed to load slides data:", error);
       slidesData.value = [];
@@ -57,6 +57,6 @@ export function useSlides() {
   return {
     slides,
     slidesCount,
-    loadSlidesData
+    loadSlidesData,
   };
 }
