@@ -21,6 +21,7 @@ function createViteConfig() {
 
   return {
     root: resolve(packageRoot, "src/preview"),
+    base: config.baseUrl,
     plugins: [vue(), tailwindcss(), slidesPlugin()],
     resolve: {
       alias: {
