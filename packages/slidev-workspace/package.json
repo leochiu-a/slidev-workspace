@@ -19,6 +19,7 @@
   "files": [
     "dist",
     "scripts",
+    "src/preview",
     "vite.config.ts"
   ],
   "main": "./dist/index.js",
