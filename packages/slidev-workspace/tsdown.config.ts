@@ -23,8 +23,5 @@ export default defineConfig([
     platform: "node",
     outDir: "dist",
     external: ["fs", "path", "url", "yaml", "slidev:content"],
-    banner: {
-      js: "#!/usr/bin/env node",
-    },
   },
 ]);
