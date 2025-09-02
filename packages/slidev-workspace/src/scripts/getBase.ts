@@ -14,7 +14,7 @@ export function getBaseFromYaml() {
     const config = parseYaml(yamlContent);
 
     return config["slidev-workspace"]?.base;
-  } catch (error) {
+  } catch {
     console.warn("無法讀取 slidev-workspace.yaml");
   }
 }

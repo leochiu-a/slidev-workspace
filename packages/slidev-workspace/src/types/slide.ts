@@ -16,7 +16,6 @@ export interface SlideFrontmatter {
   };
   author?: string;
   date?: string;
-  [key: string]: any;
 }
 
 export interface SlideInfo {
