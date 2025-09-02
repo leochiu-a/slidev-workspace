@@ -91,7 +91,7 @@
                 </div>
                 <div class="flex justify-between">
                   <span class="text-muted-foreground">Source:</span>
-                  <span>{{ slide.sourceDir.split("/").pop() }}</span>
+                  <span>{{ slide.sourceDir?.split("/").pop() || "Unknown" }}</span>
                 </div>
                 <div class="flex justify-between">
                   <span class="text-muted-foreground">Full Path:</span>
