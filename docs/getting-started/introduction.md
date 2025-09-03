@@ -71,4 +71,4 @@ const { slides, slidesCount } = useSlides();
 Ready to get started?
 
 - [Quick Start](./quick-start.md) - Get up and running in 5 minutes
-- [Usage Guide](../guide/usage.md) - Detailed feature documentation
+- [Deploy Guide](./deploy.md) - Learn how to deploy to GitHub Pages
