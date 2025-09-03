@@ -4,6 +4,7 @@ import { defineConfig } from "vitepress";
 export default defineConfig({
   title: "Slidev Workspace",
   description: "A unified tool for managing multiple Slidev presentations",
+  base: "/slidev-workspace/",
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
