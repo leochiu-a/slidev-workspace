@@ -1,0 +1,37 @@
+import { defineConfig } from "vitepress";
+
+// https://vitepress.dev/reference/site-config
+export default defineConfig({
+  title: "Slidev Workspace",
+  description: "A unified tool for managing multiple Slidev presentations",
+  themeConfig: {
+    // https://vitepress.dev/reference/default-theme-config
+    nav: [
+      { text: "Home", link: "/" },
+      { text: "Documentation", link: "/getting-started/introduction" },
+    ],
+
+    sidebar: [
+      {
+        text: "Getting Started",
+        items: [
+          { text: "Introduction", link: "/getting-started/introduction" },
+          { text: "Quick Start", link: "/getting-started/quick-start" },
+          { text: "Deploy", link: "/getting-started/deploy" },
+        ],
+      },
+    ],
+
+    socialLinks: [
+      {
+        icon: "github",
+        link: "https://github.com/leochiu-a/slidev-workspaceg",
+      },
+    ],
+
+    footer: {
+      message: "Released under MIT License",
+      copyright: "Copyright © 2024 Slidev Workspace",
+    },
+  },
+});
