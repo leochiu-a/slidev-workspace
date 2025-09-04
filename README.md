@@ -1,14 +1,13 @@
 # Slidev Workspace
 
-> A workspace tool for managing multiple Slidev presentations with API-based content management
-
 [![npm version](https://badge.fury.io/js/slidev-workspace.svg)](https://badge.fury.io/js/slidev-workspace)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Slidev Workspace helps you organize and manage multiple [Slidev](https://sli.dev) presentations in a single workspace with a clean, organized interface.
+Slidev Workspace is a specialized command-line tool designed to manage and showcase multiple [Slidev](https://sli.dev) presentations. It provides a unified web interface to browse, search, and access Slidev presentations distributed across different directories.
 
-🎯 **[Slidev Workspace Starter](https://github.com/leochiu-a/slidev-workspace-starter)** - Ready-to-use template  
-👀 **[Live Demo](https://leochiu-a.github.io/slidev-workspace-starter/)** - See it in action
+- **[Slidev Workspace Starter](https://github.com/leochiu-a/slidev-workspace-starter)** - Ready-to-use template
+- **[Live Demo](https://leochiu-a.github.io/slidev-workspace-starter/)** - See it in action
+- **[Documentation](https://leochiu-a.github.io/slidev-workspace/)**
 
 ## Features
 
@@ -20,45 +19,12 @@ Slidev Workspace helps you organize and manage multiple [Slidev](https://sli.dev
 
 ## Quick Start
 
-Get started in 5 minutes! See our [Quick Start Guide](./docs/getting-started/quick-start.md).
-
-```bash
-# Install
-pnpm add slidev-workspace
-
-# Set up your workspace
-echo 'baseUrl: "/my-slides"' > slidev-workspace.yaml
-
-# Start development server
-pnpm slidev-workspace preview
-```
+Get started in 5 minutes! See our [Quick Start Guide](https://leochiu-a.github.io/slidev-workspace/getting-started/quick-start.html).
 
 ## Documentation
 
-- 📚 [Quick Start Guide](./docs/getting-started/quick-start.md) - Get up and running in 5 minutes
-- 🚀 [Deployment Guide](./docs/getting-started/deploy.md) - Deploy to GitHub Pages
-- 🛠️ [Configuration](./docs/configuration.md) - Advanced configuration options
-
-## Commands
-
-```bash
-slidev-workspace preview   # Start development server
-slidev-workspace build     # Build for production
-slidev-workspace --help    # Show help information
-```
-
-## Project Structure
-
-```
-my-slidev-workspace/
-├── slides/
-│   ├── presentation-1/     # Auto-discovered
-│   │   └── slides.md
-│   └── presentation-2/     # Auto-discovered
-│       └── slides.md
-├── pnpm-workspace.yaml     # Workspace configuration
-└── slidev-workspace.yaml   # Tool configuration
-```
+- 📚 [Quick Start Guide](https://leochiu-a.github.io/slidev-workspace/getting-started/quick-start.html) - Get up and running in 5 minutes
+- 🚀 [Deployment Guide](https://leochiu-a.github.io/slidev-workspace/getting-started/deploy.html) - Deploy to GitHub Pages
 
 ## Related Projects
 
