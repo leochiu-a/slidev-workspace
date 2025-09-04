@@ -17,6 +17,32 @@ Slidev Workspace is a specialized command-line tool designed to manage and showc
 📦 **Build & Deploy** - Built-in commands for production builds  
 🎨 **Thumbnail previews** - Visual presentation previews in the workspace
 
+## Usage
+
+Slidev Workspace provides two flexible ways to work with your presentations:
+
+### Built-in Preview Interface
+
+Use the command-line tool for an out-of-the-box solution:
+
+```bash
+slidev-workspace preview
+```
+
+This launches a responsive web interface with presentation management, search functionality, and thumbnail previews - perfect for users who want to get started quickly without building custom UI.
+
+### Content API
+
+For developers who need custom UI integration, access slide data programmatically:
+
+```typescript
+import { useSlides } from "slidev-workspace";
+
+const { slides } = useSlides();
+```
+
+The `useSlides` composable returns frontmatter data from all discovered presentations, enabling you to build entirely custom interfaces while leveraging Slidev Workspace's presentation discovery and parsing capabilities.
+
 ## Quick Start
 
 Get started in 5 minutes! See our [Quick Start Guide](https://leochiu-a.github.io/slidev-workspace/getting-started/quick-start.html).

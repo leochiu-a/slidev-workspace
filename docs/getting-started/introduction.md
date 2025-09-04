@@ -18,10 +18,6 @@ slidev-workspace preview
 slidev-workspace build
 ```
 
-preview mode:
-
-![preview mode](/preview.webp)
-
 ### 📁 Auto-Discovery of Presentations
 
 The tool automatically scans configured directory structures, looking for folders containing `slides.md` files:
@@ -52,9 +48,27 @@ transition: slide-left
 ---
 ```
 
-### 🎯 Vue Composable API
+## Usage Options
 
-If you want to build your own custom UI instead of using slidev-workspace's preview mode, you can use the content composable. Provides the `useSlides` composable for easy integration in Vue applications:
+Slidev Workspace provides two flexible approaches to work with your presentations:
+
+### 🖥️ Built-in Preview Interface
+
+Launch the complete presentation management interface with a single command:
+
+```bash
+slidev-workspace preview
+```
+
+preview mode:
+
+![preview mode](/preview.webp)
+
+This provides a responsive web interface with presentation browsing, real-time search, and thumbnail previews. It's designed for users who want immediate presentation management without building custom UI.
+
+### 🎯 Content API
+
+For developers building custom interfaces, access presentation data programmatically:
 
 ```typescript
 import { useSlides } from "slidev-workspace";
@@ -65,6 +79,8 @@ const { slides, slidesCount } = useSlides();
 // slides: Array of all discovered presentations frontmatter
 // slidesCount: Total number of presentations
 ```
+
+The `useSlides` composable returns frontmatter data from all discovered presentations, enabling you to create entirely custom interfaces while leveraging Slidev Workspace's presentation discovery and parsing capabilities.
 
 ## Next Steps
 
