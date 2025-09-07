@@ -26,13 +26,13 @@ export default defineConfig({
     socialLinks: [
       {
         icon: "github",
-        link: "https://github.com/leochiu-a/slidev-workspaceg",
+        link: "https://github.com/leochiu-a/slidev-workspace",
       },
     ],
 
     footer: {
       message: "Released under MIT License",
-      copyright: "Copyright © 2024 Slidev Workspace",
+      copyright: "Copyright © 2025 Slidev Workspace",
     },
   },
 });
