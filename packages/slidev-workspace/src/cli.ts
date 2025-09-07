@@ -73,7 +73,10 @@ async function buildAllSlides() {
 
       try {
         // Use execSync to run pnpm build command for each slide
-        const buildCmd = `pnpm --filter "./slides/${slideName}" run build --base ${config.baseUrl}${slideName}/`;
+        const baseUrl = config.baseUrl.endsWith("/")
+          ? config.baseUrl
+          : config.baseUrl + "/";
+        const buildCmd = `pnpm --filter "./slides/${slideName}" run build --base ${baseUrl}${slideName}/`;
         execSync(buildCmd, {
           cwd: workspaceCwd,
           stdio: "inherit",
