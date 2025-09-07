@@ -42,25 +42,9 @@ jobs:
       - name: Prepare deploy folder
         run: rm -rf _gh-pages && mkdir _gh-pages
 
-      - name: Build all slides
-        run: |
-          BASE_PATH="<base_url>" 
-
-          for slide in slides/*; do
-            slide_name=$(basename "$slide")
-            pnpm --filter "./slides/$slide_name" run build --base $BASE_PATH/$slide_name/
-
-            if [ -d "$slide/dist" ]; then
-              mkdir -p "_gh-pages/$slide_name"
-              cp -r "$slide/dist/." "_gh-pages/$slide_name/"
-            fi
-          done
-
-      - name: Build preview app as index
+      - name: Build all slides and preview app as index
         run: |
           pnpm build
-          mkdir -p "_gh-pages"
-          cp -r dist/. "_gh-pages/"
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
