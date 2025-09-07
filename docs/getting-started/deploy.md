@@ -2,7 +2,9 @@
 
 ## 1. Set up GitHub Actions
 
-Revise the `BASE_PATH` in the "Build all slides" job to match your base URL, e.g., `/slidev-workspace-starter`, which should be the same as `baseUrl` in `slidev-workspace.yaml`:
+First, you need to create a GitHub Actions workflow file in your repository. This workflow will automatically build your Slidev presentations and deploy them to GitHub Pages.
+
+Create a `.github/workflows/deploy.yml` file in your repository root directory and add the following content:
 
 ```yaml
 name: Deploy pages
@@ -70,4 +72,6 @@ Configure GitHub Pages to build and deploy using GitHub Actions:
 
 1. Go to your repository settings
 2. Navigate to `Settings > Pages > Build and deployment > Source`
-3. Select `GitHub Actions`
+3. Select `GitHub Actions` as the source
+
+After completing these settings, GitHub Actions will automatically execute the build process and deploy your Slidev presentations to GitHub Pages whenever you push code to the main branch.
