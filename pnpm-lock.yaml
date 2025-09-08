@@ -41,6 +41,9 @@ importers:
         specifier: ^3.5.17
         version: 3.5.20(typescript@5.8.3)
     devDependencies:
+      "@prettier/plugin-oxc":
+        specifier: ^0.0.4
+        version: 0.0.4
       "@tailwindcss/vite":
         specifier: ^4.1.11
         version: 4.1.12(rolldown-vite@7.1.5(@types/node@22.18.0)(esbuild@0.25.9)(jiti@2.5.1)(yaml@2.8.1))

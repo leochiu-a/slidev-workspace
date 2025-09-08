@@ -1,5 +1,5 @@
 {
-  "name": "slide-decks",
+  "name": "@slidev-workspace/content-api",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -18,12 +18,13 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-vue-next": "^0.525.0",
+    "slidev-workspace": "workspace:*",
     "tailwind-merge": "^3.3.1",
     "tw-animate-css": "^1.3.5",
-    "vue": "^3.5.17",
-    "slidev-workspace": "workspace:*"
+    "vue": "^3.5.17"
   },
   "devDependencies": {
+    "@prettier/plugin-oxc": "^0.0.4",
     "@tailwindcss/vite": "^4.1.11",
     "@tsconfig/node22": "^22.0.2",
     "@types/node": "^22.15.32",
