@@ -1,11 +1,1 @@
-# Demo Slidev Workspace 配置
-slidesDir:
-  - "./slides"    # 本地 slides 目錄
-
-outputDir: "./dist"
-baseUrl: "/slidev-workspace-starter"
-
-exclude:
-  - "node_modules"
-  - ".git"
-  - ".DS_Store"
+baseUrl: /slidev-workspace-starter/
