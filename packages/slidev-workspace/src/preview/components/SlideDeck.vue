@@ -73,7 +73,7 @@ const filteredSlides = computed(() => {
 });
 
 const openSlide = (slide: SlideData) => {
-  const url = `${window.location.href}/${slide.url}`;
+  const url = new URL(slide.url, window.location.href);
   window.open(url, "_blank");
 };
 </script>
