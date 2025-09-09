@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Slidev Workspace - Page Not Found</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .container {
+        text-align: center;
+        padding: 2rem;
+        max-width: 500px;
+      }
+      .spinner {
+        width: 40px;
+        height: 40px;
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #3498db;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 1rem;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      .message {
+        color: #666;
+        margin-bottom: 1rem;
+      }
+      .redirect-info {
+        color: #888;
+        font-size: 0.9rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="spinner"></div>
+      <div class="message">Redirecting...</div>
+      <div class="redirect-info">Finding the right page for you</div>
+    </div>
+
+    <script>
+      (function () {
+        // Get current path and normalize it
+        const currentPath = window.location.pathname;
+        const pathSegments = currentPath
+          .split("/")
+          .filter((segment) => segment.length > 0);
+
+        // Extract potential slidev project name
+        let potentialProject = null;
+        let basePath = "";
+
+        if (pathSegments.length > 0) {
+          potentialProject = pathSegments[0];
+
+          // Handle subdirectory deployments like /my-project/slidev1/
+          if (pathSegments.length > 1) {
+            basePath = pathSegments[0];
+            potentialProject = pathSegments[1];
+          }
+        }
+
+        // Function to check if a slidev project exists
+        async function checkProjectExists(projectName, baseDir = "") {
+          try {
+            const testUrl = baseDir
+              ? `/${baseDir}/${projectName}/index.html`
+              : `/${projectName}/index.html`;
+            const response = await fetch(testUrl, { method: "HEAD" });
+            return response.ok;
+          } catch (error) {
+            return false;
+          }
+        }
+
+        // Function to get base URL
+        function getBaseUrl() {
+          const base = document.querySelector("base");
+          if (base) {
+            return base.href;
+          }
+
+          const origin = window.location.origin;
+          if (pathSegments.length > 1) {
+            return `${origin}/${pathSegments[0]}/`;
+          }
+
+          return `${origin}/`;
+        }
+
+        // Enhanced redirect logic
+        async function handleRedirect() {
+          if (!potentialProject) {
+            window.location.replace(getBaseUrl());
+            return;
+          }
+
+          // Try simple case first: /projectName/
+          let projectExists = await checkProjectExists(potentialProject);
+
+          if (projectExists) {
+            const newUrl = `/${potentialProject}/`;
+            console.log(`Redirecting to slidev project: ${newUrl}`);
+            window.location.replace(newUrl);
+            return;
+          }
+
+          // Try with base path: /basePath/projectName/
+          if (basePath && pathSegments.length > 1) {
+            projectExists = await checkProjectExists(
+              potentialProject,
+              basePath,
+            );
+
+            if (projectExists) {
+              const newUrl = `/${basePath}/${potentialProject}/`;
+              console.log(`Redirecting to slidev project with base: ${newUrl}`);
+              window.location.replace(newUrl);
+              return;
+            }
+          }
+
+          // No valid project found, redirect to main app
+          const baseUrl = getBaseUrl();
+          console.log(
+            `No valid project found, redirecting to main app: ${baseUrl}`,
+          );
+          window.location.replace(baseUrl);
+        }
+
+        // Add timeout fallback
+        const timeoutId = setTimeout(() => {
+          console.log("Redirect timeout, falling back to base URL");
+          window.location.replace(getBaseUrl());
+        }, 3000);
+
+        // Execute redirect logic
+        handleRedirect()
+          .catch((error) => {
+            console.error("Redirect error:", error);
+            clearTimeout(timeoutId);
+            window.location.replace(getBaseUrl());
+          })
+          .finally(() => {
+            clearTimeout(timeoutId);
+          });
+      })();
+    </script>
+  </body>
+</html>
