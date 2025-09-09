@@ -3,7 +3,7 @@
 import { fileURLToPath } from "node:url";
 import { dirname, join, resolve } from "node:path";
 import { readdirSync, existsSync, mkdirSync } from "node:fs";
-import { cp } from "node:fs/promises";
+import { cp, copyFile } from "node:fs/promises";
 import { execSync } from "node:child_process";
 import { build, createServer } from "vite";
 import vue from "@vitejs/plugin-vue";
@@ -132,6 +132,23 @@ async function copyToGhPages() {
   console.log("✅ All files copied to _gh-pages successfully!");
 }
 
+async function copy404Html() {
+  const workspaceCwd = process.env.SLIDEV_WORKSPACE_CWD || process.cwd();
+  const config = loadConfig(workspaceCwd);
+
+  const source404Path = resolve(packageRoot, "src/preview/404.html");
+  const outputDir = resolve(workspaceCwd, config.outputDir);
+  const target404Path = join(outputDir, "404.html");
+
+  if (existsSync(source404Path)) {
+    console.log("📄 Copying 404.html to build output...");
+    await copyFile(source404Path, target404Path);
+    console.log("✅ 404.html copied successfully!");
+  } else {
+    console.warn("⚠️ 404.html template not found in src/preview/");
+  }
+}
+
 async function runViteBuild() {
   try {
     await buildAllSlides();
@@ -139,6 +156,9 @@ async function runViteBuild() {
     console.log("📦 Building Slidev Workspace for production...");
     const config = createViteConfig();
     await build(config);
+
+    // Copy 404.html to build output
+    await copy404Html();
 
     // Copy everything to _gh-pages
     await copyToGhPages();
