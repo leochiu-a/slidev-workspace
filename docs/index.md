@@ -12,16 +12,16 @@ hero:
       link: /getting-started/introduction
 
 features:
-  - title: 🚀 Simple CLI Tool
+  - title: Simple CLI Tool
     details: Launch the presentation management workspace with a single command, supporting both development and production builds
-  - title: 📁 Auto-Discovery of Presentations
+    icon:
+      src: https://fonts.gstatic.com/s/e/notoemoji/latest/1f680/512.gif
+  - title: Auto-Discovery of Presentations
     details: Automatically scans configured directories to discover all presentation folders containing slides.md files
-  - title: 🔍 Real-time Search
-    details: Search presentations instantly by title, description, or author to quickly find what you need
-  - title: 📊 Frontmatter Parsing
-    details: Automatically parses YAML frontmatter from each presentation to extract metadata information
-  - title: 🎨 Modern Responsive Interface
+    icon:
+      src: https://fonts.gstatic.com/s/e/notoemoji/latest/1f440/512.gif
+  - title: Built-in Modern Interface
     details: Beautiful interface built with Vue 3 + Tailwind CSS, supporting both desktop and mobile devices
-  - title: 🔥 Hot Reload Support
-    details: Automatically monitors file changes during development and updates the interface and data in real-time
+    icon:
+      src: https://fonts.gstatic.com/s/e/notoemoji/latest/1f31f/512.gif
 ---
