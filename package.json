@@ -7,10 +7,14 @@
     "dev:preview": "pnpm --filter @slidev-workspace/preview run dev",
     "build": "pnpm --filter slidev-workspace run build",
     "docs:dev": "pnpm --filter @slidev-workspace/docs run docs:dev",
+    "changeset": "changeset",
+    "version": "changeset version",
+    "release": "pnpm build && changeset publish",
     "prepare": "husky"
   },
   "packageManager": "pnpm@10.14.0+sha512.ad27a79641b49c3e481a16a805baa71817a04bbe06a38d17e60e2eaee83f6a146c6a688125f5792e48dd5ba30e7da52a5cda4c3992b9ccf333f9ce223af84748",
   "devDependencies": {
+    "@changesets/cli": "^2.29.7",
     "husky": "^9.1.7",
     "lint-staged": "^16.1.6"
   },
