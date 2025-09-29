@@ -153,6 +153,8 @@ async function runViteBuild() {
 async function runVitePreview() {
   try {
     console.log("🚀 Starting Slidev Workspace development server...");
+
+    // The slidesPlugin will automatically start all slides dev servers
     const config = createViteConfig();
     const server = await createServer(config);
     await server.listen();
@@ -188,6 +190,7 @@ For more information, visit: https://github.com/author/slidev-workspace
 
 async function main() {
   switch (command) {
+    case "dev":
     case "preview":
       // Set the working directory for the configuration system
       process.env.SLIDEV_WORKSPACE_CWD = process.cwd();
