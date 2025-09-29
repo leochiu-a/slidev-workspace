@@ -11,10 +11,6 @@ import tailwindcss from "@tailwindcss/vite";
 
 import { slidesPlugin } from "./vite/plugin-slides.js";
 import { loadConfig, resolveSlidesDirs } from "./scripts/config.js";
-import {
-  startAllSlidesDevServer,
-  stopAllDevServers,
-} from "./scripts/devServer.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -158,22 +154,11 @@ async function runVitePreview() {
   try {
     console.log("🚀 Starting Slidev Workspace development server...");
 
-    // Start all slides dev servers first
-    const devServers = await startAllSlidesDevServer();
-
-    // Then start the preview app
+    // The slidesPlugin will automatically start all slides dev servers
     const config = createViteConfig();
     const server = await createServer(config);
     await server.listen();
     server.printUrls();
-
-    // Handle graceful shutdown
-    process.on("SIGINT", () => {
-      console.log("\n🛑 Shutting down all dev servers...");
-      stopAllDevServers(devServers);
-      server.close();
-      process.exit(0);
-    });
   } catch (error) {
     console.error("❌ Development server failed:", error);
     process.exit(1);
