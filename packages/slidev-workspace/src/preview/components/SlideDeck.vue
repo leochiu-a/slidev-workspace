@@ -43,7 +43,6 @@
           :url="slide.url"
           :author="slide.author"
           :date="slide.date"
-          @click="() => openSlide(slide)"
         />
       </div>
     </div>
@@ -55,7 +54,6 @@ import { ref, computed } from "vue";
 import { useSlides } from "../composables/useSlides";
 import { Input } from "../components/ui/input";
 import SlideCard from "./SlideCard.vue";
-import type { SlideData } from "../../types/slide";
 
 const searchTerm = ref("");
 const { slides, slidesCount } = useSlides();
@@ -71,9 +69,4 @@ const filteredSlides = computed(() => {
       slide.author.toLowerCase().includes(searchTerm.value.toLowerCase()),
   );
 });
-
-const openSlide = (slide: SlideData) => {
-  const url = new URL(slide.url, window.location.href);
-  window.open(url, "_blank");
-};
 </script>
