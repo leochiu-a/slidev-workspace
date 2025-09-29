@@ -2,17 +2,30 @@ import type { Plugin } from "vite";
 import { watch } from "fs";
 import { getAllSlidesFrontmatter } from "../scripts/getSlideFrontmatter.js";
 import { loadConfig, resolveSlidesDirs } from "../scripts/config.js";
+import {
+  startAllSlidesDevServer,
+  stopAllDevServers,
+  type DevServerInfo,
+} from "../scripts/devServer.js";
 
 export function slidesPlugin(): Plugin {
+  let devServers: DevServerInfo[] = [];
+
   return {
     name: "vite-plugin-slides",
 
-    configureServer(server) {
+    async configureServer(server) {
       const watchers: ReturnType<typeof watch>[] = [];
 
       // Resolve slides directories at runtime, not build time
       const config = loadConfig();
       const slidesDirs = resolveSlidesDirs(config);
+
+      try {
+        devServers = await startAllSlidesDevServer();
+      } catch (error) {
+        console.error("❌ Failed to start slides dev servers:", error);
+      }
 
       // Watch for changes in all slides directories
       slidesDirs.forEach((slidesDir) => {
@@ -41,9 +54,12 @@ export function slidesPlugin(): Plugin {
         watchers.push(watcher);
       });
 
-      // Clean up watchers when the server is closed
+      // Clean up watchers and dev servers when the server is closed
       server.httpServer?.once("close", () => {
         watchers.forEach((watcher) => watcher.close());
+        if (devServers.length > 0) {
+          stopAllDevServers(devServers);
+        }
       });
     },
 

@@ -9,6 +9,9 @@ export interface DevServerInfo {
   process: any;
 }
 
+// Global tracking to prevent duplicate server starts
+const runningServers = new Map<string, DevServerInfo>();
+
 export async function startAllSlidesDevServer(
   workspaceCwd?: string,
 ): Promise<DevServerInfo[]> {
@@ -20,6 +23,8 @@ export async function startAllSlidesDevServer(
   const devServers: DevServerInfo[] = [];
 
   console.log("🚀 Starting Slidev dev servers for all slides...");
+  console.log("📁 Working directory:", cwd);
+  console.log("📂 Slides directories found:", slidesDirs);
 
   for (const slidesDir of slidesDirs) {
     if (!existsSync(slidesDir)) {
@@ -35,8 +40,27 @@ export async function startAllSlidesDevServer(
       const slideDir = join(slidesDir, slideName);
       const packageJsonPath = join(slideDir, "package.json");
 
+      // Create unique key for this slide (using absolute path)
+      const slideKey = slideDir;
+
+      // Check if this slide is already running
+      if (runningServers.has(slideKey)) {
+        console.log(`⏭️ ${slideName} dev server already running, skipping...`);
+        devServers.push(runningServers.get(slideKey)!);
+        continue;
+      }
+
       if (!existsSync(packageJsonPath)) {
         console.warn(`⚠️ Skipping ${slideName}: no package.json found`);
+        continue;
+      }
+
+      // Check if node_modules exists (dependencies installed)
+      const nodeModulesPath = join(slideDir, "node_modules");
+      if (!existsSync(nodeModulesPath)) {
+        console.warn(
+          `⚠️ Skipping ${slideName}: dependencies not installed (run pnpm install)`,
+        );
         continue;
       }
 
@@ -53,6 +77,11 @@ export async function startAllSlidesDevServer(
             cwd: slideDir,
             stdio: ["ignore", "pipe", "pipe"],
             detached: false,
+            env: {
+              ...process.env,
+              PATH: process.env.PATH,
+            },
+            shell: true,
           },
         );
 
@@ -69,11 +98,14 @@ export async function startAllSlidesDevServer(
           console.error(`❌ ${slideName} dev server error:`, data.toString());
         });
 
-        devServers.push({
+        const serverInfo = {
           name: slideName,
           port: currentPort,
           process: devProcess,
-        });
+        };
+
+        devServers.push(serverInfo);
+        runningServers.set(slideKey, serverInfo);
 
         currentPort++;
       } catch (error) {
@@ -91,4 +123,6 @@ export function stopAllDevServers(devServers: DevServerInfo[]) {
     console.log(`   Stopping ${name}...`);
     process.kill();
   });
+  // Clear the running servers map
+  runningServers.clear();
 }
