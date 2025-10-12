@@ -11,7 +11,7 @@ import {
 describe("useSlides (Development Mode)", () => {
   beforeAll(async () => {
     vi.resetModules();
-    vi.doMock("../../env", () => ({
+    vi.doMock("../constants/env", () => ({
       IS_DEVELOPMENT: true,
     }));
   });
@@ -148,7 +148,7 @@ describe("useSlides (Development Mode)", () => {
 describe("useSlides (Production Mode)", () => {
   beforeAll(async () => {
     vi.resetModules();
-    vi.doMock("../../env", () => ({
+    vi.doMock("../constants/env", () => ({
       IS_DEVELOPMENT: false,
     }));
   });
