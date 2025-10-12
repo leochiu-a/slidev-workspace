@@ -54,7 +54,6 @@ export function useSlides() {
       slidesData.value = module.default || [];
     } catch (error) {
       console.warn("Failed to load slides data:", error);
-      slidesData.value = [];
     }
   };
 
@@ -71,8 +70,7 @@ export function useSlides() {
       const devServerUrl = `http://localhost:${port}`;
 
       // Resolve background image path
-      const background =
-        slide.frontmatter.background || slide.frontmatter.seoMeta?.ogImage;
+      const background = slide.frontmatter.background;
       const imageUrl = background
         ? resolveBackgroundPath({
             background: slide.frontmatter.background,
