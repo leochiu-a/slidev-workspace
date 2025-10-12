@@ -1,6 +1,6 @@
 import { computed, ref } from "vue";
 import type { SlideData, SlideInfo } from "../../types/slide";
-import { IS_DEVELOPMENT } from "../../env";
+import { IS_DEVELOPMENT } from "../constants/env";
 
 /**
  * Check if a string is a valid URL
