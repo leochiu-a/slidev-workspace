@@ -35,7 +35,13 @@ function resolveBackgroundPath(params: {
 
   try {
     const domain = IS_DEVELOPMENT ? devServerUrl : window.location.origin;
-    const resolvedUrl = new URL(slidePath + background, domain);
+    // Ensure slidePath ends with / for proper path resolution
+    const basePath = slidePath.endsWith("/") ? slidePath : slidePath + "/";
+    // Remove leading / from background to treat it as relative
+    const relativeBg = background.startsWith("/")
+      ? background.slice(1)
+      : background;
+    const resolvedUrl = new URL(basePath + relativeBg, domain);
 
     return resolvedUrl.href;
   } catch (error) {
