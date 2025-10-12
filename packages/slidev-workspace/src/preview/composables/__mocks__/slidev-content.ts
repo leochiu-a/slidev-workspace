@@ -3,12 +3,12 @@ import type { SlideInfo } from "../../../types/slide";
 const mockSlidesData: SlideInfo[] = [
   {
     id: "slide-1",
-    path: "/slides/presentation-1/",
-    fullPath: "/path/to/slides/presentation-1",
+    path: "/slides-presentation-1/",
+    fullPath: "/path/to/slides-presentation-1",
     sourceDir: "/path/to/slides",
     frontmatter: {
       title: "My First Presentation",
-      background: "/images/bg1.jpg",
+      background: "/bg1.jpg",
       info: "This is my first presentation",
       author: "John Doe",
       date: "2024-01-15",
@@ -20,8 +20,8 @@ const mockSlidesData: SlideInfo[] = [
   },
   {
     id: "slide-2",
-    path: "/slides/presentation-2/",
-    fullPath: "/path/to/slides/presentation-2",
+    path: "/slides-presentation-2/",
+    fullPath: "/path/to/slides-presentation-2",
     sourceDir: "/path/to/slides",
     frontmatter: {
       title: "Second Presentation",
@@ -35,8 +35,8 @@ const mockSlidesData: SlideInfo[] = [
   },
   {
     id: "slide-3",
-    path: "/slides/presentation-3/",
-    fullPath: "/path/to/slides/presentation-3",
+    path: "/slides-presentation-3/",
+    fullPath: "/path/to/slides-presentation-3",
     sourceDir: "/path/to/slides",
     frontmatter: {},
     content: "# Minimal slide",

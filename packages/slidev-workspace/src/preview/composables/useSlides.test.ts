@@ -7,26 +7,11 @@ import {
   afterEach,
   beforeAll,
 } from "vitest";
-import { useSlides } from "./useSlides";
 
-// Helper function to setup useSlides and wait for data to load
-async function setupUseSlides() {
-  const result = useSlides();
-
-  // Wait for data to finish loading using vitest's waitFor
-  await vi.waitFor(() => {
-    expect(result.isLoading.value).toBe(false);
-  });
-
-  return result;
-}
-
-describe("useSlides", () => {
+describe("useSlides (Development Mode)", () => {
   beforeAll(async () => {
     vi.resetModules();
-
-    // Mock IS_DEVELOPMENT environment variable
-    vi.mock("../../env", () => ({
+    vi.doMock("../../env", () => ({
       IS_DEVELOPMENT: true,
     }));
   });
@@ -45,6 +30,21 @@ describe("useSlides", () => {
   afterEach(() => {
     vi.restoreAllMocks();
   });
+
+  /**
+   * Helper function to setup useSlides in development mode and wait for data to load
+   */
+  async function setupUseSlides() {
+    const { useSlides } = await import("./useSlides");
+    const result = useSlides();
+
+    // Wait for data to finish loading using vitest's waitFor
+    await vi.waitFor(() => {
+      expect(result.isLoading.value).toBe(false);
+    });
+
+    return result;
+  }
 
   describe("slide data transformation", () => {
     it("should transform slide data correctly with all frontmatter fields", async () => {
@@ -66,7 +66,7 @@ describe("useSlides", () => {
 
       const thirdSlide = slides.value[2];
 
-      expect(thirdSlide.title).toBe("/slides/presentation-3/");
+      expect(thirdSlide.title).toBe("/slides-presentation-3/");
     });
 
     it("should use default description when no info available", async () => {
@@ -128,7 +128,7 @@ describe("useSlides", () => {
       const firstSlide = slides.value[0];
 
       expect(firstSlide.image).toBe(
-        "http://localhost:3001/slides/presentation-1/images/bg1.jpg",
+        "http://localhost:3001/slides-presentation-1/bg1.jpg",
       );
     });
 
@@ -143,22 +143,12 @@ describe("useSlides", () => {
 });
 
 describe("useSlides (Production Mode)", () => {
-  // Helper to setup production mode useSlides
-  async function setupUseSlidesProduction() {
+  beforeAll(async () => {
     vi.resetModules();
     vi.doMock("../../env", () => ({
       IS_DEVELOPMENT: false,
     }));
-
-    const { useSlides: useSlidesProduction } = await import("./useSlides");
-    const result = useSlidesProduction();
-
-    await vi.waitFor(() => {
-      expect(result.isLoading.value).toBe(false);
-    });
-
-    return result;
-  }
+  });
 
   beforeEach(() => {
     // Reset window.location
@@ -175,13 +165,27 @@ describe("useSlides (Production Mode)", () => {
     vi.restoreAllMocks();
   });
 
+  /**
+   * Helper to setup production mode useSlides
+   */
+  async function setupUseSlidesProduction() {
+    const { useSlides: useSlidesProduction } = await import("./useSlides");
+    const result = useSlidesProduction();
+
+    await vi.waitFor(() => {
+      expect(result.isLoading.value).toBe(false);
+    });
+
+    return result;
+  }
+
   describe("URL generation in production", () => {
     it("should use slide path as URL in production mode", async () => {
       const result = await setupUseSlidesProduction();
 
-      expect(result.slides.value[0].url).toBe("/slides/presentation-1/");
-      expect(result.slides.value[1].url).toBe("/slides/presentation-2/");
-      expect(result.slides.value[2].url).toBe("/slides/presentation-3/");
+      expect(result.slides.value[0].url).toBe("/slides-presentation-1/");
+      expect(result.slides.value[1].url).toBe("/slides-presentation-2/");
+      expect(result.slides.value[2].url).toBe("/slides-presentation-3/");
     });
   });
 
@@ -191,7 +195,7 @@ describe("useSlides (Production Mode)", () => {
       const firstSlide = result.slides.value[0];
 
       expect(firstSlide.image).toBe(
-        "https://my-slides.com/slides/presentation-1/images/bg1.jpg",
+        "https://my-slides.com/slides-presentation-1/bg1.jpg",
       );
     });
 
