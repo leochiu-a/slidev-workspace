@@ -70,7 +70,8 @@ export function useSlides() {
       const devServerUrl = `http://localhost:${port}`;
 
       // Resolve background image path
-      const background = slide.frontmatter.background;
+      const background =
+        slide.frontmatter.seoMeta?.ogImage || slide.frontmatter.background;
       const imageUrl = background
         ? resolveBackgroundPath({
             background: slide.frontmatter.background,
