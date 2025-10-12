@@ -52,6 +52,7 @@ function resolveBackgroundPath(params: {
 
 export function useSlides() {
   const slidesData = ref<SlideInfo[]>([]);
+  const isLoading = ref(true);
 
   // Dynamically import slidev:content to avoid build-time issues
   const loadSlidesData = async () => {
@@ -60,6 +61,9 @@ export function useSlides() {
       slidesData.value = module.default || [];
     } catch (error) {
       console.warn("Failed to load slides data:", error);
+      slidesData.value = [];
+    } finally {
+      isLoading.value = false;
     }
   };
 
@@ -109,5 +113,6 @@ export function useSlides() {
     slides,
     slidesCount,
     loadSlidesData,
+    isLoading,
   };
 }
