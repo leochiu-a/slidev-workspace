@@ -4,18 +4,13 @@ import { parse as parseYaml } from "yaml";
 import { loadConfig, resolveSlidesDirs } from "./config.js";
 import type { SlideFrontmatter, SlideInfo } from "../types/slide.js";
 
-// Get the frontmatter and content of a single slide by ID
-export function getSlideFrontmatter(slideId: string): SlideInfo | null {
-  const allSlides = getAllSlidesFrontmatter();
-  return allSlides.find((slide) => slide.id === slideId) || null;
-}
-
 // Get the frontmatter and content of a slide from a specific path
 export function getSlideFrontmatterByPath(
   slideDir: string,
   slideName: string,
 ): SlideInfo | null {
   try {
+    const config = loadConfig();
     const fullPath = join(slideDir, slideName, "slides.md");
 
     // Check if the slide file exists
@@ -48,6 +43,7 @@ export function getSlideFrontmatterByPath(
       sourceDir: slideDir,
       frontmatter,
       content: content.replace(frontmatterMatch[0], ""), // Remove frontmatter section
+      baseUrl: config.baseUrl,
     };
   } catch (error) {
     console.error(

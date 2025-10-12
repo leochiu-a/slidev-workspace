@@ -25,6 +25,8 @@ export interface SlideInfo {
   sourceDir: string;
   frontmatter: SlideFrontmatter;
   content: string;
+  /** The base URL of the slide, which is defined in slidev-workspace.yml */
+  baseUrl: string;
 }
 
 export interface SlideData {

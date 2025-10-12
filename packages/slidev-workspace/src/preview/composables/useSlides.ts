@@ -1,6 +1,7 @@
 import { computed, ref } from "vue";
 import type { SlideData, SlideInfo } from "../../types/slide";
 import { IS_DEVELOPMENT } from "../constants/env";
+import { pathJoin } from "../lib/pathJoin";
 
 /**
  * Check if a string is a valid URL
@@ -17,33 +18,47 @@ function isUrl(str: string | undefined): boolean {
 }
 
 /**
- * Resolve background image path
- * If the background is not a URL, construct the full path using slide.path as base
+ * Resolve background image path.
+ * If the background is not a URL, construct the full path using slide.path as the base.
+ *
+ * Example (development mode):
+ * {
+ *   background: "/bg1.jpg",
+ *   slidePath: "/slides-presentation-1",
+ *   baseUrl: "/slidev-workspace-starter/",
+ *   domain: "http://localhost:3001" // domain of the current server
+ * }
+ * returns: "http://localhost:3001/slides-presentation-1/bg1.jpg"
+ *
+ * Example (production mode):
+ * {
+ *   background: "/bg1.jpg",
+ *   slidePath: "/slides-presentation-1",
+ *   baseUrl: "/slidev-workspace-starter/",
+ *   domain: "https://my-slides.com" // domain of the current server
+ * }
+ * returns: "https://my-slides.com/slidev-workspace-starter/slides-presentation-1/bg1.jpg"
  */
 function resolveBackgroundPath(params: {
   background: string | undefined;
   slidePath: string;
-  devServerUrl: string;
+  baseUrl: string;
+  domain: string;
 }): string {
-  const { background, slidePath, devServerUrl } = params;
+  const { background, slidePath, domain, baseUrl } = params;
 
-  if (!background) return "";
+  if (!background) {
+    return "";
+  }
 
   if (isUrl(background)) {
     return background;
   }
 
   try {
-    const domain = IS_DEVELOPMENT ? devServerUrl : window.location.origin;
-    // Ensure slidePath ends with / for proper path resolution
-    const basePath = slidePath.endsWith("/") ? slidePath : slidePath + "/";
-    // Remove leading / from background to treat it as relative
-    const relativeBg = background.startsWith("/")
-      ? background.slice(1)
-      : background;
-    const resolvedUrl = new URL(basePath + relativeBg, domain);
-
-    return resolvedUrl.href;
+    return IS_DEVELOPMENT
+      ? new URL(pathJoin(slidePath, background), domain).href
+      : new URL(pathJoin(baseUrl, slidePath, background), domain).href;
   } catch (error) {
     console.error("Failed to resolve background path:", error);
     return background;
@@ -86,7 +101,8 @@ export function useSlides() {
         ? resolveBackgroundPath({
             background: slide.frontmatter.background,
             slidePath: slide.path,
-            devServerUrl,
+            baseUrl: slide.baseUrl,
+            domain: IS_DEVELOPMENT ? devServerUrl : window.location.origin,
           })
         : "https://cover.sli.dev";
 
