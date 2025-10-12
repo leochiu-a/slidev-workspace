@@ -39,9 +39,12 @@ describe("useSlides (Development Mode)", () => {
     const result = useSlides();
 
     // Wait for data to finish loading using vitest's waitFor
-    await vi.waitFor(() => {
-      expect(result.isLoading.value).toBe(false);
-    });
+    await vi.waitFor(
+      () => {
+        expect(result.isLoading.value).toBe(false);
+      },
+      { timeout: 1000, interval: 10 },
+    );
 
     return result;
   }
@@ -172,9 +175,12 @@ describe("useSlides (Production Mode)", () => {
     const { useSlides: useSlidesProduction } = await import("./useSlides");
     const result = useSlidesProduction();
 
-    await vi.waitFor(() => {
-      expect(result.isLoading.value).toBe(false);
-    });
+    await vi.waitFor(
+      () => {
+        expect(result.isLoading.value).toBe(false);
+      },
+      { timeout: 1000, interval: 10 },
+    );
 
     return result;
   }
