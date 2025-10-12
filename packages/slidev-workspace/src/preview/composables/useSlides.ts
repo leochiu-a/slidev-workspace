@@ -1,8 +1,58 @@
 import { computed, ref } from "vue";
-import type { SlideData, SlideInfo } from "../../types/slide.js";
+import type { SlideData, SlideInfo } from "../../types/slide";
+import { IS_DEVELOPMENT } from "../../env";
+
+/**
+ * Check if a string is a valid URL
+ */
+function isUrl(str: string | undefined): boolean {
+  if (!str) return false;
+
+  try {
+    new URL(str);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Resolve background image path
+ * If the background is not a URL, construct the full path using slide.path as base
+ */
+function resolveBackgroundPath(params: {
+  background: string | undefined;
+  slidePath: string;
+  devServerUrl: string;
+}): string {
+  const { background, slidePath, devServerUrl } = params;
+
+  if (!background) return "";
+
+  if (isUrl(background)) {
+    return background;
+  }
+
+  try {
+    const domain = IS_DEVELOPMENT ? devServerUrl : window.location.origin;
+    // Ensure slidePath ends with / for proper path resolution
+    const basePath = slidePath.endsWith("/") ? slidePath : slidePath + "/";
+    // Remove leading / from background to treat it as relative
+    const relativeBg = background.startsWith("/")
+      ? background.slice(1)
+      : background;
+    const resolvedUrl = new URL(basePath + relativeBg, domain);
+
+    return resolvedUrl.href;
+  } catch (error) {
+    console.error("Failed to resolve background path:", error);
+    return background;
+  }
+}
 
 export function useSlides() {
   const slidesData = ref<SlideInfo[]>([]);
+  const isLoading = ref(true);
 
   // Dynamically import slidev:content to avoid build-time issues
   const loadSlidesData = async () => {
@@ -12,6 +62,8 @@ export function useSlides() {
     } catch (error) {
       console.warn("Failed to load slides data:", error);
       slidesData.value = [];
+    } finally {
+      isLoading.value = false;
     }
   };
 
@@ -27,17 +79,25 @@ export function useSlides() {
       // Create dev server URL
       const devServerUrl = `http://localhost:${port}`;
 
+      // Resolve background image path
+      const background =
+        slide.frontmatter.seoMeta?.ogImage || slide.frontmatter.background;
+      const imageUrl = background
+        ? resolveBackgroundPath({
+            background: slide.frontmatter.background,
+            slidePath: slide.path,
+            devServerUrl,
+          })
+        : "https://cover.sli.dev";
+
       return {
         title: slide.frontmatter.title || slide.path,
-        url: process.env.NODE_ENV === "development" ? devServerUrl : slide.path,
+        url: IS_DEVELOPMENT ? devServerUrl : slide.path,
         description:
           slide.frontmatter.info ||
           slide.frontmatter.seoMeta?.ogDescription ||
           "No description available",
-        image:
-          slide.frontmatter.background ||
-          slide.frontmatter.seoMeta?.ogImage ||
-          "https://cover.sli.dev",
+        image: imageUrl,
         author: slide.frontmatter.author || "Unknown Author",
         date: slide.frontmatter.date || new Date().toISOString().split("T")[0],
         theme: slide.frontmatter.theme,
@@ -53,5 +113,6 @@ export function useSlides() {
     slides,
     slidesCount,
     loadSlidesData,
+    isLoading,
   };
 }
