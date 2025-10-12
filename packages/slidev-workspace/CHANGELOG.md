@@ -1,5 +1,11 @@
 # slidev-workspace
 
+## 0.2.2
+
+### Patch Changes
+
+- 15de6e4: fix: move env to constants
+
 ## 0.2.1
 
 ### Patch Changes
