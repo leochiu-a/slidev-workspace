@@ -1,5 +1,11 @@
 # slidev-workspace
 
+## 0.2.3
+
+### Patch Changes
+
+- e935a8d: fix: resolve path with base url
+
 ## 0.2.2
 
 ### Patch Changes
