@@ -1,21 +1,36 @@
-import { describe, it, expect, beforeEach, vi, afterEach } from "vitest";
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  vi,
+  afterEach,
+  beforeAll,
+} from "vitest";
 import { useSlides } from "./useSlides";
-
-// Mock IS_DEVELOPMENT environment variable
-vi.mock("../../env", () => ({
-  IS_DEVELOPMENT: true,
-}));
 
 // Helper function to setup useSlides and wait for data to load
 async function setupUseSlides() {
   const result = useSlides();
-  // Wait for async data loading
-  await new Promise((resolve) => setTimeout(resolve, 0));
+
+  // Wait for data to finish loading using vitest's waitFor
+  await vi.waitFor(() => {
+    expect(result.isLoading.value).toBe(false);
+  });
 
   return result;
 }
 
 describe("useSlides", () => {
+  beforeAll(async () => {
+    vi.resetModules();
+
+    // Mock IS_DEVELOPMENT environment variable
+    vi.mock("../../env", () => ({
+      IS_DEVELOPMENT: true,
+    }));
+  });
+
   beforeEach(() => {
     // Reset window.location
     delete (window as unknown as { location: unknown }).location;
@@ -107,7 +122,7 @@ describe("useSlides", () => {
       expect(secondSlide.image).toBe("https://example.com/bg.jpg");
     });
 
-    it("should resolve relative background paths", async () => {
+    it("should resolve relative background paths in development mode", async () => {
       const { slides } = await setupUseSlides();
 
       const firstSlide = slides.value[0];
@@ -121,6 +136,75 @@ describe("useSlides", () => {
       const { slides } = await setupUseSlides();
 
       const thirdSlide = slides.value[2];
+
+      expect(thirdSlide.image).toBe("https://cover.sli.dev");
+    });
+  });
+});
+
+describe("useSlides (Production Mode)", () => {
+  // Helper to setup production mode useSlides
+  async function setupUseSlidesProduction() {
+    vi.resetModules();
+    vi.doMock("../../env", () => ({
+      IS_DEVELOPMENT: false,
+    }));
+
+    const { useSlides: useSlidesProduction } = await import("./useSlides");
+    const result = useSlidesProduction();
+
+    await vi.waitFor(() => {
+      expect(result.isLoading.value).toBe(false);
+    });
+
+    return result;
+  }
+
+  beforeEach(() => {
+    // Reset window.location
+    delete (window as unknown as { location: unknown }).location;
+    (window as unknown as { location: { origin: string } }).location = {
+      origin: "https://my-slides.com",
+    };
+
+    // Clear all mocks
+    vi.clearAllMocks();
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  describe("URL generation in production", () => {
+    it("should use slide path as URL in production mode", async () => {
+      const result = await setupUseSlidesProduction();
+
+      expect(result.slides.value[0].url).toBe("/slides/presentation-1/");
+      expect(result.slides.value[1].url).toBe("/slides/presentation-2/");
+      expect(result.slides.value[2].url).toBe("/slides/presentation-3/");
+    });
+  });
+
+  describe("background image resolution in production", () => {
+    it("should resolve relative background paths with window.location.origin", async () => {
+      const result = await setupUseSlidesProduction();
+      const firstSlide = result.slides.value[0];
+
+      expect(firstSlide.image).toBe(
+        "https://my-slides.com/slides/presentation-1/images/bg1.jpg",
+      );
+    });
+
+    it("should keep absolute URL backgrounds unchanged in production", async () => {
+      const result = await setupUseSlidesProduction();
+      const secondSlide = result.slides.value[1];
+
+      expect(secondSlide.image).toBe("https://example.com/bg.jpg");
+    });
+
+    it("should use default cover when no background in production", async () => {
+      const result = await setupUseSlidesProduction();
+      const thirdSlide = result.slides.value[2];
 
       expect(thirdSlide.image).toBe("https://cover.sli.dev");
     });
