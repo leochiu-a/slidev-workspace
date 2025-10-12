@@ -17,6 +17,7 @@ const mockSlidesData: SlideInfo[] = [
       class: "text-center",
     },
     content: "# Slide content",
+    baseUrl: "/slidev-workspace-starter/",
   },
   {
     id: "slide-2",
@@ -32,6 +33,7 @@ const mockSlidesData: SlideInfo[] = [
       },
     },
     content: "# Another slide",
+    baseUrl: "/slidev-workspace-starter/",
   },
   {
     id: "slide-3",
@@ -40,6 +42,7 @@ const mockSlidesData: SlideInfo[] = [
     sourceDir: "/path/to/slides",
     frontmatter: {},
     content: "# Minimal slide",
+    baseUrl: "/slidev-workspace-starter/",
   },
 ];
 

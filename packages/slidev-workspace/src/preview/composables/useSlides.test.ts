@@ -201,7 +201,7 @@ describe("useSlides (Production Mode)", () => {
       const firstSlide = result.slides.value[0];
 
       expect(firstSlide.image).toBe(
-        "https://my-slides.com/slides-presentation-1/bg1.jpg",
+        "https://my-slides.com/slidev-workspace-starter/slides-presentation-1/bg1.jpg",
       );
     });
 
