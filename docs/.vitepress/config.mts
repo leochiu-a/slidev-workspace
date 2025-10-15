@@ -35,5 +35,9 @@ export default defineConfig({
       message: "Released under MIT License",
       copyright: "Copyright © 2025 Slidev Workspace",
     },
+
+    search: {
+      provider: "local",
+    },
   },
 });
