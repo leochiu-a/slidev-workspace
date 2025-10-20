@@ -1,0 +1,36 @@
+name: Changeset Check
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  changeset-check:
+    name: Check for Changeset
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check for changeset files
+        run: |
+          # Check if any changeset files were added in this PR
+          CHANGESET_FILES=$(git diff --name-only origin/main...HEAD | grep '^\.changeset/.*\.md$' | grep -v 'README.md' || true)
+
+          if [ -z "$CHANGESET_FILES" ]; then
+            echo "❌ No changeset file found in this PR"
+            echo ""
+            echo "Please add a changeset to describe your changes:"
+            echo "1. Run: pnpm changeset"
+            echo "2. Describe your changes when prompted"
+            echo "3. Commit the generated changeset file"
+            echo ""
+            echo "This helps maintain a proper changelog for releases."
+            exit 1
+          else
+            echo "✅ Changeset file(s) found:"
+            echo "$CHANGESET_FILES"
+          fi
