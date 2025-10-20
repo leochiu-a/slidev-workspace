@@ -1,23 +1,21 @@
 import { computed, ref } from "vue";
 import type { HeroConfig } from "../../types/config.js";
 
-interface ConfigData {
-  hero: HeroConfig;
-}
+const DEFAULT_CONFIG = {
+  hero: {
+    title: "Slide Deck",
+    description:
+      "Browse all available slide decks and use the search function to quickly find what you need.",
+  },
+};
 
 export function useConfig() {
-  const configData = ref<ConfigData>({
-    hero: {
-      title: "Slide Deck",
-      description:
-        "Browse all available slide decks and use the search function to quickly find what you need.",
-    },
-  });
+  const heroData = ref<HeroConfig>(DEFAULT_CONFIG.hero);
 
   const loadConfigData = async () => {
     try {
       const module = await import("slidev:config");
-      configData.value = module.default || configData.value;
+      heroData.value = module.default?.hero || heroData.value;
     } catch (error) {
       console.warn("Failed to load config data:", error);
     }
@@ -25,10 +23,9 @@ export function useConfig() {
 
   loadConfigData();
 
-  const hero = computed(() => configData.value.hero);
+  const hero = computed(() => heroData.value);
 
   return {
     hero,
-    config: configData,
   };
 }

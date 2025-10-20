@@ -85,36 +85,6 @@ describe("useConfig", () => {
     });
   });
 
-  describe("config object", () => {
-    it("should return config object from useConfig", async () => {
-      const result = await setupUseConfig({
-        hero: {
-          title: "My Slides",
-          description: "Collection of presentations",
-        },
-      });
-
-      expect(result.config.value).toEqual({
-        hero: {
-          title: "My Slides",
-          description: "Collection of presentations",
-        },
-      });
-    });
-
-    it("should have hero property in config", async () => {
-      const result = await setupUseConfig({
-        hero: {
-          title: "Company Presentations",
-          description: "All company training materials",
-        },
-      });
-
-      expect("hero" in result.config.value).toBe(true);
-      expect(result.config.value.hero).toBeDefined();
-    });
-  });
-
   describe("HeroConfig properties", () => {
     it("should have title and description properties", async () => {
       const result = await setupUseConfig({
