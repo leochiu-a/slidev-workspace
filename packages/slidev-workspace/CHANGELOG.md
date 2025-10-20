@@ -1,5 +1,23 @@
 # slidev-workspace
 
+## 0.3.0
+
+### Minor Changes
+
+- 2d2df60: Add hero configuration support for customizing workspace title and description
+
+  - Add `hero.title` and `hero.description` fields to slidev-workspace.yml
+  - Create `slidev:config` virtual module for frontend access
+  - Add `useConfig()` composable for Vue components
+  - Update preview page to display customizable hero section
+  - Add comprehensive configuration documentation
+
+### Patch Changes
+
+- 6fd99c3: fix: use replace() instead of slice() for robust subDir path handling
+
+  Previously, using slice() to extract the subdirectory path would leave a leading slash, resulting in incorrect pnpm filter paths like ".//src/slidev1". Now using replace() to properly remove both the workspace path and any leading slash.
+
 ## 0.2.3
 
 ### Patch Changes
