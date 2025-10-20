@@ -1,1 +1,5 @@
+hero:
+  title: "Preview Demo"
+  description: "Preview Demo Description"
+
 baseUrl: /slidev-workspace-starter/
