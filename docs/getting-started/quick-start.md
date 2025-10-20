@@ -41,10 +41,16 @@ Then move your Slidev projects into the `/slides` directory. Each presentation s
 Create a `slidev-workspace.yaml` configuration file in your project root:
 
 ```yaml
+hero:
+  title: "My Slide Collection"
+  description: "Browse all available slide decks and use the search function to quickly find what you need"
+
 baseUrl: "/slidev-workspace-starter"
 ```
 
 The `baseUrl` is related to your URL base path. If you use GitHub Pages, the `baseUrl` should match your repository name (e.g., if your repo is `github.com/username/my-slides`, use `baseUrl: "/my-slides"`).
+
+The `hero` section allows you to customize the workspace title and description displayed on the preview page.
 
 Finally, the project structure should look like this:
 
