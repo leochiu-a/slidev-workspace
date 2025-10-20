@@ -13,6 +13,10 @@ export default defineConfig({
         __dirname,
         "src/preview/composables/__mocks__/slidev-content.ts",
       ),
+      "slidev:config": path.resolve(
+        __dirname,
+        "src/preview/composables/__mocks__/slidev-config.ts",
+      ),
     },
   },
 });

@@ -19,6 +19,7 @@ export default defineConfig({
           { text: "Introduction", link: "/getting-started/introduction" },
           { text: "Quick Start", link: "/getting-started/quick-start" },
           { text: "Deploy", link: "/getting-started/deploy" },
+          { text: "Configuration", link: "/getting-started/configuration" },
           { text: "Troubleshooting", link: "/getting-started/troubleshooting" },
         ],
       },

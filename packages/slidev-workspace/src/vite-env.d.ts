@@ -5,3 +5,12 @@ declare module "slidev:content" {
   const slides: SlideInfo[];
   export default slides;
 }
+
+declare module "slidev:config" {
+  import type { HeroConfig } from "./types/config.js";
+  interface ConfigData {
+    hero: HeroConfig;
+  }
+  const config: ConfigData;
+  export default config;
+}

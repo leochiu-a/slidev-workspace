@@ -8,6 +8,11 @@ const DEFAULT_CONFIG: SlidevWorkspaceConfig = {
   outputDir: "./dist",
   baseUrl: "/",
   exclude: ["node_modules", ".git"],
+  hero: {
+    title: "Slide Deck",
+    description:
+      "Browse all available slide decks and use the search function to quickly find what you need.",
+  },
 };
 
 export function loadConfig(workingDir?: string): SlidevWorkspaceConfig {
