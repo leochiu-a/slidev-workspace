@@ -63,9 +63,9 @@ export function slidesPlugin(): Plugin {
       });
     },
 
-    // Provide a virtual module to get slides data
+    // Provide virtual modules to get slides data and config
     resolveId(id) {
-      if (id === "slidev:content") {
+      if (id === "slidev:content" || id === "slidev:config") {
         return id;
       }
     },
@@ -80,6 +80,21 @@ export default slidesData;`;
           console.error("Error loading slides data:", error);
           return `export const slidesData = [];
 export default slidesData;`;
+        }
+      }
+
+      if (id === "slidev:config") {
+        try {
+          const config = loadConfig();
+          const configData = {
+            hero: config.hero,
+          };
+          return `export const configData = ${JSON.stringify(configData, null, 2)};
+export default configData;`;
+        } catch (error) {
+          console.error("Error loading config:", error);
+          return `export const configData = { hero: {} };
+export default configData;`;
         }
       }
     },

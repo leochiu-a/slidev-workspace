@@ -4,10 +4,9 @@
   >
     <div class="max-w-5xl mx-auto">
       <div class="mb-8">
-        <h1 class="text-3xl font-bold mb-2">Slide Deck</h1>
+        <h1 class="text-3xl font-bold mb-2">{{ hero.title }}</h1>
         <p class="text-muted-foreground">
-          Browse all available slide decks and use the search function to
-          quickly find what you need.
+          {{ hero.description }}
         </p>
       </div>
 
@@ -52,11 +51,13 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import { useSlides } from "../composables/useSlides";
+import { useConfig } from "../composables/useConfig";
 import { Input } from "../components/ui/input";
 import SlideCard from "./SlideCard.vue";
 
 const searchTerm = ref("");
 const { slides, slidesCount } = useSlides();
+const { hero } = useConfig();
 
 const filteredSlides = computed(() => {
   if (!searchTerm.value) return slides.value;

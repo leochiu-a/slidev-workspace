@@ -19,6 +19,7 @@ export default defineConfig({
           { text: "Introduction", link: "/getting-started/introduction" },
           { text: "Quick Start", link: "/getting-started/quick-start" },
           { text: "Deploy", link: "/getting-started/deploy" },
+          { text: "Configuration", link: "/getting-started/configuration" },
           { text: "Troubleshooting", link: "/getting-started/troubleshooting" },
         ],
       },
@@ -34,6 +35,10 @@ export default defineConfig({
     footer: {
       message: "Released under MIT License",
       copyright: "Copyright © 2025 Slidev Workspace",
+    },
+
+    search: {
+      provider: "local",
     },
   },
 });
