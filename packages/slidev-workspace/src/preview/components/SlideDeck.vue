@@ -11,11 +11,17 @@
       </div>
 
       <div class="space-y-4 mb-8">
-        <div class="relative">
+        <div class="relative w-full">
           <Input
+            class="pl-10"
             placeholder="Search by title, description, or author..."
             v-model="searchTerm"
           />
+          <span
+            class="absolute start-0 inset-y-0 flex items-center justify-center px-2"
+          >
+            <Search class="size-6 text-muted-foreground/30" />
+          </span>
         </div>
       </div>
 
@@ -50,6 +56,8 @@
 
 <script setup lang="ts">
 import { ref, computed } from "vue";
+import { Search } from "lucide-vue-next";
+
 import { useSlides } from "../composables/useSlides";
 import { useConfig } from "../composables/useConfig";
 import { Input } from "../components/ui/input";
