@@ -12,8 +12,9 @@
         </div>
         <button
           @click="toggleDarkMode"
-          class="p-2 rounded-lg hover:bg-accent transition-colors cursor-pointer"
+          class="p-2 rounded-lg hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring transition-colors cursor-pointer"
           aria-label="Toggle dark mode"
+          type="button"
         >
           <Moon v-if="!isDark" class="size-6" />
           <Sun v-else class="size-6" />
