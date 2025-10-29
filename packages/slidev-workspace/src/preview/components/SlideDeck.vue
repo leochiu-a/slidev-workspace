@@ -12,7 +12,7 @@
         </div>
         <button
           @click="toggleDarkMode"
-          class="p-2 rounded-lg hover:bg-accent transition-colors"
+          class="p-2 rounded-lg hover:bg-accent transition-colors cursor-pointer"
           aria-label="Toggle dark mode"
         >
           <Moon v-if="!isDark" class="size-6" />
