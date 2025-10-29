@@ -1,5 +1,16 @@
 # slidev-workspace
 
+## 0.4.0
+
+### Minor Changes
+
+- 6b7f2f3: feat: optimize slide deck UI with dark mode and improved styling
+
+  - Add dark mode toggle functionality with system preference detection
+  - Enhance search input with icon and improved styling
+  - Update color variables to HSL format for better theming
+  - Add cursor pointer to interactive elements
+
 ## 0.3.0
 
 ### Minor Changes
