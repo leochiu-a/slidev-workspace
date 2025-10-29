@@ -27,8 +27,6 @@ export function useDarkMode() {
     });
 
     transition.ready.then(() => {
-      console.log("Percentage position:", xPercent, yPercent);
-
       const clipPath = [
         `circle(0px at ${xPercent}% ${yPercent}%)`,
         `circle(${endRadius}px at ${xPercent}% ${yPercent}%)`,
