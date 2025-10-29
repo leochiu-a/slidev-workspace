@@ -1,12 +1,11 @@
-import { ref, onMounted } from "vue";
+import { useDark } from "@vueuse/core";
 
 export function useDarkMode() {
-  const isDark = ref(false);
+  const isDark = useDark();
 
   const toggleDarkMode = (event: MouseEvent) => {
     if (!document.startViewTransition) {
-      document.documentElement.classList.toggle("dark");
-      isDark.value = document.documentElement.classList.contains("dark");
+      isDark.value = !isDark.value;
       return;
     }
 
@@ -21,17 +20,9 @@ export function useDarkMode() {
       Math.max(y, window.innerHeight - y),
     );
 
+    const wasDark = isDark.value;
+
     const transition = document.startViewTransition(() => {
-      const root = document.documentElement;
-
-      const wasDark = root.classList.contains("dark");
-
-      if (wasDark) {
-        root.classList.remove("dark");
-      } else {
-        root.classList.add("dark");
-      }
-
       isDark.value = !wasDark;
     });
 
@@ -57,11 +48,6 @@ export function useDarkMode() {
       );
     });
   };
-
-  onMounted(() => {
-    // Initialize dark mode state from document
-    isDark.value = document.documentElement.classList.contains("dark");
-  });
 
   return {
     isDark,
