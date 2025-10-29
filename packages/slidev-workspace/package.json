@@ -4,13 +4,13 @@
   "description": "A workspace tool for managing multiple Slidev presentations with API-based content management",
   "type": "module",
   "license": "MIT",
-  "homepage": "https://github.com/author/slidev-workspace#readme",
+  "homepage": "https://leochiu-a.github.io/slidev-workspace",
   "bugs": {
-    "url": "https://github.com/author/slidev-workspace/issues"
+    "url": "https://github.com/leochiu-a/slidev-workspace/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/author/slidev-workspace.git"
+    "url": "git+https://github.com/leochiu-a/slidev-workspace"
   },
   "author": "Author Name <author.name@mail.com>",
   "bin": {
