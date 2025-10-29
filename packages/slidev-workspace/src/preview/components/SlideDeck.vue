@@ -1,13 +1,23 @@
 <template>
   <div
-    class="min-h-screen bg-gradient-to-br from-gray-100 via-white to-gray-200 py-16 px-4"
+    class="min-h-screen bg-gradient-to-br from-gray-100 via-white to-gray-200 dark:from-gray-900 dark:via-gray-950 dark:to-black py-16 px-4 transition-colors"
   >
     <div class="max-w-5xl mx-auto">
-      <div class="mb-8">
-        <h1 class="text-3xl font-bold mb-2">{{ hero.title }}</h1>
-        <p class="text-muted-foreground">
-          {{ hero.description }}
-        </p>
+      <div class="mb-8 flex justify-between items-start">
+        <div>
+          <h1 class="text-3xl font-bold mb-2">{{ hero.title }}</h1>
+          <p class="text-muted-foreground">
+            {{ hero.description }}
+          </p>
+        </div>
+        <button
+          @click="toggleDarkMode"
+          class="p-2 rounded-lg hover:bg-accent transition-colors"
+          aria-label="Toggle dark mode"
+        >
+          <Moon v-if="!isDark" class="size-6" />
+          <Sun v-else class="size-6" />
+        </button>
       </div>
 
       <div class="space-y-4 mb-8">
@@ -56,16 +66,18 @@
 
 <script setup lang="ts">
 import { ref, computed } from "vue";
-import { Search } from "lucide-vue-next";
+import { Search, Moon, Sun } from "lucide-vue-next";
 
 import { useSlides } from "../composables/useSlides";
 import { useConfig } from "../composables/useConfig";
+import { useDarkMode } from "../composables/useDarkMode";
 import { Input } from "../components/ui/input";
 import SlideCard from "./SlideCard.vue";
 
 const searchTerm = ref("");
 const { slides, slidesCount } = useSlides();
 const { hero } = useConfig();
+const { isDark, toggleDarkMode } = useDarkMode();
 
 const filteredSlides = computed(() => {
   if (!searchTerm.value) return slides.value;
