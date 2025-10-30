@@ -1,5 +1,12 @@
 # slidev-workspace
 
+## 0.4.1
+
+### Patch Changes
+
+- 98da0bb: chore: update metadata in package.json
+- e151945: chore: move prettier settings to root
+
 ## 0.4.0
 
 ### Minor Changes
