@@ -72,7 +72,7 @@ export function resolveImageUrl(slide: SlideInfo, domain: string): string {
 
     try {
       return IS_DEVELOPMENT
-        ? new URL(background, domain).href
+        ? new URL(pathJoin(slidePath, background), domain).href
         : new URL(pathJoin(baseUrl, slidePath, background), domain).href;
     } catch (error) {
       console.error("Failed to resolve background path:", error);

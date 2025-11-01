@@ -115,7 +115,9 @@ describe("resolveImageUrl (Development Mode)", () => {
 
     const result = resolveImageUrl(slide, domain);
 
-    expect(result).toBe("http://localhost:3001/background.jpg");
+    expect(result).toBe(
+      "http://localhost:3001/slides-presentation-1/background.jpg",
+    );
   });
 
   it("should return default cover when no image sources provided", async () => {
