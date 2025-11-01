@@ -18,51 +18,69 @@ function isUrl(str: string | undefined): boolean {
 }
 
 /**
- * Resolve background image path.
- * If the background is not a URL, construct the full path using slide.path as the base.
+ * Resolve image URL with fallback priority:
+ * 1. og-image.png (if it exists in the slides root directory)
+ * 2. seoMeta.ogImage (explicit og-image config)
+ * 3. background (background image)
+ * 4. default cover image (https://cover.sli.dev)
  *
- * Example (development mode):
- * {
- *   background: "/bg1.jpg",
- *   slidePath: "/slides-presentation-1",
- *   baseUrl: "/slidev-workspace-starter/",
- *   domain: "http://localhost:3001" // domain of the current server
- * }
- * returns: "http://localhost:3001/slides-presentation-1/bg1.jpg"
+ * Example (development mode with og-image.png):
+ * returns: "http://localhost:3001/og-image.png"
  *
- * Example (production mode):
- * {
- *   background: "/bg1.jpg",
- *   slidePath: "/slides-presentation-1",
- *   baseUrl: "/slidev-workspace-starter/",
- *   domain: "https://my-slides.com" // domain of the current server
- * }
- * returns: "https://my-slides.com/slidev-workspace-starter/slides-presentation-1/bg1.jpg"
+ * Example (production mode with og-image.png):
+ * returns: "https://my-slides.com/slidev-workspace-starter/og-image.png"
  */
-function resolveBackgroundPath(params: {
-  background: string | undefined;
-  slidePath: string;
-  baseUrl: string;
-  domain: string;
-}): string {
-  const { background, slidePath, domain, baseUrl } = params;
+function resolveImageUrl(slide: SlideInfo, domain: string): string {
+  const { hasOgImage, path: slidePath, baseUrl, frontmatter } = slide;
+  const seoOgImage = frontmatter.seoMeta?.ogImage;
+  const background = frontmatter.background;
 
-  if (!background) {
-    return "";
+  // Priority 1: og-image.png (if exists)
+  if (hasOgImage) {
+    try {
+      const path = IS_DEVELOPMENT
+        ? "/og-image.png"
+        : pathJoin(baseUrl, "og-image.png");
+      return new URL(path, domain).href;
+    } catch (error) {
+      console.error("Failed to resolve og-image.png path:", error);
+      return "https://cover.sli.dev";
+    }
   }
 
-  if (isUrl(background)) {
-    return background;
+  // Priority 2: seoMeta.ogImage
+  if (seoOgImage) {
+    if (isUrl(seoOgImage)) {
+      return seoOgImage;
+    }
+
+    try {
+      return IS_DEVELOPMENT
+        ? new URL(pathJoin(slidePath, seoOgImage), domain).href
+        : new URL(pathJoin(baseUrl, slidePath, seoOgImage), domain).href;
+    } catch (error) {
+      console.error("Failed to resolve seoMeta.ogImage path:", error);
+      return "https://cover.sli.dev";
+    }
   }
 
-  try {
-    return IS_DEVELOPMENT
-      ? new URL(background, domain).href
-      : new URL(pathJoin(baseUrl, slidePath, background), domain).href;
-  } catch (error) {
-    console.error("Failed to resolve background path:", error);
-    return background;
+  // Priority 3: background
+  if (background) {
+    if (isUrl(background)) {
+      return background;
+    }
+    try {
+      return IS_DEVELOPMENT
+        ? new URL(pathJoin(slidePath, background), domain).href
+        : new URL(pathJoin(baseUrl, slidePath, background), domain).href;
+    } catch (error) {
+      console.error("Failed to resolve background path:", error);
+      return "https://cover.sli.dev";
+    }
   }
+
+  // Priority 4: default cover
+  return "https://cover.sli.dev";
 }
 
 export function useSlides() {
@@ -93,24 +111,9 @@ export function useSlides() {
       const port = 3001 + index;
       // Create dev server URL
       const devServerUrl = `http://localhost:${port}`;
+      const domain = IS_DEVELOPMENT ? devServerUrl : window.location.origin;
 
-      // Resolve card image path with fallback priority:
-      // 1. og-image.png (file in slides folder, if it exists)
-      // 2. frontmatter.seoMeta.ogImage (explicit og-image config)
-      // 3. frontmatter.background (background image)
-      // 4. default cover image (handled by img error event in SlideCard)
-      const background = slide.hasOgImage
-        ? "og-image.png"
-        : slide.frontmatter.seoMeta?.ogImage ||
-          slide.frontmatter.background ||
-          "https://cover.sli.dev";
-
-      const imageUrl = resolveBackgroundPath({
-        background: background,
-        slidePath: slide.path,
-        baseUrl: slide.baseUrl,
-        domain: IS_DEVELOPMENT ? devServerUrl : window.location.origin,
-      });
+      const imageUrl = resolveImageUrl(slide, domain);
 
       return {
         title: slide.frontmatter.title || slide.path,
