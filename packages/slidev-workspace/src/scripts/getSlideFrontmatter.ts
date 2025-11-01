@@ -36,6 +36,10 @@ export function getSlideFrontmatterByPath(
     const sourceBasename = basename(slideDir);
     const slideId = `${sourceBasename}/${slideName}`;
 
+    // Check if og-image.png exists in the slide directory
+    const ogImagePath = join(slideDir, slideName, "og-image.png");
+    const hasOgImage = existsSync(ogImagePath);
+
     return {
       id: slideId,
       path: slideName,
@@ -44,6 +48,7 @@ export function getSlideFrontmatterByPath(
       frontmatter,
       content: content.replace(frontmatterMatch[0], ""), // Remove frontmatter section
       baseUrl: config.baseUrl,
+      hasOgImage,
     };
   } catch (error) {
     console.error(

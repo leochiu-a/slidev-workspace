@@ -27,6 +27,8 @@ export interface SlideInfo {
   content: string;
   /** The base URL of the slide, which is defined in slidev-workspace.yml */
   baseUrl: string;
+  /** Whether og-image.png exists in the slide directory */
+  hasOgImage: boolean;
 }
 
 export interface SlideData {

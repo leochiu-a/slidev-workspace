@@ -94,17 +94,23 @@ export function useSlides() {
       // Create dev server URL
       const devServerUrl = `http://localhost:${port}`;
 
-      // Resolve background image path
-      const background =
-        slide.frontmatter.seoMeta?.ogImage || slide.frontmatter.background;
-      const imageUrl = background
-        ? resolveBackgroundPath({
-            background: slide.frontmatter.background,
-            slidePath: slide.path,
-            baseUrl: slide.baseUrl,
-            domain: IS_DEVELOPMENT ? devServerUrl : window.location.origin,
-          })
-        : "https://cover.sli.dev";
+      // Resolve card image path with fallback priority:
+      // 1. og-image.png (file in slides folder, if it exists)
+      // 2. frontmatter.seoMeta.ogImage (explicit og-image config)
+      // 3. frontmatter.background (background image)
+      // 4. default cover image (handled by img error event in SlideCard)
+      const background = slide.hasOgImage
+        ? "og-image.png"
+        : slide.frontmatter.seoMeta?.ogImage ||
+          slide.frontmatter.background ||
+          "https://cover.sli.dev";
+
+      const imageUrl = resolveBackgroundPath({
+        background: background,
+        slidePath: slide.path,
+        baseUrl: slide.baseUrl,
+        domain: IS_DEVELOPMENT ? devServerUrl : window.location.origin,
+      });
 
       return {
         title: slide.frontmatter.title || slide.path,

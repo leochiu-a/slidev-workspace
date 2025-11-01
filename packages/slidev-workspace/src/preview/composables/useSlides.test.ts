@@ -122,7 +122,7 @@ describe("useSlides (Development Mode)", () => {
 
       const secondSlide = slides.value[1];
 
-      expect(secondSlide.image).toBe("https://example.com/bg.jpg");
+      expect(secondSlide.image).toBe("https://example.com/og-image.jpg");
     });
 
     it("should resolve relative background paths in development mode", async () => {
@@ -131,7 +131,7 @@ describe("useSlides (Development Mode)", () => {
       const firstSlide = slides.value[0];
 
       expect(firstSlide.image).toBe(
-        "http://localhost:3001/slides-presentation-1/bg1.jpg",
+        "http://localhost:3001/slides-presentation-1/og-image.png",
       );
     });
 
@@ -140,6 +140,35 @@ describe("useSlides (Development Mode)", () => {
 
       const thirdSlide = slides.value[2];
 
+      expect(thirdSlide.image).toBe("https://cover.sli.dev");
+    });
+  });
+
+  describe("og-image.png priority", () => {
+    it("should prioritize og-image.png when hasOgImage is true", async () => {
+      const { slides } = await setupUseSlides();
+
+      const firstSlide = slides.value[0];
+
+      // First slide has hasOgImage: true, so should use og-image.png
+      expect(firstSlide.image).toContain("og-image.png");
+    });
+
+    it("should use seoMeta.ogImage when hasOgImage is false", async () => {
+      const { slides } = await setupUseSlides();
+
+      const secondSlide = slides.value[1];
+
+      // Second slide has hasOgImage: false, so should use seoMeta.ogImage
+      expect(secondSlide.image).toBe("https://example.com/og-image.jpg");
+    });
+
+    it("should use background when hasOgImage is false and no seoMeta.ogImage", async () => {
+      const { slides } = await setupUseSlides();
+
+      const thirdSlide = slides.value[2];
+
+      // Third slide has hasOgImage: false and no seoMeta, so should use background or default
       expect(thirdSlide.image).toBe("https://cover.sli.dev");
     });
   });
@@ -201,7 +230,7 @@ describe("useSlides (Production Mode)", () => {
       const firstSlide = result.slides.value[0];
 
       expect(firstSlide.image).toBe(
-        "https://my-slides.com/slidev-workspace-starter/slides-presentation-1/bg1.jpg",
+        "https://my-slides.com/slidev-workspace-starter/slides-presentation-1/og-image.png",
       );
     });
 
@@ -209,7 +238,7 @@ describe("useSlides (Production Mode)", () => {
       const result = await setupUseSlidesProduction();
       const secondSlide = result.slides.value[1];
 
-      expect(secondSlide.image).toBe("https://example.com/bg.jpg");
+      expect(secondSlide.image).toBe("https://example.com/og-image.jpg");
     });
 
     it("should use default cover when no background in production", async () => {
@@ -217,6 +246,27 @@ describe("useSlides (Production Mode)", () => {
       const thirdSlide = result.slides.value[2];
 
       expect(thirdSlide.image).toBe("https://cover.sli.dev");
+    });
+  });
+
+  describe("og-image.png priority in production", () => {
+    it("should prioritize og-image.png when hasOgImage is true in production", async () => {
+      const result = await setupUseSlidesProduction();
+      const firstSlide = result.slides.value[0];
+
+      // First slide has hasOgImage: true, so should use og-image.png
+      expect(firstSlide.image).toContain("og-image.png");
+      expect(firstSlide.image).toBe(
+        "https://my-slides.com/slidev-workspace-starter/slides-presentation-1/og-image.png",
+      );
+    });
+
+    it("should use seoMeta.ogImage when hasOgImage is false in production", async () => {
+      const result = await setupUseSlidesProduction();
+      const secondSlide = result.slides.value[1];
+
+      // Second slide has hasOgImage: false, so should use seoMeta.ogImage
+      expect(secondSlide.image).toBe("https://example.com/og-image.jpg");
     });
   });
 });
