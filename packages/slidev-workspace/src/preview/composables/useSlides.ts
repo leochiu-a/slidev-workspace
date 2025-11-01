@@ -30,7 +30,7 @@ function isUrl(str: string | undefined): boolean {
  * Example (production mode with og-image.png):
  * returns: "https://my-slides.com/slidev-workspace-starter/og-image.png"
  */
-function resolveImageUrl(slide: SlideInfo, domain: string): string {
+export function resolveImageUrl(slide: SlideInfo, domain: string): string {
   const { hasOgImage, path: slidePath, baseUrl, frontmatter } = slide;
   const seoOgImage = frontmatter.seoMeta?.ogImage;
   const background = frontmatter.background;
@@ -56,7 +56,7 @@ function resolveImageUrl(slide: SlideInfo, domain: string): string {
 
     try {
       return IS_DEVELOPMENT
-        ? new URL(pathJoin(slidePath, seoOgImage), domain).href
+        ? new URL(seoOgImage, domain).href
         : new URL(pathJoin(baseUrl, slidePath, seoOgImage), domain).href;
     } catch (error) {
       console.error("Failed to resolve seoMeta.ogImage path:", error);
@@ -69,9 +69,10 @@ function resolveImageUrl(slide: SlideInfo, domain: string): string {
     if (isUrl(background)) {
       return background;
     }
+
     try {
       return IS_DEVELOPMENT
-        ? new URL(pathJoin(slidePath, background), domain).href
+        ? new URL(background, domain).href
         : new URL(pathJoin(baseUrl, slidePath, background), domain).href;
     } catch (error) {
       console.error("Failed to resolve background path:", error);
