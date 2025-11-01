@@ -7,6 +7,317 @@ import {
   afterEach,
   beforeAll,
 } from "vitest";
+import type { SlideInfo } from "../../types/slide";
+
+/**
+ * Helper function to create a mock SlideInfo object
+ */
+function createMockSlide(overrides: Partial<SlideInfo> = {}): SlideInfo {
+  return {
+    path: "/slides-presentation-1/",
+    baseUrl: "/slidev-workspace-starter",
+    hasOgImage: false,
+    frontmatter: {
+      title: "Test Slide",
+      author: "Test Author",
+      date: "2024-01-01",
+    },
+    ...overrides,
+  } as SlideInfo;
+}
+
+describe("resolveImageUrl (Development Mode)", () => {
+  beforeAll(async () => {
+    vi.resetModules();
+    vi.doMock("../constants/env", () => ({
+      IS_DEVELOPMENT: true,
+    }));
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it("should return og-image.png URL when hasOgImage is true in development", async () => {
+    const { resolveImageUrl } = await import("./useSlides");
+    const slide = createMockSlide({ hasOgImage: true });
+    const domain = "http://localhost:3001";
+
+    const result = resolveImageUrl(slide, domain);
+
+    expect(result).toBe("http://localhost:3001/og-image.png");
+  });
+
+  it("should return seoMeta.ogImage when it's an absolute URL", async () => {
+    const { resolveImageUrl } = await import("./useSlides");
+    const slide = createMockSlide({
+      hasOgImage: false,
+      frontmatter: {
+        title: "Test",
+        seoMeta: {
+          ogImage: "https://example.com/image.jpg",
+        },
+      },
+    });
+    const domain = "http://localhost:3001";
+
+    const result = resolveImageUrl(slide, domain);
+
+    expect(result).toBe("https://example.com/image.jpg");
+  });
+
+  it("should resolve relative seoMeta.ogImage URL in development", async () => {
+    const { resolveImageUrl } = await import("./useSlides");
+    const slide = createMockSlide({
+      hasOgImage: false,
+      path: "/slides-presentation-1/",
+      frontmatter: {
+        title: "Test",
+        seoMeta: {
+          ogImage: "custom-image.jpg",
+        },
+      },
+    });
+    const domain = "http://localhost:3001";
+
+    const result = resolveImageUrl(slide, domain);
+
+    expect(result).toBe("http://localhost:3001/custom-image.jpg");
+  });
+
+  it("should return absolute background URL unchanged", async () => {
+    const { resolveImageUrl } = await import("./useSlides");
+    const slide = createMockSlide({
+      hasOgImage: false,
+      frontmatter: {
+        title: "Test",
+        background: "https://example.com/bg.jpg",
+      },
+    });
+    const domain = "http://localhost:3001";
+
+    const result = resolveImageUrl(slide, domain);
+
+    expect(result).toBe("https://example.com/bg.jpg");
+  });
+
+  it("should resolve relative background URL in development", async () => {
+    const { resolveImageUrl } = await import("./useSlides");
+    const slide = createMockSlide({
+      hasOgImage: false,
+      path: "/slides-presentation-1/",
+      frontmatter: {
+        title: "Test",
+        background: "background.jpg",
+      },
+    });
+    const domain = "http://localhost:3001";
+
+    const result = resolveImageUrl(slide, domain);
+
+    expect(result).toBe("http://localhost:3001/background.jpg");
+  });
+
+  it("should return default cover when no image sources provided", async () => {
+    const { resolveImageUrl } = await import("./useSlides");
+    const slide = createMockSlide({
+      hasOgImage: false,
+      frontmatter: {
+        title: "Test",
+      },
+    });
+    const domain = "http://localhost:3001";
+
+    const result = resolveImageUrl(slide, domain);
+
+    expect(result).toBe("https://cover.sli.dev");
+  });
+
+  it("should prioritize og-image.png over seoMeta.ogImage", async () => {
+    const { resolveImageUrl } = await import("./useSlides");
+    const slide = createMockSlide({
+      hasOgImage: true,
+      frontmatter: {
+        title: "Test",
+        seoMeta: {
+          ogImage: "https://example.com/image.jpg",
+        },
+      },
+    });
+    const domain = "http://localhost:3001";
+
+    const result = resolveImageUrl(slide, domain);
+
+    expect(result).toBe("http://localhost:3001/og-image.png");
+    expect(result).not.toBe("https://example.com/image.jpg");
+  });
+
+  it("should prioritize seoMeta.ogImage over background", async () => {
+    const { resolveImageUrl } = await import("./useSlides");
+    const slide = createMockSlide({
+      hasOgImage: false,
+      frontmatter: {
+        title: "Test",
+        seoMeta: {
+          ogImage: "https://example.com/image.jpg",
+        },
+        background: "https://example.com/bg.jpg",
+      },
+    });
+    const domain = "http://localhost:3001";
+
+    const result = resolveImageUrl(slide, domain);
+
+    expect(result).toBe("https://example.com/image.jpg");
+    expect(result).not.toBe("https://example.com/bg.jpg");
+  });
+
+  it("should return default cover on URL construction error", async () => {
+    const { resolveImageUrl } = await import("./useSlides");
+    const consoleErrorSpy = vi
+      .spyOn(console, "error")
+      .mockImplementation(() => {});
+
+    const slide = createMockSlide({
+      hasOgImage: false,
+      frontmatter: {
+        title: "Test",
+        seoMeta: {
+          ogImage: "not a valid url at all!!!",
+        },
+      },
+    });
+    const domain = "invalid domain";
+
+    const result = resolveImageUrl(slide, domain);
+
+    expect(result).toBe("https://cover.sli.dev");
+    expect(consoleErrorSpy).toHaveBeenCalled();
+
+    consoleErrorSpy.mockRestore();
+  });
+});
+
+describe("resolveImageUrl (Production Mode)", () => {
+  beforeAll(async () => {
+    vi.resetModules();
+    vi.doMock("../constants/env", () => ({
+      IS_DEVELOPMENT: false,
+    }));
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it("should return og-image.png URL with baseUrl in production", async () => {
+    const { resolveImageUrl } = await import("./useSlides");
+    const slide = createMockSlide({
+      hasOgImage: true,
+      baseUrl: "/slidev-workspace-starter",
+    });
+    const domain = "https://my-slides.com";
+
+    const result = resolveImageUrl(slide, domain);
+
+    expect(result).toBe(
+      "https://my-slides.com/slidev-workspace-starter/og-image.png",
+    );
+  });
+
+  it("should resolve seoMeta.ogImage with baseUrl and path in production", async () => {
+    const { resolveImageUrl } = await import("./useSlides");
+    const slide = createMockSlide({
+      hasOgImage: false,
+      baseUrl: "/slidev-workspace-starter",
+      path: "/slides-presentation-1/",
+      frontmatter: {
+        title: "Test",
+        seoMeta: {
+          ogImage: "custom-image.jpg",
+        },
+      },
+    });
+    const domain = "https://my-slides.com";
+
+    const result = resolveImageUrl(slide, domain);
+
+    expect(result).toBe(
+      "https://my-slides.com/slidev-workspace-starter/slides-presentation-1/custom-image.jpg",
+    );
+  });
+
+  it("should resolve background with baseUrl and path in production", async () => {
+    const { resolveImageUrl } = await import("./useSlides");
+    const slide = createMockSlide({
+      hasOgImage: false,
+      baseUrl: "/slidev-workspace-starter",
+      path: "/slides-presentation-1/",
+      frontmatter: {
+        title: "Test",
+        background: "background.jpg",
+      },
+    });
+    const domain = "https://my-slides.com";
+
+    const result = resolveImageUrl(slide, domain);
+
+    expect(result).toBe(
+      "https://my-slides.com/slidev-workspace-starter/slides-presentation-1/background.jpg",
+    );
+  });
+
+  it("should keep absolute URL seoMeta.ogImage unchanged in production", async () => {
+    const { resolveImageUrl } = await import("./useSlides");
+    const slide = createMockSlide({
+      hasOgImage: false,
+      baseUrl: "/slidev-workspace-starter",
+      frontmatter: {
+        title: "Test",
+        seoMeta: {
+          ogImage: "https://example.com/image.jpg",
+        },
+      },
+    });
+    const domain = "https://my-slides.com";
+
+    const result = resolveImageUrl(slide, domain);
+
+    expect(result).toBe("https://example.com/image.jpg");
+  });
+
+  it("should keep absolute URL background unchanged in production", async () => {
+    const { resolveImageUrl } = await import("./useSlides");
+    const slide = createMockSlide({
+      hasOgImage: false,
+      baseUrl: "/slidev-workspace-starter",
+      frontmatter: {
+        title: "Test",
+        background: "https://example.com/bg.jpg",
+      },
+    });
+    const domain = "https://my-slides.com";
+
+    const result = resolveImageUrl(slide, domain);
+
+    expect(result).toBe("https://example.com/bg.jpg");
+  });
+
+  it("should return default cover when no image sources in production", async () => {
+    const { resolveImageUrl } = await import("./useSlides");
+    const slide = createMockSlide({
+      hasOgImage: false,
+      frontmatter: {
+        title: "Test",
+      },
+    });
+    const domain = "https://my-slides.com";
+
+    const result = resolveImageUrl(slide, domain);
+
+    expect(result).toBe("https://cover.sli.dev");
+  });
+});
 
 describe("useSlides (Development Mode)", () => {
   beforeAll(async () => {
@@ -122,7 +433,7 @@ describe("useSlides (Development Mode)", () => {
 
       const secondSlide = slides.value[1];
 
-      expect(secondSlide.image).toBe("https://example.com/bg.jpg");
+      expect(secondSlide.image).toBe("https://example.com/og-image.jpg");
     });
 
     it("should resolve relative background paths in development mode", async () => {
@@ -130,9 +441,7 @@ describe("useSlides (Development Mode)", () => {
 
       const firstSlide = slides.value[0];
 
-      expect(firstSlide.image).toBe(
-        "http://localhost:3001/slides-presentation-1/bg1.jpg",
-      );
+      expect(firstSlide.image).toBe("http://localhost:3001/og-image.png");
     });
 
     it("should use default cover when no background is provided", async () => {
@@ -140,6 +449,35 @@ describe("useSlides (Development Mode)", () => {
 
       const thirdSlide = slides.value[2];
 
+      expect(thirdSlide.image).toBe("https://cover.sli.dev");
+    });
+  });
+
+  describe("og-image.png priority", () => {
+    it("should prioritize og-image.png when hasOgImage is true", async () => {
+      const { slides } = await setupUseSlides();
+
+      const firstSlide = slides.value[0];
+
+      // First slide has hasOgImage: true, so should use og-image.png
+      expect(firstSlide.image).toContain("og-image.png");
+    });
+
+    it("should use seoMeta.ogImage when hasOgImage is false", async () => {
+      const { slides } = await setupUseSlides();
+
+      const secondSlide = slides.value[1];
+
+      // Second slide has hasOgImage: false, so should use seoMeta.ogImage
+      expect(secondSlide.image).toBe("https://example.com/og-image.jpg");
+    });
+
+    it("should use background when hasOgImage is false and no seoMeta.ogImage", async () => {
+      const { slides } = await setupUseSlides();
+
+      const thirdSlide = slides.value[2];
+
+      // Third slide has hasOgImage: false and no seoMeta, so should use background or default
       expect(thirdSlide.image).toBe("https://cover.sli.dev");
     });
   });
@@ -201,7 +539,7 @@ describe("useSlides (Production Mode)", () => {
       const firstSlide = result.slides.value[0];
 
       expect(firstSlide.image).toBe(
-        "https://my-slides.com/slidev-workspace-starter/slides-presentation-1/bg1.jpg",
+        "https://my-slides.com/slidev-workspace-starter/og-image.png",
       );
     });
 
@@ -209,7 +547,7 @@ describe("useSlides (Production Mode)", () => {
       const result = await setupUseSlidesProduction();
       const secondSlide = result.slides.value[1];
 
-      expect(secondSlide.image).toBe("https://example.com/bg.jpg");
+      expect(secondSlide.image).toBe("https://example.com/og-image.jpg");
     });
 
     it("should use default cover when no background in production", async () => {
@@ -217,6 +555,27 @@ describe("useSlides (Production Mode)", () => {
       const thirdSlide = result.slides.value[2];
 
       expect(thirdSlide.image).toBe("https://cover.sli.dev");
+    });
+  });
+
+  describe("og-image.png priority in production", () => {
+    it("should prioritize og-image.png when hasOgImage is true in production", async () => {
+      const result = await setupUseSlidesProduction();
+      const firstSlide = result.slides.value[0];
+
+      // First slide has hasOgImage: true, so should use og-image.png
+      expect(firstSlide.image).toContain("og-image.png");
+      expect(firstSlide.image).toBe(
+        "https://my-slides.com/slidev-workspace-starter/og-image.png",
+      );
+    });
+
+    it("should use seoMeta.ogImage when hasOgImage is false in production", async () => {
+      const result = await setupUseSlidesProduction();
+      const secondSlide = result.slides.value[1];
+
+      // Second slide has hasOgImage: false, so should use seoMeta.ogImage
+      expect(secondSlide.image).toBe("https://example.com/og-image.jpg");
     });
   });
 });

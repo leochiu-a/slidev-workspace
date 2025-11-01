@@ -3,7 +3,7 @@
     <Card class="group hover:shadow-lg transition-all duration-200 cursor-pointer">
       <div class="relative overflow-hidden rounded-t-lg">
         <img
-          :src="image || '/placeholder.svg'"
+          :src="image"
           :alt="title"
           class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-200"
         />

@@ -5,11 +5,26 @@
       @click="$emit('click')"
     >
       <div class="relative overflow-hidden rounded-t-lg">
+        <Skeleton
+          v-if="isLoading && image"
+          class="w-full h-48 rounded-b-none"
+        />
         <img
-          :src="image || '/placeholder.svg'"
+          v-if="image"
+          ref="imageRef"
+          v-show="!isLoading"
+          :src="image"
           :alt="title"
           class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-200"
+          @load="onImageLoad"
+          @error="onImageError"
         />
+        <div
+          v-if="!image"
+          class="w-full h-48 bg-muted flex items-center justify-center"
+        >
+          <span class="text-muted-foreground">No Image</span>
+        </div>
       </div>
 
       <CardHeader class="pb-2">
@@ -58,6 +73,7 @@
 </template>
 
 <script setup lang="ts">
+import { ref, useTemplateRef } from "vue";
 import { Calendar, User } from "lucide-vue-next";
 
 import {
@@ -67,8 +83,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 
-defineProps<{
+const props = defineProps<{
   title: string;
   image?: string;
   description?: string;
@@ -82,4 +99,29 @@ defineProps<{
 defineEmits<{
   click: [];
 }>();
+
+const imageRef = useTemplateRef<HTMLImageElement>("imageRef");
+const isLoading = ref(true);
+const retryCount = ref(0);
+
+const MAX_RETRIES = 5;
+const RETRY_DELAY = 1000; // 1 second
+
+const onImageLoad = () => {
+  isLoading.value = false;
+};
+
+const onImageError = () => {
+  if (retryCount.value < MAX_RETRIES) {
+    retryCount.value++;
+
+    setTimeout(() => {
+      if (imageRef.value && props.image) {
+        imageRef.value.src = props.image;
+      }
+    }, RETRY_DELAY);
+  } else {
+    isLoading.value = false;
+  }
+};
 </script>
