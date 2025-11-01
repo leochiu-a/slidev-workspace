@@ -72,7 +72,7 @@ export async function startAllSlidesDevServer(
         // Start slidev dev server with custom port
         const devProcess = spawn(
           "pnpm",
-          ["run", "dev", "--port", currentPort.toString()],
+          ["run", "dev", "--port", currentPort.toString(), "--open", "false"],
           {
             cwd: slideDir,
             stdio: ["ignore", "pipe", "pipe"],
