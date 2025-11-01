@@ -130,9 +130,7 @@ describe("useSlides (Development Mode)", () => {
 
       const firstSlide = slides.value[0];
 
-      expect(firstSlide.image).toBe(
-        "http://localhost:3001/slides-presentation-1/og-image.png",
-      );
+      expect(firstSlide.image).toBe("http://localhost:3001/og-image.png");
     });
 
     it("should use default cover when no background is provided", async () => {
@@ -230,7 +228,7 @@ describe("useSlides (Production Mode)", () => {
       const firstSlide = result.slides.value[0];
 
       expect(firstSlide.image).toBe(
-        "https://my-slides.com/slidev-workspace-starter/slides-presentation-1/og-image.png",
+        "https://my-slides.com/slidev-workspace-starter/og-image.png",
       );
     });
 
@@ -257,7 +255,7 @@ describe("useSlides (Production Mode)", () => {
       // First slide has hasOgImage: true, so should use og-image.png
       expect(firstSlide.image).toContain("og-image.png");
       expect(firstSlide.image).toBe(
-        "https://my-slides.com/slidev-workspace-starter/slides-presentation-1/og-image.png",
+        "https://my-slides.com/slidev-workspace-starter/og-image.png",
       );
     });
 
