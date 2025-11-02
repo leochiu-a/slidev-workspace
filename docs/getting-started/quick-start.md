@@ -105,7 +105,10 @@ Online demo: https://leochiu-a.github.io/slidev-workspace-starter/
 ## Supported Commands
 
 ```bash
-slidev-workspace preview  # Start development server
-slidev-workspace build    # Build for production
-slidev-workspace --help   # Show help information
+slidev-workspace preview   # Start development server
+slidev-workspace build     # Build for production
+slidev-workspace export-og # Export OG images for all slides
+slidev-workspace --help    # Show help information
 ```
+
+> **Tip:** See the [Export OG Images](./export-og.md) guide for details on generating cover images for your presentations.
