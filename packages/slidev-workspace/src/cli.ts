@@ -3,7 +3,7 @@
 import { fileURLToPath } from "node:url";
 import { dirname, join, resolve } from "node:path";
 import { readdirSync, existsSync, mkdirSync } from "node:fs";
-import { cp } from "node:fs/promises";
+import { cp, rm } from "node:fs/promises";
 import { execSync } from "node:child_process";
 import { build, createServer } from "vite";
 import vue from "@vitejs/plugin-vue";
@@ -94,6 +94,66 @@ async function buildAllSlides() {
   }
 }
 
+async function exportOgImages() {
+  const workspaceCwd = process.env.SLIDEV_WORKSPACE_CWD || process.cwd();
+  const config = loadConfig(workspaceCwd);
+  const slidesDirs = resolveSlidesDirs(config, workspaceCwd);
+
+  console.log("🖼️ Exporting OG images for all slides...");
+
+  try {
+    // Run export command for all slides
+    execSync("pnpm -r export --format png --range 1", {
+      cwd: workspaceCwd,
+      stdio: "inherit",
+    });
+
+    console.log("📦 Copying exported images to og-image.png...");
+
+    // Copy the exported files to og-image.png for each slide
+    for (const slidesDir of slidesDirs) {
+      if (!existsSync(slidesDir)) {
+        console.warn(`⚠️ Slides directory not found: ${slidesDir}`);
+        continue;
+      }
+
+      const slides = readdirSync(slidesDir, { withFileTypes: true })
+        .filter((dirent) => dirent.isDirectory())
+        .map((dirent) => dirent.name);
+
+      for (const slideName of slides) {
+        const slideDir = join(slidesDir, slideName);
+        const packageJsonPath = join(slideDir, "package.json");
+
+        if (!existsSync(packageJsonPath)) {
+          continue;
+        }
+
+        const exportedFile = join(slideDir, "slides-export", "1.png");
+        const targetFile = join(slideDir, "og-image.png");
+        const exportDir = join(slideDir, "slides-export");
+
+        if (existsSync(exportedFile)) {
+          await cp(exportedFile, targetFile);
+          console.log(`✅ Generated OG image for: ${slideName}`);
+
+          // Clean up the slides-export directory
+          await rm(exportDir, { recursive: true, force: true });
+        } else {
+          console.warn(
+            `⚠️ Export file not found for ${slideName}: ${exportedFile}`,
+          );
+        }
+      }
+    }
+
+    console.log("✅ All OG images exported successfully!");
+  } catch (error) {
+    console.error("❌ Failed to export OG images:", error);
+    process.exit(1);
+  }
+}
+
 async function copyToGhPages() {
   const workspaceCwd = process.env.SLIDEV_WORKSPACE_CWD || process.cwd();
   const config = loadConfig(workspaceCwd);
@@ -177,13 +237,15 @@ Usage:
   slidev-workspace <command> [options]
 
 Commands:
-  dev     Start the development server
-  build   Build the project for production
-  help    Show this help message
+  dev        Start the development server
+  build      Build the project for production
+  export-og  Export OG images for all slides
+  help       Show this help message
 
 Examples:
   slidev-workspace dev                                    # Start development server
   slidev-workspace build                                  # Build all slides and preview app
+  slidev-workspace export-og                              # Export OG images for all slides
 
 Configuration:
   Use slidev-workspace.yml to set baseUrl for all builds
@@ -205,6 +267,12 @@ async function main() {
       // Set the working directory for the configuration system
       process.env.SLIDEV_WORKSPACE_CWD = process.cwd();
       await runViteBuild();
+      break;
+
+    case "export-og":
+      // Set the working directory for the configuration system
+      process.env.SLIDEV_WORKSPACE_CWD = process.cwd();
+      await exportOgImages();
       break;
 
     case "help":
