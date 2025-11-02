@@ -45,7 +45,7 @@ describe("resolveImageUrl (Development Mode)", () => {
 
     const result = resolveImageUrl(slide, domain);
 
-    expect(result).toBe("http://localhost:3001/og-image.png");
+    expect(result).toMatch(/^http:\/\/localhost:3001\/og-image\.png\?v=\d+$/);
   });
 
   it("should return seoMeta.ogImage when it's an absolute URL", async () => {
@@ -115,9 +115,7 @@ describe("resolveImageUrl (Development Mode)", () => {
 
     const result = resolveImageUrl(slide, domain);
 
-    expect(result).toBe(
-      "http://localhost:3001/slides-presentation-1/background.jpg",
-    );
+    expect(result).toBe("http://localhost:3001/background.jpg");
   });
 
   it("should return default cover when no image sources provided", async () => {
@@ -150,7 +148,7 @@ describe("resolveImageUrl (Development Mode)", () => {
 
     const result = resolveImageUrl(slide, domain);
 
-    expect(result).toBe("http://localhost:3001/og-image.png");
+    expect(result).toMatch(/^http:\/\/localhost:3001\/og-image\.png\?v=\d+$/);
     expect(result).not.toBe("https://example.com/image.jpg");
   });
 
@@ -217,13 +215,14 @@ describe("resolveImageUrl (Production Mode)", () => {
     const slide = createMockSlide({
       hasOgImage: true,
       baseUrl: "/slidev-workspace-starter",
+      path: "/slides-presentation-1/",
     });
     const domain = "https://my-slides.com";
 
     const result = resolveImageUrl(slide, domain);
 
-    expect(result).toBe(
-      "https://my-slides.com/slidev-workspace-starter/og-image.png",
+    expect(result).toMatch(
+      /^https:\/\/my-slides\.com\/slidev-workspace-starter\/slides-presentation-1\/og-image\.png\?v=\d+$/,
     );
   });
 
@@ -443,7 +442,9 @@ describe("useSlides (Development Mode)", () => {
 
       const firstSlide = slides.value[0];
 
-      expect(firstSlide.image).toBe("http://localhost:3001/og-image.png");
+      expect(firstSlide.image).toMatch(
+        /^http:\/\/localhost:3001\/og-image\.png\?v=\d+$/,
+      );
     });
 
     it("should use default cover when no background is provided", async () => {
@@ -540,8 +541,8 @@ describe("useSlides (Production Mode)", () => {
       const result = await setupUseSlidesProduction();
       const firstSlide = result.slides.value[0];
 
-      expect(firstSlide.image).toBe(
-        "https://my-slides.com/slidev-workspace-starter/og-image.png",
+      expect(firstSlide.image).toMatch(
+        /^https:\/\/my-slides\.com\/slidev-workspace-starter\/slides-presentation-1\/og-image\.png\?v=\d+$/,
       );
     });
 
@@ -567,8 +568,8 @@ describe("useSlides (Production Mode)", () => {
 
       // First slide has hasOgImage: true, so should use og-image.png
       expect(firstSlide.image).toContain("og-image.png");
-      expect(firstSlide.image).toBe(
-        "https://my-slides.com/slidev-workspace-starter/og-image.png",
+      expect(firstSlide.image).toMatch(
+        /^https:\/\/my-slides\.com\/slidev-workspace-starter\/slides-presentation-1\/og-image\.png\?v=\d+$/,
       );
     });
 
