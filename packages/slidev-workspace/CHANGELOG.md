@@ -1,5 +1,11 @@
 # slidev-workspace
 
+## 0.6.1
+
+### Patch Changes
+
+- 0dfc599: Fix test assertions to properly handle cache-busting query parameters in og-image.png URLs and add test execution to CI workflow
+
 ## 0.6.0
 
 ### Minor Changes
