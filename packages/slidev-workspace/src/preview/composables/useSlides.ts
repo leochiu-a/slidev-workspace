@@ -28,7 +28,7 @@ function isUrl(str: string | undefined): boolean {
  * returns: "http://localhost:3001/og-image.png"
  *
  * Example (production mode with og-image.png):
- * returns: "https://my-slides.com/slidev-workspace-starter/og-image.png"
+ * returns: "https://my-slides.com/slidev-workspace-starter/og-image.png?v=<hash>"
  */
 export function resolveImageUrl(slide: SlideInfo, domain: string): string {
   const { hasOgImage, path: slidePath, baseUrl, frontmatter } = slide;
@@ -37,10 +37,12 @@ export function resolveImageUrl(slide: SlideInfo, domain: string): string {
 
   // Priority 1: og-image.png (if exists)
   if (hasOgImage) {
+    const imagePath = `og-image.png?v=${Date.now()}`;
     try {
       const path = IS_DEVELOPMENT
-        ? "/og-image.png"
-        : pathJoin(baseUrl, "og-image.png");
+        ? pathJoin(slidePath, imagePath)
+        : pathJoin(baseUrl, slidePath, imagePath);
+
       return new URL(path, domain).href;
     } catch (error) {
       console.error("Failed to resolve og-image.png path:", error);
