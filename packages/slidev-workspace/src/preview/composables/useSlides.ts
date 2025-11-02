@@ -40,7 +40,7 @@ export function resolveImageUrl(slide: SlideInfo, domain: string): string {
     const imagePath = `og-image.png?v=${Date.now()}`;
     try {
       const path = IS_DEVELOPMENT
-        ? pathJoin(slidePath, imagePath)
+        ? imagePath
         : pathJoin(baseUrl, slidePath, imagePath);
 
       return new URL(path, domain).href;
@@ -74,7 +74,7 @@ export function resolveImageUrl(slide: SlideInfo, domain: string): string {
 
     try {
       return IS_DEVELOPMENT
-        ? new URL(pathJoin(slidePath, background), domain).href
+        ? new URL(background, domain).href
         : new URL(pathJoin(baseUrl, slidePath, background), domain).href;
     } catch (error) {
       console.error("Failed to resolve background path:", error);
