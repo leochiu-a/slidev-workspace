@@ -1,5 +1,6 @@
 import type { Plugin } from "vite";
-import { watch } from "fs";
+import { watch, readdirSync, cpSync, existsSync } from "fs";
+import { join } from "path";
 import { getAllSlidesFrontmatter } from "../scripts/getSlideFrontmatter.js";
 import { loadConfig, resolveSlidesDirs } from "../scripts/config.js";
 import {
@@ -13,6 +14,57 @@ export function slidesPlugin(): Plugin {
 
   return {
     name: "vite-plugin-slides",
+
+    async closeBundle() {
+      // Post-build: Copy og-image-[hash].png to og-image.png in each slide's dist directory
+      try {
+        const config = loadConfig();
+        const slidesDirs = resolveSlidesDirs(config);
+
+        for (const slidesDir of slidesDirs) {
+          if (!existsSync(slidesDir)) {
+            continue;
+          }
+
+          const slideDirs = readdirSync(slidesDir, { withFileTypes: true })
+            .filter((dirent) => dirent.isDirectory())
+            .filter((dirent) => !(config.exclude || []).includes(dirent.name))
+            .map((dirent) => dirent.name);
+
+          for (const slideDir of slideDirs) {
+            // Each slide has its own dist directory: slides/[slideDir]/dist
+            const slideDistPath = join(slidesDir, slideDir, "dist");
+            const assetsPath = join(slideDistPath, "assets");
+
+            if (!existsSync(assetsPath)) {
+              continue;
+            }
+
+            // Look for og-image-[hash].png files in assets
+            const assetFiles = readdirSync(assetsPath);
+            const ogImageFile = assetFiles.find((file) =>
+              /^og-image-[a-zA-Z0-9]+\.png$/.test(file),
+            );
+
+            if (ogImageFile) {
+              const sourceFile = join(assetsPath, ogImageFile);
+              const destFile = join(slideDistPath, "og-image.png");
+
+              try {
+                cpSync(sourceFile, destFile, { force: true });
+              } catch (error) {
+                console.warn(
+                  `⚠ Failed to copy og-image for ${slideDir}:`,
+                  error,
+                );
+              }
+            }
+          }
+        }
+      } catch (error) {
+        console.warn("⚠ og-image post-build error:", error);
+      }
+    },
 
     async configureServer(server) {
       const watchers: ReturnType<typeof watch>[] = [];
