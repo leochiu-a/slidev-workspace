@@ -36,3 +36,6 @@ jobs:
 
       - name: Check Prettier Format
         run: pnpm -r run format --check
+
+      - name: Run Tests
+        run: pnpm -r run test
