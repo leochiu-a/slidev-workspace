@@ -1,5 +1,13 @@
 # slidev-workspace
 
+## 0.5.2
+
+### Patch Changes
+
+- 7a57909: feat: implement post-build process to copy og-image with hash to dist directories
+
+  Implemented a post-build process that automatically copies og-image files with content hash to the distribution directories, ensuring proper cache busting for Open Graph images.
+
 ## 0.5.1
 
 ### Patch Changes

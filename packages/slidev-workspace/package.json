@@ -1,6 +1,6 @@
 {
   "name": "slidev-workspace",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "A workspace tool for managing multiple Slidev presentations with API-based content management",
   "type": "module",
   "license": "MIT",
