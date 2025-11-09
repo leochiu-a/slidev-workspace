@@ -1,19 +1,23 @@
 import type { Plugin } from "vite";
 import { watch, readdirSync, cpSync, existsSync } from "fs";
 import { join } from "path";
-import { getAllSlidesFrontmatter } from "../scripts/getSlideFrontmatter.js";
-import { loadConfig, resolveSlidesDirs } from "../scripts/config.js";
+import { getAllSlidesFrontmatter } from "../scripts/getSlideFrontmatter";
+import { loadConfig, resolveSlidesDirs } from "../scripts/config";
 import {
   startAllSlidesDevServer,
   stopAllDevServers,
   type DevServerInfo,
 } from "../scripts/devServer.js";
+import { transformIndexHtml } from "./transformIndexHtml";
 
 export function slidesPlugin(): Plugin {
   let devServers: DevServerInfo[] = [];
 
   return {
     name: "vite-plugin-slides",
+    async transformIndexHtml(html) {
+      return await transformIndexHtml(html);
+    },
 
     async closeBundle() {
       // Post-build: Copy og-image-[hash].png to og-image.png in each slide's dist directory
