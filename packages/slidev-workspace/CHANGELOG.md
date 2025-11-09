@@ -1,5 +1,11 @@
 # slidev-workspace
 
+## 0.6.3
+
+### Patch Changes
+
+- 28f5d17: Make the build step copy slide bundles into whatever `outputDir` is configured (default `./dist`) and expand the docs with the new option plus GitHub Pages/Vercel deployment guidance.
+
 ## 0.6.2
 
 ### Patch Changes
