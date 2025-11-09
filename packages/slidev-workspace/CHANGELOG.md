@@ -1,5 +1,11 @@
 # slidev-workspace
 
+## 0.6.2
+
+### Patch Changes
+
+- ac9e633: Fix the build copy step to respect the configured `outputDir` (defaulting to `_gh-pages`) so deployments can target custom directories, and document the option.
+
 ## 0.6.1
 
 ### Patch Changes
