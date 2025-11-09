@@ -16,12 +16,12 @@ For GitHub Pages, set this to your repository name (e.g., if your repo is `githu
 
 ## outputDir
 
-**Default:** `_gh-pages`
+**Default:** `./dist`
 
-Controls where the workspace preview app and copied slide builds are written when you run `slidev-workspace build`. The `_gh-pages` directory matches the folder GitHub Pages typically serves from; change this if your deployment platform expects a different directory (e.g., `dist` for Vercel).
+Controls where the workspace preview app and copied slide builds are written when you run `slidev-workspace build`.
 
 ```yaml
-outputDir: "./dist"
+outputDir: "_gh-pages"
 ```
 
 ## Hero Configuration
@@ -60,7 +60,7 @@ hero:
   description: "Browse our collection of training and conference presentations"
 
 baseUrl: "/presentations"
-outputDir: "_gh-pages"
+outputDir: "./dist"
 ```
 
 `hero.title`, `hero.description`, `baseUrl`, and `outputDir` are optional and will use their default values if not specified.
