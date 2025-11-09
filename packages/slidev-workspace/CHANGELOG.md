@@ -1,5 +1,11 @@
 # slidev-workspace
 
+## 0.7.0
+
+### Minor Changes
+
+- 494705a: Use unhead for hero metadata so title/og tags are injected both at runtime and during Vite index transforms.
+
 ## 0.6.3
 
 ### Patch Changes
