@@ -154,17 +154,17 @@ async function exportOgImages() {
   }
 }
 
-async function copyToGhPages() {
+async function copySlidesToOutputDir() {
   const workspaceCwd = process.env.SLIDEV_WORKSPACE_CWD || process.cwd();
   const config = loadConfig(workspaceCwd);
   const slidesDirs = resolveSlidesDirs(config, workspaceCwd);
-  const ghPagesDir = join(workspaceCwd, "_gh-pages");
+  const deployDir = resolve(workspaceCwd, config.outputDir);
 
-  console.log("📁 Copying files to _gh-pages directory...");
+  console.log(`📁 Copying slide builds into ${deployDir}...`);
 
-  // Create _gh-pages directory if it doesn't exist
-  if (!existsSync(ghPagesDir)) {
-    mkdirSync(ghPagesDir, { recursive: true });
+  // Ensure the deployment directory exists. Vite build should create it, but guard just in case.
+  if (!existsSync(deployDir)) {
+    mkdirSync(deployDir, { recursive: true });
   }
 
   // Copy slides
@@ -177,23 +177,16 @@ async function copyToGhPages() {
 
     for (const slideName of slides) {
       const slideDistDir = join(slidesDir, slideName, "dist");
-      const targetDir = join(ghPagesDir, slideName);
+      const targetDir = join(deployDir, slideName);
 
       if (existsSync(slideDistDir)) {
-        console.log(`📋 Copying ${slideName} to _gh-pages...`);
+        console.log(`📋 Copying ${slideName}...`);
         await cp(slideDistDir, targetDir, { recursive: true });
       }
     }
   }
 
-  // Copy preview app as index
-  const previewDistDir = join(workspaceCwd, config.outputDir);
-  if (existsSync(previewDistDir)) {
-    console.log("📋 Copying preview app as index...");
-    await cp(previewDistDir, ghPagesDir, { recursive: true });
-  }
-
-  console.log("✅ All files copied to _gh-pages successfully!");
+  console.log(`✅ All slide assets copied into ${deployDir}!`);
 }
 
 async function runViteBuild() {
@@ -204,8 +197,8 @@ async function runViteBuild() {
     const config = createViteConfig();
     await build(config);
 
-    // Copy everything to _gh-pages
-    await copyToGhPages();
+    // Copy slides into the workspace output directory
+    await copySlidesToOutputDir();
 
     console.log("✅ Build completed successfully!");
   } catch (error) {
