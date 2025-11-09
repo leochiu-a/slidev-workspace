@@ -5,7 +5,7 @@ import type { SlidevWorkspaceConfig } from "../types/config.js";
 
 const DEFAULT_CONFIG: SlidevWorkspaceConfig = {
   slidesDir: ["./slides"],
-  outputDir: "./dist",
+  outputDir: "./_gh-pages",
   baseUrl: "/",
   exclude: ["node_modules", ".git"],
   hero: {
