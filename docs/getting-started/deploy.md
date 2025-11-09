@@ -1,10 +1,12 @@
 # Deploy
 
-## 1. Set up GitHub Actions
+## GitHub Pages
 
 First, you need to create a GitHub Actions workflow file in your repository. This workflow will automatically build your Slidev presentations and deploy them to GitHub Pages.
 
 Create a `.github/workflows/deploy.yml` file in your repository root directory and add the following content:
+
+::: details GitHub Actions workflow
 
 ```yaml
 name: Deploy pages
@@ -42,7 +44,7 @@ jobs:
         run: nci
 
       - name: Prepare deploy folder
-        run: rm -rf _gh-pages && mkdir _gh-pages
+        run: rm -rf dist && mkdir dist
 
       - name: Build all slides and preview app as index
         run: |
@@ -51,7 +53,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: _gh-pages
+          path: dist
 
   deploy:
     environment:
@@ -66,7 +68,9 @@ jobs:
         uses: actions/deploy-pages@v4
 ```
 
-## 2. Change GitHub Settings
+:::
+
+### Change GitHub Settings
 
 Configure GitHub Pages to build and deploy using GitHub Actions:
 
@@ -75,3 +79,20 @@ Configure GitHub Pages to build and deploy using GitHub Actions:
 3. Select `GitHub Actions` as the source
 
 After completing these settings, GitHub Actions will automatically execute the build process and deploy your Slidev presentations to GitHub Pages whenever you push code to the main branch.
+
+## Vercel
+
+Create a `vercel.json` in your project root with the following content:
+
+::: details vercel.json
+
+```json
+{
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }],
+  "outputDirectory": "dist"
+}
+```
+
+:::
+
+Then go to your Vercel dashboard, create a new site from this repository, and trigger a deployment. Vercel will pick up `pnpm build`, use the `dist` directory automatically, and serve the preview with client-side routing handled by the rewrites.
