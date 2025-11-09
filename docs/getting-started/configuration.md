@@ -4,6 +4,8 @@ Slidev Workspace is configured using the `slidev-workspace.yaml` configuration f
 
 ## baseUrl
 
+**Default:** `/`
+
 The base URL path for deployment. This is useful when deploying to GitHub Pages or other hosting services.
 
 ```yaml
@@ -14,7 +16,9 @@ For GitHub Pages, set this to your repository name (e.g., if your repo is `githu
 
 ## outputDir
 
-Controls where the workspace preview app and copied slide builds are written when you run `slidev-workspace build`. Defaults to `"_gh-pages"`, which matches the folder GitHub Pages typically serves from. Change this if your deployment platform expects a different directory (e.g., `dist` for Vercel).
+**Default:** `_gh-pages`
+
+Controls where the workspace preview app and copied slide builds are written when you run `slidev-workspace build`. The `_gh-pages` directory matches the folder GitHub Pages typically serves from; change this if your deployment platform expects a different directory (e.g., `dist` for Vercel).
 
 ```yaml
 outputDir: "./dist"
@@ -26,7 +30,9 @@ The `hero` section allows you to customize the title and description displayed o
 
 ### hero.title
 
-The main heading displayed on the preview page. Defaults to `"Slide Deck"`.
+**Default:** `Slide Deck`
+
+The main heading displayed on the preview page.
 
 ```yaml
 hero:
@@ -35,7 +41,9 @@ hero:
 
 ### hero.description
 
-The subtitle or description text displayed below the title. Defaults to `"Browse all available slide decks and use the search function to quickly find what you need."`.
+**Default:** `Browse all available slide decks and use the search function to quickly find what you need.`
+
+The subtitle or description text displayed below the title.
 
 ```yaml
 hero:
