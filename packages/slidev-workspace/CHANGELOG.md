@@ -1,5 +1,11 @@
 # slidev-workspace
 
+## 0.7.1
+
+### Patch Changes
+
+- 362d57c: keep slide dev servers alive on slidev 52.10+ by leaving stdin open
+
 ## 0.7.0
 
 ### Minor Changes
