@@ -75,7 +75,9 @@ export async function startAllSlidesDevServer(
           ["run", "dev", "--port", currentPort.toString(), "--open", "false"],
           {
             cwd: slideDir,
-            stdio: ["ignore", "pipe", "pipe"],
+            // Keep stdin open so Slidev's dev CLI (which listens for keyboard shortcuts)
+            // doesn't exit immediately. The newer 52.10+ releases close when stdin is absent.
+            stdio: ["pipe", "pipe", "pipe"],
             detached: false,
             env: {
               ...process.env,
