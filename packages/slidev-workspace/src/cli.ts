@@ -17,6 +17,7 @@ const __dirname = dirname(__filename);
 
 const args = process.argv.slice(2);
 const command = args[0];
+const dirsArg = args[1];
 
 const packageRoot = join(__dirname, "..");
 
@@ -43,12 +44,16 @@ function createViteConfig() {
   };
 }
 
-async function buildAllSlides() {
+async function buildSlides(names?: string[]) {
   const workspaceCwd = process.env.SLIDEV_WORKSPACE_CWD || process.cwd();
   const config = loadConfig(workspaceCwd);
   const slidesDirs = resolveSlidesDirs(config, workspaceCwd);
 
-  console.log("🔨 Building all slides...");
+  console.log(
+    names
+      ? `🔨 Building slides: ${names.join(", ")}...`
+      : "🔨 Building all slides...",
+  );
 
   for (const slidesDir of slidesDirs) {
     if (!existsSync(slidesDir)) {
@@ -56,9 +61,11 @@ async function buildAllSlides() {
       continue;
     }
 
-    const slides = readdirSync(slidesDir, { withFileTypes: true })
-      .filter((dirent) => dirent.isDirectory())
-      .map((dirent) => dirent.name);
+    const slides = names
+      ? names.filter((name) => existsSync(join(slidesDir, name)))
+      : readdirSync(slidesDir, { withFileTypes: true })
+          .filter((dirent) => dirent.isDirectory())
+          .map((dirent) => dirent.name);
 
     for (const slideName of slides) {
       const slideDir = join(slidesDir, slideName);
@@ -154,7 +161,7 @@ async function exportOgImages() {
   }
 }
 
-async function copySlidesToOutputDir() {
+async function copySlidesToOutputDir(names?: string[]) {
   const workspaceCwd = process.env.SLIDEV_WORKSPACE_CWD || process.cwd();
   const config = loadConfig(workspaceCwd);
   const slidesDirs = resolveSlidesDirs(config, workspaceCwd);
@@ -171,9 +178,11 @@ async function copySlidesToOutputDir() {
   for (const slidesDir of slidesDirs) {
     if (!existsSync(slidesDir)) continue;
 
-    const slides = readdirSync(slidesDir, { withFileTypes: true })
-      .filter((dirent) => dirent.isDirectory())
-      .map((dirent) => dirent.name);
+    const slides = names
+      ? names.filter((name) => existsSync(join(slidesDir, name)))
+      : readdirSync(slidesDir, { withFileTypes: true })
+          .filter((dirent) => dirent.isDirectory())
+          .map((dirent) => dirent.name);
 
     for (const slideName of slides) {
       const slideDistDir = join(slidesDir, slideName, "dist");
@@ -189,16 +198,16 @@ async function copySlidesToOutputDir() {
   console.log(`✅ All slide assets copied into ${deployDir}!`);
 }
 
-async function runViteBuild() {
+async function runViteBuild(names?: string[]) {
   try {
-    await buildAllSlides();
+    await buildSlides(names);
 
     console.log("📦 Building Slidev Workspace for production...");
     const config = createViteConfig();
     await build(config);
 
     // Copy slides into the workspace output directory
-    await copySlidesToOutputDir();
+    await copySlidesToOutputDir(names);
 
     console.log("✅ Build completed successfully!");
   } catch (error) {
@@ -230,14 +239,16 @@ Usage:
   slidev-workspace <command> [options]
 
 Commands:
-  dev        Start the development server
-  build      Build the project for production
-  export-og  Export OG images for all slides
-  help       Show this help message
+  dev                  Start the development server
+  build [names]        Build the project for production
+                       [names]: Optional comma-separated list of slide folder names to build
+  export-og            Export OG images for all slides
+  help                 Show this help message
 
 Examples:
   slidev-workspace dev                                    # Start development server
   slidev-workspace build                                  # Build all slides and preview app
+  slidev-workspace build slide1,slide2                    # Build only specific slides by name
   slidev-workspace export-og                              # Export OG images for all slides
 
 Configuration:
@@ -256,11 +267,15 @@ async function main() {
       await runVitePreview();
       break;
 
-    case "build":
+    case "build": {
       // Set the working directory for the configuration system
       process.env.SLIDEV_WORKSPACE_CWD = process.cwd();
-      await runViteBuild();
+      const names = dirsArg
+        ? dirsArg.split(",").map((d) => d.trim())
+        : undefined;
+      await runViteBuild(names);
       break;
+    }
 
     case "export-og":
       // Set the working directory for the configuration system
