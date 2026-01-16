@@ -1,0 +1,30 @@
+{
+  "name": "slidev-theme-gemini",
+  "version": "0.1.0",
+  "description": "Gemini theme for Slidev",
+  "author": "",
+  "license": "MIT",
+  "keywords": [
+    "slidev-theme",
+    "slidev"
+  ],
+  "engines": {
+    "node": ">=18.0.0",
+    "slidev": ">=0.47.0"
+  },
+  "slidev": {
+    "defaults": {
+      "fonts": {
+        "sans": "Space Grotesk",
+        "serif": "Space Grotesk",
+        "mono": "IBM Plex Mono",
+        "italic": true,
+        "weights": "300,400,500,600,700"
+      }
+    }
+  },
+  "dependencies": {
+    "@slidev/types": "^0.47.0",
+    "@vueuse/motion": "^3.0.3"
+  }
+}

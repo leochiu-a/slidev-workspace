@@ -1,0 +1,64 @@
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap");
+
+:root {
+  --gemini-bg: #0b1220;
+  --gemini-bg-soft: #111a2d;
+  --gemini-overlay: rgba(8, 12, 24, 0.7);
+  --gemini-accent: #3cc4ff;
+  --gemini-accent-strong: #8a5cff;
+  --gemini-warm: #ff9f4a;
+  --gemini-text: #f7f9ff;
+  --gemini-muted: rgba(207, 219, 255, 0.72);
+}
+
+.slidev-layout {
+  background:
+    radial-gradient(
+      circle at 20% 20%,
+      rgba(60, 196, 255, 0.15),
+      transparent 45%
+    ),
+    radial-gradient(
+      circle at 80% 0%,
+      rgba(138, 92, 255, 0.12),
+      transparent 40%
+    ),
+    linear-gradient(140deg, #0b1220 0%, #0f1628 60%, #0b0f1f 100%);
+  color: var(--gemini-text);
+}
+
+.slidev-layout h1,
+.slidev-layout h2,
+.slidev-layout h3 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+@keyframes gemini-zoom {
+  from {
+    transform: scale(1.12);
+  }
+  to {
+    transform: scale(1.02);
+  }
+}
+
+@keyframes gemini-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes gemini-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
