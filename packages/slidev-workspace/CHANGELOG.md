@@ -1,5 +1,11 @@
 # slidev-workspace
 
+## 0.7.2
+
+### Patch Changes
+
+- Add argument to build slides
+
 ## 0.7.1
 
 ### Patch Changes
