@@ -26,7 +26,7 @@
       "pnpm -r lint",
       "pnpm -r format"
     ],
-    "**/*.{json,md,yaml,yml}": [
+    "**/*.{json,yaml,yml}": [
       "pnpm -r format"
     ]
   }
