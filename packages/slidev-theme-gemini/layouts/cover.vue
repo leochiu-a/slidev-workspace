@@ -38,7 +38,7 @@ onMounted(async () => {
     <div class="gemini-cover__bg" :style="backgroundStyle" />
     <div
       ref="contentRef"
-      class="gemini-cover__content relative z-10 flex flex-col items-center justify-center space-y-8 text-center"
+      class="gemini-cover__content relative z-10 flex flex-col items-center justify-center text-center"
     >
       <slot />
     </div>
@@ -58,6 +58,15 @@ onMounted(async () => {
     transform: scale(1.2);
     transform-origin: center;
     animation: gemini-cover-zoom 1s ease-out forwards;
+    isolation: isolate;
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      pointer-events: none;
+    }
   }
 
   h1 {
