@@ -80,15 +80,35 @@ machine learning on GitHub.
 Source: [Octoverse 2024 @ GitHub](https://github.blog/news-insights/octoverse/octoverse-2024/)
 
 ---
+layout: topics
+topics:
+  - title: How to build LLMs?
+    desc: Train LLMs, tune parameters, optimize architectures.
+    audience: Researchers / ML scientists
+    hot: false
+    hotLabel: Media buzz, niche in practice
+    icon: brain
+  - title: How to build new models?
+    desc: Design novel neural architectures and algorithms.
+    audience: Researchers / PhD students
+    hot: false
+    hotLabel: Done by a small group
+    icon: sparkles
+  - title: How to use AI and prompt well?
+    desc: Use Gemini, ChatGPT, Claude to boost productivity, create media, generate images.
+    audience: Everyone
+    hot: true
+    hotLabel: Highest discussion volume
+    icon: terminal
+  - title: How to build AI-driven apps?
+    desc: Build AI wrappers, chatbots, RAG systems.
+    audience: Software engineers / product builders
+    hot: true
+    hotLabel: Hot among engineers
+    icon: code
+---
 
 # What is the "hot" AI everyone talks about?
-
-| Topic                          | Description                                                                      | Audience                              | Heat                          |
-| ------------------------------ | -------------------------------------------------------------------------------- | ------------------------------------- | ----------------------------- |
-| How to build LLMs?             | Train LLMs, tune parameters, optimize architectures                              | Researchers / ML scientists           | Media buzz, niche in practice |
-| How to build new models?       | Design novel neural architectures and algorithms                                 | Researchers / PhD students            | Done by a small group         |
-| How to use AI and prompt well? | Use Gemini, ChatGPT, Claude to boost productivity, create media, generate images | Everyone                              | Highest discussion volume     |
-| How to build AI-driven apps?   | Build AI wrappers, chatbots, RAG systems                                         | Software engineers / product builders | Hot among engineers           |
 
 ---
 layout: two-cols
