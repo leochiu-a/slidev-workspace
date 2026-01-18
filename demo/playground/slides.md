@@ -114,6 +114,9 @@ That is why users pay.
 - Real-world business value
 
 ---
+layout: cover
+background: /bg-2.jpg
+---
 
 # Do not rush into anxiety
 
@@ -145,31 +148,28 @@ Core capabilities
 - Create interactive experiences
 
 ---
+layout: cards
+cards:
+  - title: Frontend
+    desc: From simple form validation to rich UI, frameworks like React and Vue set the standard for smooth interactions.
+    tags:
+      - React
+      - Vue
+  - title: Backend
+    desc: Node.js took JS beyond the browser, powering APIs and services with strong integration and data flow.
+    tags:
+      - Node.js
+      - Express
+  - title: Integrating native capabilities
+    desc: Chrome and desktop apps (Electron, Tauri) expose JS APIs for system and hardware access.
+    tags:
+      - Chrome Extensions
+      - Web APIs
+---
 
 # Know ourselves: what have we always done?
 
 From browser scripts to the core of full-stack development
-
-## Frontend interfaces and interactions
-
-From simple form validation to complex single-page apps, frameworks like React, Vue,
-and Angular made JS the standard for building smooth UI and interactions.
-
-Tools: React, Vue, Angular, Svelte
-
-## Backend logic and integration
-
-Node.js took JavaScript beyond the browser. From REST APIs to microservices, JS is
-strong at business logic, data flow, and third-party integration.
-
-Tools: Node.js, Express, NestJS, tRPC, GraphQL
-
-## Integrating native system capabilities
-
-JavaScript is no longer just a browser script. Chrome and desktop apps
-(Electron, Tauri) expose rich JS APIs for system and hardware access.
-
-Tools: Chrome Extensions, Web APIs, Electron API, WebAssembly
 
 ---
 
