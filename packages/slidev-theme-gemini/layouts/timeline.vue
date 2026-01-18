@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { nextTick, onMounted, ref } from "vue";
+import { useMotion } from "@vueuse/motion";
+
 const props = defineProps<{
   timeline?: Array<{
     year: string;
@@ -8,6 +11,56 @@ const props = defineProps<{
 }>();
 
 const timelineItems = props.timeline ?? [];
+const contentRef = ref<HTMLElement | null>(null);
+const timelineRef = ref<HTMLElement | null>(null);
+
+onMounted(async () => {
+  await nextTick();
+  let timelineDelayBase = 300;
+  const content = contentRef.value;
+  if (content) {
+    const nodes = Array.from(content.children) as HTMLElement[];
+    nodes.forEach((element, index) => {
+      useMotion(element, {
+        initial: {
+          opacity: 0,
+          y: 24,
+        },
+        enter: {
+          opacity: 1,
+          y: 0,
+          transition: {
+            delay: 150 + index * 150,
+          },
+        },
+      });
+    });
+    timelineDelayBase = 150 + nodes.length * 150 + 100;
+  }
+
+  const container = timelineRef.value;
+  if (!container) return;
+
+  const items = Array.from(
+    container.querySelectorAll<HTMLElement>(".gemini-timeline__item"),
+  );
+
+  items.forEach((element, index) => {
+    useMotion(element, {
+      initial: {
+        opacity: 0,
+        y: 24,
+      },
+      enter: {
+        opacity: 1,
+        y: 0,
+        transition: {
+          delay: timelineDelayBase + index * 200,
+        },
+      },
+    });
+  });
+});
 </script>
 
 <template>
@@ -15,11 +68,14 @@ const timelineItems = props.timeline ?? [];
     <div
       class="mx-auto flex h-full w-full max-w-7xl flex-col justify-center items-center px-4 py-12 md:px-16"
     >
-      <slot />
+      <div ref="contentRef" class="gemini-timeline__content text-center">
+        <slot />
+      </div>
 
       <div
         v-if="timelineItems.length"
         class="relative flex items-end justify-center gap-6 pt-4"
+        ref="timelineRef"
       >
         <div
           class="absolute right-[10%] bottom-[3px] left-[10%] z-0 h-1 bg-gradient-to-r from-slate-700/50 via-slate-600 to-slate-700/50"
@@ -28,7 +84,7 @@ const timelineItems = props.timeline ?? [];
         <div
           v-for="(item, index) in timelineItems"
           :key="item.year"
-          class="relative z-10 flex flex-col items-center"
+          class="gemini-timeline__item relative z-10 flex flex-col items-center"
         >
           <div
             class="flex h-48 w-48 flex-col rounded-xl border p-5 backdrop-blur-sm"

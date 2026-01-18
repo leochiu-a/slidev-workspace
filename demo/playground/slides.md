@@ -54,10 +54,10 @@ timeline:
 
 # Wait, AI is not new
 
-AI + Python has been around for decades. Machine learning, deep learning, computer vision...
-These technologies have always been here, and Python has always been a main player.
+AI with Python has been around for years—machine learning and deep learning have always used Python as a main tool.
 
-So why were we not anxious before, and why are we anxious now?
+
+So why weren’t we anxious before?
 
 ---
 
