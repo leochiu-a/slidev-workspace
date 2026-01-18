@@ -13,7 +13,7 @@ mdc: true
 # duration of the presentation
 duration: 35min
 layout: cover
-background: https://cover.sli.dev
+background: /bg-2.jpg
 class: text-center
 ---
 
@@ -27,12 +27,13 @@ Rediscover your value
 Find the position of JavaScript developers in the AI era
 
 ---
+layout: cover
+background: /ai-everywhere.jpg
+---
 
 # AI is everywhere
 
 Open any social feed and you cannot escape the topic
-
-![AI everywhere](/Users/leochiu.chiu/Desktop/jsdc-2025/src/assets/ai-everywhere.jpg)
 
 ---
 

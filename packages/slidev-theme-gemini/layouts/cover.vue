@@ -60,12 +60,14 @@ onMounted(async () => {
     animation: gemini-cover-zoom 1s ease-out forwards;
     isolation: isolate;
 
+    &::before {
+      content: "";
+      @apply absolute inset-0 bg-slate-900/60 mix-blend-multiply pointer-events-none;
+    }
+
     &::after {
       content: "";
-      position: absolute;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.45);
-      pointer-events: none;
+      @apply absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/40 to-slate-900/20 pointer-events-none;
     }
   }
 
