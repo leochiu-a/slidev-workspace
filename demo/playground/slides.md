@@ -36,20 +36,28 @@ background: /ai-everywhere.jpg
 Open any social feed and you cannot escape the topic
 
 ---
+layout: timeline
+timeline:
+  - year: "2012"
+    event: AlexNet
+    desc: Trigger for computer vision
+  - year: "2016"
+    event: AlphaGo
+    desc: A win for reinforcement learning
+  - year: "2017"
+    event: Transformer
+    desc: Attention Is All You Need.
+  - year: "2022"
+    event: ChatGPT release
+    desc: The iPhone moment for AI.
+---
 
 # Wait, AI is not new
 
 AI + Python has been around for decades. Machine learning, deep learning, computer vision...
 These technologies have always been here, and Python has always been a main player.
 
-**So why were we not anxious before, and why are we anxious now?**
-
-Timeline
-
-- 2012: AlexNet breakthrough in deep learning. Trigger for computer vision (ImageNet).
-- 2016: AlphaGo beats humans. A win for reinforcement learning (DeepMind).
-- 2017: Transformer paper. Foundation of LLMs (Attention Is All You Need).
-- 2022: ChatGPT release. The iPhone moment for AI (GenAI).
+So why were we not anxious before, and why are we anxious now?
 
 ---
 
