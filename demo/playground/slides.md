@@ -65,6 +65,8 @@ layout: two-cols
 
 # Anxiety you cannot ignore
 
+::left::
+
 When the whole world talks about Python and AI...
 
 In 2024, Python officially surpassed JavaScript as the most popular language on GitHub.
@@ -111,31 +113,25 @@ topics:
 # What is the "hot" AI everyone talks about?
 
 ---
-layout: two-cols
+layout: cards
+cards:
+  - title: The Model
+    desc: Powerful, but distant for most people.
+    tags:
+      - Dense tensors and CUDA details
+      - Expensive and hard to access
+      - Value hidden behind complexity
+  - title: The Application
+    desc: Solve problems and create experiences. That is why users pay.
+    tags:
+      - Summaries, copilots, and workflows
+      - Clear user outcomes
+      - Real-world business value
 ---
 
 # AI's real breakout point: applications
 
 Focus: bringing AI into real-world use
-
-## The Model
-
-Powerful, but distant for most people.
-
-- Dense tensors and CUDA details
-- Expensive and hard to access
-- Value hidden behind complexity
-
-::right::
-
-## The Application
-
-Solve problems and create experiences.
-That is why users pay.
-
-- Summaries, copilots, and workflows
-- Clear user outcomes
-- Real-world business value
 
 ---
 layout: cover

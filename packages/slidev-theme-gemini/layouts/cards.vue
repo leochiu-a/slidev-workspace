@@ -15,7 +15,6 @@ const props = defineProps<{
 const cards = props.cards ?? [];
 const contentRef = ref<HTMLElement | null>(null);
 const cardsRef = ref<HTMLElement | null>(null);
-
 const cardColors = [
   {
     iconBg: "bg-blue-500/20",
@@ -97,7 +96,7 @@ onMounted(async () => {
       <div
         v-if="cards.length"
         ref="cardsRef"
-        class="grid grid-cols-1 gap-6 md:grid-cols-3"
+        class="grid gap-6 [grid-template-columns:repeat(auto-fit,minmax(220px,1fr))]"
       >
         <div
           v-for="(card, index) in cards"
