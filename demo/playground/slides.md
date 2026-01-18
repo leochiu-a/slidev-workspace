@@ -60,6 +60,8 @@ AI with Python has been around for years—machine learning and deep learning ha
 So why weren’t we anxious before?
 
 ---
+layout: two-cols
+---
 
 # Anxiety you cannot ignore
 
@@ -71,9 +73,11 @@ machine learning on GitHub.
 
 **"As a JS developer, will I be replaced?"**
 
-Source: [Octoverse 2024 @ GitHub](https://github.blog/news-insights/octoverse/octoverse-2024/)
+::right::
 
 ![Top languages 2024](/Users/leochiu.chiu/Desktop/jsdc-2025/src/assets/top-programming-language-2024.webp)
+
+Source: [Octoverse 2024 @ GitHub](https://github.blog/news-insights/octoverse/octoverse-2024/)
 
 ---
 
@@ -87,8 +91,8 @@ Source: [Octoverse 2024 @ GitHub](https://github.blog/news-insights/octoverse/oc
 | How to build AI-driven apps?   | Build AI wrappers, chatbots, RAG systems                                         | Software engineers / product builders | Hot among engineers           |
 
 ---
-
-## layout: two-cols
+layout: two-cols
+---
 
 # AI's real breakout point: applications
 
