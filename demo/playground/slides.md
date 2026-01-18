@@ -192,31 +192,34 @@ cards:
 From browser scripts to the core of full-stack development
 
 ---
+layout: cards
+cards:
+  - title: Generative UI/UX (from UI to GenUI)
+    desc: Build streaming experiences and AI copilot interfaces with strong DX.
+    tags:
+      - Vercel AI SDK
+      - CopilotKit
+      - LlamaIndex ChatUI
+      - ChatBotKit SDK
+  - title: AI agents (orchestration)
+    desc: Use LangChain.js and AI SDKs to drive agents, RAG, and tool calling.
+    tags:
+      - OpenAI Agents SDK
+      - "@google/genai"
+      - LangChain / LangGraph
+      - Firebase Genkit
+  - title: On-device inference in the browser
+    desc: Run models with WebGPU/WebAssembly for privacy and low latency.
+    tags:
+      - Chrome Built-in AI
+      - TensorFlow.js
+      - Transformers.js
+      - ONNX Runtime Web
+---
 
 # Reclaim our position: we are key to AI adoption
 
 Core value of JavaScript/TypeScript developers in the AI era
-
-## Generative UI/UX (from UI to GenUI)
-
-Build high-performance streaming experiences and innovative AI copilot interfaces.
-TypeScript type safety improves end-to-end developer experience (DX).
-
-Tools: Vercel AI SDK, CopilotKit, LlamaIndex ChatUI, ChatBotKit SDK
-
-## AI agents (orchestration)
-
-Use LangChain.js and AI SDKs to drive LLM agents. Connect enterprise data via RAG and
-use function calling to integrate external tools and APIs.
-
-Tools: OpenAI Agents SDK, @google/genai, LangChain / LangGraph, Firebase Genkit
-
-## On-device inference in the browser
-
-Use TensorFlow.js and WebGPU/WebAssembly acceleration to run models on user devices
-(e.g. ONNX Runtime Web), enabling privacy and zero-latency AI.
-
-Tools: Chrome Built-in AI, TensorFlow.js, Transformers.js, ONNX Runtime Web
 
 ---
 

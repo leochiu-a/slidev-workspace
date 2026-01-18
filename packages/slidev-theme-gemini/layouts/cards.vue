@@ -114,7 +114,7 @@ onMounted(async () => {
             <span
               v-for="(tag, tagIndex) in card.tags"
               :key="`${tag}-${tagIndex}`"
-              class="rounded-full px-3 py-1.5 text-[10px] font-medium backdrop-blur-sm"
+              class="rounded-full px-3 py-1.5 text-[9px] font-medium backdrop-blur-sm"
               :class="getCardColors(index).toolBadge"
             >
               {{ tag }}
