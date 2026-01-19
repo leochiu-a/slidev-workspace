@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { nextTick, onMounted, ref } from "vue";
-import { useMotion } from "@vueuse/motion";
+import { computed, onMounted, ref } from "vue";
+import { onSlideEnter } from "@slidev/client";
+import { useStaggeredMotion } from "../composables/useStaggeredMotion";
 
 type TopicItem = {
   title: string;
@@ -18,6 +19,13 @@ const props = defineProps<{
 const topics = props.topics ?? [];
 const revealed = ref(true);
 const topicsRef = ref<HTMLElement | null>(null);
+const topicElements = computed(() => {
+  const container = topicsRef.value;
+  if (!container) return null;
+  return Array.from(
+    container.querySelectorAll<HTMLElement>(".gemini-topics__item"),
+  );
+});
 
 const iconMap: Record<string, string> = {
   brain: "🧠",
@@ -32,30 +40,14 @@ const onReveal = () => {
   if (!revealed.value) revealed.value = true;
 };
 
-onMounted(async () => {
-  await nextTick();
-  const container = topicsRef.value;
-  if (!container) return;
+const topicMotion = useStaggeredMotion(topicElements, {
+  initialY: 20,
+  baseDelay: 300,
+  step: 150,
+});
 
-  const items = Array.from(
-    container.querySelectorAll<HTMLElement>(".gemini-topics__item"),
-  );
-
-  items.forEach((element, index) => {
-    useMotion(element, {
-      initial: {
-        opacity: 0,
-        y: 20,
-      },
-      enter: {
-        opacity: 1,
-        y: 0,
-        transition: {
-          delay: 300 + index * 150,
-        },
-      },
-    });
-  });
+onSlideEnter(() => {
+  topicMotion.replay();
 });
 </script>
 
