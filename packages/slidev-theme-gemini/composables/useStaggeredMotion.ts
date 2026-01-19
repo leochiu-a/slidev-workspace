@@ -1,6 +1,7 @@
 import { nextTick, toValue } from "vue";
 import type { MaybeRefOrGetter } from "vue";
 import { useMotion } from "@vueuse/motion";
+import { onSlideEnter, onSlideLeave } from "@slidev/client";
 
 type MotionControlsLite = {
   stop: (keys?: string | string[]) => void;
@@ -18,7 +19,7 @@ type StaggeredMotionOptionsGetter = () => StaggeredMotionOptions;
 
 const createStaggeredMotions = (
   elements: HTMLElement[],
-  { initialY = 24, baseDelay = 150, step = 150 }: StaggeredMotionOptions = {},
+  { initialY = 24, baseDelay = 0, step = 150 }: StaggeredMotionOptions = {},
 ): MotionControlsLite[] =>
   elements.map(
     (element, index) =>
@@ -60,19 +61,26 @@ export function useStaggeredMotion(
     if (instances.length === 0) {
       const resolvedElements = toValue(elements);
       if (!resolvedElements || resolvedElements.length === 0) return;
+
       setup(resolvedElements);
     }
-
-    instances.forEach((instance) => {
-      instance.stop();
-      instance.set("initial");
-    });
 
     await nextTick();
     instances.forEach((instance) => {
       instance.apply("enter");
     });
   };
+
+  onSlideEnter(() => {
+    replay();
+  });
+
+  onSlideLeave(() => {
+    instances.forEach((instance) => {
+      instance.stop();
+      instance.set("initial");
+    });
+  });
 
   return {
     replay,

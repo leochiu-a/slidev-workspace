@@ -40,14 +40,9 @@ const onReveal = () => {
   if (!revealed.value) revealed.value = true;
 };
 
-const topicMotion = useStaggeredMotion(topicElements, {
+useStaggeredMotion(topicElements, {
   initialY: 20,
-  baseDelay: 300,
   step: 150,
-});
-
-onSlideEnter(() => {
-  topicMotion.replay();
 });
 </script>
 

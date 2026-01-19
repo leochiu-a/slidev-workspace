@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { onSlideEnter } from "@slidev/client";
+import { onSlideLeave } from "@slidev/client";
 import { handleBackground } from "../layoutHelper";
 import { useStaggeredMotion } from "../composables/useStaggeredMotion";
 
@@ -17,13 +17,13 @@ const contentElements = computed(() => {
   return Array.from(content.children) as HTMLElement[];
 });
 
-const motionController = useStaggeredMotion(contentElements, {
+useStaggeredMotion(contentElements, {
   initialY: 32,
   baseDelay: 200,
   step: 200,
 });
 
-const restartBackgroundAnimation = () => {
+const resetBackgroundAnimation = () => {
   const background = backgroundRef.value;
   if (!background) return;
   background.style.animation = "none";
@@ -32,13 +32,8 @@ const restartBackgroundAnimation = () => {
   background.style.animation = "";
 };
 
-const replayMotions = async () => {
-  await motionController.replay();
-  restartBackgroundAnimation();
-};
-
-onSlideEnter(() => {
-  replayMotions();
+onSlideLeave(() => {
+  resetBackgroundAnimation();
 });
 </script>
 

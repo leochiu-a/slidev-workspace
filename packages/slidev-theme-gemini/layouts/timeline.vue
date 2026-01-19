@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed, nextTick, onMounted, ref } from "vue";
-import { onSlideEnter } from "@slidev/client";
+import { computed, ref } from "vue";
+
 import { useStaggeredMotion } from "../composables/useStaggeredMotion";
 
 const props = defineProps<{
@@ -27,12 +27,6 @@ const timelineDelayBase = computed(() => {
   return 150 + contentCount * 150 + 100;
 });
 
-const contentMotion = useStaggeredMotion(contentElements, {
-  initialY: 24,
-  baseDelay: 150,
-  step: 150,
-});
-
 const timelineElements = computed(() => {
   const container = timelineRef.value;
   if (!container) return null;
@@ -41,16 +35,17 @@ const timelineElements = computed(() => {
   );
 });
 
-const timelineMotion = useStaggeredMotion(timelineElements, () => ({
+useStaggeredMotion(contentElements, {
+  initialY: 24,
+  baseDelay: 150,
+  step: 150,
+});
+
+useStaggeredMotion(timelineElements, () => ({
   initialY: 24,
   baseDelay: timelineDelayBase.value,
   step: 200,
 }));
-
-onSlideEnter(() => {
-  contentMotion.replay();
-  timelineMotion.replay();
-});
 </script>
 
 <template>
