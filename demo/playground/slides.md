@@ -60,7 +60,7 @@ AI with Python has been around for years—machine learning and deep learning ha
 So why weren’t we anxious before?
 
 ---
-layout: two-cols
+layout: two-cols-header
 ---
 
 # Anxiety you cannot ignore
@@ -80,6 +80,13 @@ machine learning on GitHub.
 ![Top languages 2024](/Users/leochiu.chiu/Desktop/jsdc-2025/src/assets/top-programming-language-2024.webp)
 
 Source: [Octoverse 2024 @ GitHub](https://github.blog/news-insights/octoverse/octoverse-2024/)
+
+
+<style>
+.two-cols-header {
+  column-gap: 20px; /* Adjust the gap size as needed */
+}
+</style>
 
 ---
 layout: topics
@@ -143,29 +150,30 @@ background: /bg-2.jpg
 First ask: who are we, and where is our value?
 
 ---
+layout: cards
+cards:
+  - title: Born in 1995
+    desc: Netscape created JavaScript in 10 days by Brendan Eich.
+    tags:
+      - "Year: 1995"
+      - "Creator: Brendan Eich"
+      - "Time: 10 days"
+  - title: Context
+    desc: The web was young with no frameworks or server-side JS.
+    tags:
+      - No React, Vue, or Angular
+      - No Node.js, no npm
+      - Early web era
+  - title: Mission
+    desc: Make the web interactive, dynamic, and alive.
+    tags:
+      - Make the web move
+      - Change content dynamically
+      - Respond to user actions
+---
 
 # What was JavaScript born for?
 
-From Netscape in 1995
-
-- Year: 1995
-- Creator: Brendan Eich
-- Time: 10 days
-- Mission: make the web interactive, dynamic, and alive
-
-Context
-
-- No React, Vue, or Angular
-- No Node.js, no npm
-- One simple idea:
-
-**Make the web move.**
-
-Core capabilities
-
-- Dynamically change content
-- Respond to user actions
-- Create interactive experiences
 
 ---
 layout: cards
@@ -263,8 +271,12 @@ Transformers.js + DistilBERT, running entirely in the browser, no server require
 ![Sentiment analysis demo](/Users/leochiu.chiu/Desktop/jsdc-2025/src/assets/sentiment-analysis.svg)
 
 ---
+layout: two-cols-header
+---
 
 # Chrome Built-in AI
+
+::left::
 
 Lightweight AI models built into the browser
 
@@ -275,13 +287,19 @@ privacy, and models work offline after download.
 
 **Built-in AI, automatic management, privacy first**
 
-Source: [Chrome for Developers](https://developer.chrome.com/docs/ai/built-in)
+::right::
 
 ![Chrome Built-in AI](/Users/leochiu.chiu/Desktop/jsdc-2025/src/assets/chrome-built-in-ai.png)
 
+Source: [Chrome for Developers](https://developer.chrome.com/docs/ai/built-in)
+
+---
+layout: two-cols-header
 ---
 
 # Gemini CLI
+
+::left::
 
 An AI tool built entirely with TypeScript
 
@@ -290,11 +308,23 @@ entire CLI is 100% TypeScript.
 
 **Many AI CLI tools are written in JavaScript/TypeScript.**
 
+::right::
+
 ![Gemini CLI TypeScript](/Users/leochiu.chiu/Desktop/jsdc-2025/src/assets/gemini-cli-ts.png)
 
+<style>
+.two-cols-header {
+  column-gap: 20px; /* Adjust the gap size as needed */
+}
+</style>
+
+---
+layout: two-cols-header
 ---
 
 # n8n
+
+::left::
 
 The hottest workflow automation platform in the AI community
 
@@ -305,13 +335,25 @@ AI node system, is 100% TypeScript.
 
 **Popular AI tools are often powered by TypeScript behind the scenes.**
 
-Source: [n8n on GitHub](https://github.com/n8n-io/n8n)
+::right::
 
 ![n8n TypeScript](/Users/leochiu.chiu/Desktop/jsdc-2025/src/assets/n8n.png)
 
+Source: [n8n on GitHub](https://github.com/n8n-io/n8n)
+
+<style>
+.two-cols-header {
+  column-gap: 20px; /* Adjust the gap size as needed */
+}
+</style>
+
+---
+layout: two-cols-header
 ---
 
 # Langfuse
+
+::left::
 
 Top-tier LLM observability tooling
 
@@ -321,13 +363,25 @@ the core engine, API, and web UI are built with TypeScript and Next.js.
 
 **TypeScript plays a key role in the AI ecosystem.**
 
-Source: [Langfuse on GitHub](https://github.com/langfuse/langfuse)
+::right::
 
 ![Langfuse TypeScript](/Users/leochiu.chiu/Desktop/jsdc-2025/src/assets/langfuse-ts.png)
 
+Source: [Langfuse on GitHub](https://github.com/langfuse/langfuse)
+
+<style>
+.two-cols-header {
+  column-gap: 20px; /* Adjust the gap size as needed */
+}
+</style>
+
+---
+layout: two-cols-header
 ---
 
 # Our value is being recognized
+
+::left::
 
 In August 2025, TypeScript surpassed Python and JavaScript to become the most
 popular language on GitHub for the first time. Over one million new contributors
@@ -336,15 +390,24 @@ in a decade.
 
 **Type safety + AI-assisted development = the future trend**
 
-Source: [GitHub Octoverse 2025](https://github.blog/news-insights/octoverse/octoverse-a-new-developer-joins-github-every-second-as-ai-leads-typescript-to-1/)
+::right::
 
 ![Top languages 2025](/Users/leochiu.chiu/Desktop/jsdc-2025/src/assets/octoverse-2025-top-programming-languages.webp)
 
+Source: [GitHub Octoverse 2025](https://github.blog/news-insights/octoverse/octoverse-a-new-developer-joins-github-every-second-as-ai-leads-typescript-to-1/)
+
+<style>
+.two-cols-header {
+  column-gap: 20px; /* Adjust the gap size as needed */
+}
+</style>
+---
+layout: two-cols-header
 ---
 
-## layout: two-cols
-
 # Know your choice: research brains or build products?
+
+::left::
 
 ## Model research
 
@@ -368,6 +431,11 @@ Role: PRODUCT DEVELOPER
 
 Output: applications, real-world solutions
 
+<style>
+.two-cols-header {
+  column-gap: 20px; /* Adjust the gap size as needed */
+}
+</style>
 ---
 
 # Be honest: recognize strengths and limits
@@ -381,6 +449,9 @@ JavaScript is not universal, but irreplaceable in the right place
 | Web interaction and deployment | Limited | Strong     | JS is the browser's native language.        |
 | Application development        | Mixed   | Strong     | JS is the best glue to deliver AI to users. |
 
+---
+layout: cover
+background: /bg-2.jpg
 ---
 
 # Conclusion
