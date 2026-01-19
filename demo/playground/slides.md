@@ -444,6 +444,8 @@ Output: applications, real-world solutions
 }
 </style>
 ---
+layout: table
+---
 
 # Be honest: recognize strengths and limits
 
