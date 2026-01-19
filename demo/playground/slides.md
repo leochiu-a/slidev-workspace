@@ -248,6 +248,8 @@ Chat demo
 - Data: AAPL $277.55, +0.24%, trend up
 
 ---
+layout: list
+---
 
 # Mainstream AI agent frameworks
 
