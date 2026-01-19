@@ -266,12 +266,14 @@ ship solid TypeScript/JavaScript SDKs.
 
 
 ---
+class: text-center
+---
 
 # Live demo: browser-side sentiment analysis
 
 Transformers.js + DistilBERT, running entirely in the browser, no server required
 
-![Sentiment analysis demo](/Users/leochiu.chiu/Desktop/jsdc-2025/src/assets/sentiment-analysis.svg)
+<SentimentAnalysis />
 
 ---
 layout: two-cols-header
