@@ -231,6 +231,8 @@ Core value of JavaScript/TypeScript developers in the AI era
 
 ---
 
+<StaggeredGroup>
+
 # Generative UI: from templates to tailored interfaces
 
 AI no longer returns plain text; it draws the best interface for each user in real time.
@@ -246,6 +248,8 @@ Chat demo
 - User: Show me Apple's stock trend
 - AI: Sure, here is the live chart for Apple (AAPL)
 - Data: AAPL $277.55, +0.24%, trend up
+
+</StaggeredGroup>
 
 ---
 layout: list
@@ -263,6 +267,7 @@ ship solid TypeScript/JavaScript SDKs.
 - `npm install ai` - Vercel AI SDK
 - `npm i langchain` - LangChain core
 - `npm i @langchain/langgraph` - LangGraph agent framework
+
 
 ---
 
