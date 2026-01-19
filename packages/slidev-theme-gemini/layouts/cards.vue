@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { nextTick, onMounted, ref } from "vue";
-import { useMotion } from "@vueuse/motion";
+import { computed, ref } from "vue";
+import { useStaggeredMotion } from "../composables/useStaggeredMotion";
 
 type CardItem = {
   title: string;
@@ -12,9 +12,21 @@ const props = defineProps<{
   cards?: CardItem[];
 }>();
 
-const cards = props.cards ?? [];
+const cards = computed(() => props.cards ?? []);
 const contentRef = ref<HTMLElement | null>(null);
 const cardsRef = ref<HTMLElement | null>(null);
+const contentElements = computed(() => {
+  const content = contentRef.value;
+  if (!content) return null;
+  return Array.from(content.children) as HTMLElement[];
+});
+const cardElements = computed(() => {
+  const container = cardsRef.value;
+  if (!container) return null;
+  return Array.from(
+    container.querySelectorAll<HTMLElement>(".gemini-cards__item"),
+  );
+});
 const cardColors = [
   {
     iconBg: "bg-blue-500/20",
@@ -38,52 +50,19 @@ const cardColors = [
 
 const getCardColors = (index: number) => cardColors[index] ?? cardColors[0];
 
-onMounted(async () => {
-  await nextTick();
-  let cardDelayBase = 0;
-  const content = contentRef.value;
-  if (content) {
-    const nodes = Array.from(content.children) as HTMLElement[];
-    nodes.forEach((element, index) => {
-      useMotion(element, {
-        initial: {
-          opacity: 0,
-          y: 24,
-        },
-        enter: {
-          opacity: 1,
-          y: 0,
-          transition: {
-            delay: 150 + index * 150,
-          },
-        },
-      });
-    });
-    cardDelayBase = 150 + nodes.length * 150 + 100;
-  }
+useStaggeredMotion(contentElements, {
+  initialY: 24,
+  baseDelay: 150,
+  step: 150,
+});
 
-  const container = cardsRef.value;
-  if (!container) return;
-
-  const items = Array.from(
-    container.querySelectorAll<HTMLElement>(".gemini-cards__item"),
-  );
-
-  items.forEach((element, index) => {
-    useMotion(element, {
-      initial: {
-        opacity: 0,
-        y: 30,
-      },
-      enter: {
-        opacity: 1,
-        y: 0,
-        transition: {
-          delay: cardDelayBase + index * 200,
-        },
-      },
-    });
-  });
+useStaggeredMotion(cardElements, () => {
+  const contentCount = contentElements.value?.length ?? 0;
+  return {
+    initialY: 30,
+    baseDelay: contentCount * 150,
+    step: 200,
+  };
 });
 </script>
 
