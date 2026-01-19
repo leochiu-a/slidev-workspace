@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { nextTick, onMounted, ref } from "vue";
-import { useMotion } from "@vueuse/motion";
+import { computed, nextTick, onMounted, ref } from "vue";
+import { onSlideEnter } from "@slidev/client";
+import { useStaggeredMotion } from "../composables/useStaggeredMotion";
 
 const props = defineProps<{
   timeline?: Array<{
@@ -14,52 +15,41 @@ const timelineItems = props.timeline ?? [];
 const contentRef = ref<HTMLElement | null>(null);
 const timelineRef = ref<HTMLElement | null>(null);
 
-onMounted(async () => {
-  await nextTick();
-  let timelineDelayBase = 300;
+const contentElements = computed(() => {
   const content = contentRef.value;
-  if (content) {
-    const nodes = Array.from(content.children) as HTMLElement[];
-    nodes.forEach((element, index) => {
-      useMotion(element, {
-        initial: {
-          opacity: 0,
-          y: 24,
-        },
-        enter: {
-          opacity: 1,
-          y: 0,
-          transition: {
-            delay: 150 + index * 150,
-          },
-        },
-      });
-    });
-    timelineDelayBase = 150 + nodes.length * 150 + 100;
-  }
+  if (!content) return null;
+  return Array.from(content.children) as HTMLElement[];
+});
 
+const timelineDelayBase = computed(() => {
+  const contentCount = contentElements.value?.length ?? 0;
+  // After content animations (150ms base + 150ms stagger), add a 100ms gap.
+  return 150 + contentCount * 150 + 100;
+});
+
+const contentMotion = useStaggeredMotion(contentElements, {
+  initialY: 24,
+  baseDelay: 150,
+  step: 150,
+});
+
+const timelineElements = computed(() => {
   const container = timelineRef.value;
-  if (!container) return;
-
-  const items = Array.from(
+  if (!container) return null;
+  return Array.from(
     container.querySelectorAll<HTMLElement>(".gemini-timeline__item"),
   );
+});
 
-  items.forEach((element, index) => {
-    useMotion(element, {
-      initial: {
-        opacity: 0,
-        y: 24,
-      },
-      enter: {
-        opacity: 1,
-        y: 0,
-        transition: {
-          delay: timelineDelayBase + index * 200,
-        },
-      },
-    });
-  });
+const timelineMotion = useStaggeredMotion(timelineElements, () => ({
+  initialY: 24,
+  baseDelay: timelineDelayBase.value,
+  step: 200,
+}));
+
+onSlideEnter(() => {
+  contentMotion.replay();
+  timelineMotion.replay();
 });
 </script>
 

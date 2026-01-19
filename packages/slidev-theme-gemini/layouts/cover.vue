@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { computed, nextTick, onMounted, ref } from "vue";
-import { useMotion } from "@vueuse/motion";
+import { computed, ref } from "vue";
+import { onSlideEnter } from "@slidev/client";
 import { handleBackground } from "../layoutHelper";
+import { useStaggeredMotion } from "../composables/useStaggeredMotion";
 
 const props = defineProps<{
   background?: string;
@@ -9,33 +10,45 @@ const props = defineProps<{
 
 const backgroundStyle = computed(() => handleBackground(props.background));
 const contentRef = ref<HTMLElement | null>(null);
-
-onMounted(async () => {
-  await nextTick();
+const backgroundRef = ref<HTMLElement | null>(null);
+const contentElements = computed(() => {
   const content = contentRef.value;
-  if (!content) return;
+  if (!content) return null;
+  return Array.from(content.children) as HTMLElement[];
+});
 
-  Array.from(content.children).forEach((element, index) => {
-    useMotion(element as HTMLElement, {
-      initial: {
-        opacity: 0,
-        y: 32,
-      },
-      enter: {
-        opacity: 1,
-        y: 0,
-        transition: {
-          delay: 200 + index * 200,
-        },
-      },
-    });
-  });
+const motionController = useStaggeredMotion(contentElements, {
+  initialY: 32,
+  baseDelay: 200,
+  step: 200,
+});
+
+const restartBackgroundAnimation = () => {
+  const background = backgroundRef.value;
+  if (!background) return;
+  background.style.animation = "none";
+  // Force reflow so the CSS animation can replay.
+  void background.offsetHeight;
+  background.style.animation = "";
+};
+
+const replayMotions = async () => {
+  await motionController.replay();
+  restartBackgroundAnimation();
+};
+
+onSlideEnter(() => {
+  replayMotions();
 });
 </script>
 
 <template>
   <div class="slidev-layout gemini-cover cover block content-center">
-    <div class="gemini-cover__bg" :style="backgroundStyle" />
+    <div
+      ref="backgroundRef"
+      class="gemini-cover__bg"
+      :style="backgroundStyle"
+    />
     <div
       ref="contentRef"
       class="gemini-cover__content relative z-10 flex flex-col items-center justify-center text-center"
@@ -84,6 +97,7 @@ onMounted(async () => {
   from {
     transform: scale(1.2);
   }
+
   to {
     transform: scale(1);
   }
