@@ -8,7 +8,11 @@ export const Title: FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  const subtitleOpacity = interpolate(frame, [0.6 * fps, 1.2 * fps], [0, 1], {
+  const titleText = "Slidev Workspace";
+  const titleCharsPerSecond = 18;
+  const subtitleStart = Math.round(((0.7 * titleText.length) / titleCharsPerSecond) * fps);
+  const subtitleEnd = subtitleStart + Math.round(0.6 * fps);
+  const subtitleOpacity = interpolate(frame, [subtitleStart, subtitleEnd], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
@@ -32,7 +36,7 @@ export const Title: FC = () => {
           letterSpacing: -1,
         }}
       >
-        <TypewriterText text="Slidev Workspace" charsPerSecond={18} />
+        <TypewriterText text={titleText} charsPerSecond={titleCharsPerSecond} />
       </div>
       <div
         style={{
