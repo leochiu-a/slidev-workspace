@@ -21,7 +21,8 @@ export const Hook: FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  const textOpacity = interpolate(frame, [8, 28], [0, 1], {
+  const settleFrame = 22;
+  const textOpacity = interpolate(frame, [20, 34], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
@@ -45,8 +46,10 @@ export const Hook: FC = () => {
         }}
       >
         {cardPositions.map((card, index) => {
+          const staggeredFrame = Math.max(0, frame - index * 6);
+          const heldFrame = Math.min(staggeredFrame, settleFrame);
           const entrance = spring({
-            frame: frame - index * 6,
+            frame: heldFrame,
             fps,
             config: { damping: 200 },
           });
