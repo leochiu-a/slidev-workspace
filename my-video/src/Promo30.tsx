@@ -3,7 +3,7 @@ import { Sequence, useVideoConfig } from "remotion";
 import { CTA } from "./scenes/CTA";
 import { Flow } from "./scenes/Flow";
 import { Results } from "./scenes/Results";
-import { AnimeShowcase } from "./scenes/AnimeShowcase";
+import { ValueCLI } from "./scenes/ValueCLI";
 import { ValueOrganize } from "./scenes/ValueOrganize";
 import { ValueUI } from "./scenes/ValueUI";
 import { BackgroundFrame } from "./components/BackgroundFrame";
@@ -17,14 +17,26 @@ export const Promo30: FC = () => {
       <Sequence from={0} durationInFrames={5 * fps} premountFor={1 * fps}>
         <ValueOrganize />
       </Sequence>
-      <Sequence from={5 * fps} durationInFrames={5 * fps} premountFor={1 * fps}>
+      <Sequence
+        from={5 * fps}
+        durationInFrames={Math.round(4.4 * fps)}
+        premountFor={1 * fps}
+      >
+        <Flow />
+      </Sequence>
+      <Sequence
+        from={5 * fps + Math.round(4.4 * fps)}
+        durationInFrames={5 * fps}
+        premountFor={1 * fps}
+      >
         <ValueUI />
       </Sequence>
-      <Sequence from={10 * fps} durationInFrames={5 * fps} premountFor={1 * fps}>
-        <AnimeShowcase />
-      </Sequence>
-      <Sequence from={15 * fps} durationInFrames={5 * fps} premountFor={1 * fps}>
-        <Flow />
+      <Sequence
+        from={5 * fps + Math.round(4.4 * fps) + 5 * fps}
+        durationInFrames={5 * fps}
+        premountFor={1 * fps}
+      >
+        <ValueCLI />
       </Sequence>
       <Sequence from={20 * fps} durationInFrames={6 * fps} premountFor={1 * fps}>
         <Results />

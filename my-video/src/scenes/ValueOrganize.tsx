@@ -71,6 +71,22 @@ export const ValueOrganize: FC = () => {
     easing: Easing.inOut(Easing.cubic),
   });
 
+  const outroStart = 4.35 * fps;
+  const outroEnd = 4.9 * fps;
+  const outroProgress = interpolate(frame, [outroStart, outroEnd], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+    easing: Easing.in(Easing.cubic),
+  });
+  const outroOpacity = interpolate(outroProgress, [0, 1], [1, 0], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+  const outroLift = interpolate(outroProgress, [0, 1], [0, -24], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+
   const workspaceWidth = interpolate(morphProgress, [0, 1], [320, 440], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
@@ -104,7 +120,16 @@ export const ValueOrganize: FC = () => {
         alignItems: "center",
       }}
     >
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 28 }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 28,
+          opacity: outroOpacity,
+          transform: `translateY(${outroLift}px)`,
+        }}
+      >
         <div
           style={{
             fontFamily: titleFont.fontFamily,
