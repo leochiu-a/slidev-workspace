@@ -65,24 +65,24 @@ export const ValueUIPreview: FC<ValueUIPreviewProps> = ({
           height: 720,
         }}
       >
-        <div
-          style={{
-            width: "100%",
-            height: "100%",
-            borderRadius: 28,
-            backgroundColor: colors.card,
-            border: `1px solid ${colors.borderStrong}`,
-            boxShadow: shadow,
-            overflow: "hidden",
-            opacity: browserOpacity * previewExitOpacity,
-            transform: `translateY(${previewExitLift}px) scale(${browserScale})`,
-            position: "relative",
+          <div
+            style={{
+              width: "100%",
+              height: "100%",
+              borderRadius: 28,
+              backgroundColor: "#FFFDF8",
+              border: `1px solid ${colors.border}`,
+              boxShadow: shadow,
+              overflow: "hidden",
+              opacity: browserOpacity * previewExitOpacity,
+              transform: `translateY(${previewExitLift}px) scale(${browserScale})`,
+              position: "relative",
           }}
         >
           <div
             style={{
               height: 64,
-              backgroundColor: colors.cardWarm,
+              backgroundColor: "#FFF6D8",
               borderBottom: `1px solid ${colors.border}`,
               display: "flex",
               alignItems: "center",
@@ -137,7 +137,7 @@ export const ValueUIPreview: FC<ValueUIPreviewProps> = ({
               alignItems: "center",
               justifyContent: "center",
               backgroundColor: "#FFF6D8",
-              padding: 48,
+              padding: 0,
               position: "relative",
             }}
           >
@@ -150,17 +150,17 @@ export const ValueUIPreview: FC<ValueUIPreviewProps> = ({
                 pointerEvents: "none",
               }}
             />
-            <Img
-              src={staticFile("image.png")}
-              alt="Slidev Workspace UI screenshot"
-              style={{
-                width: "100%",
-                height: "100%",
-                objectFit: "contain",
-                borderRadius: 18,
-                border: "1px solid rgba(210, 169, 82, 0.35)",
-              }}
-            />
+              <Img
+                src={staticFile("image.png")}
+                alt="Slidev Workspace UI screenshot"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  borderRadius: 0,
+                  border: "none",
+                }}
+              />
           </div>
         </div>
       </div>

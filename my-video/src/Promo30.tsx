@@ -19,7 +19,7 @@ export const Promo30: FC = () => {
   const cliFlipEndFrames = Math.max(cliDurationFrames - Math.round(0.5 * fps), Math.round(1.9 * fps));
   const titleDurationFrames = Math.round(1.8 * fps);
   const titleStartOffsetFrames = Math.max(cliFlipEndFrames - Math.round(0.4 * fps), 0);
-  const previewMinimumFrames = Math.round(1.6 * fps);
+  const previewMinimumFrames = Math.round(2.4 * fps);
   const previewStartOffsetFrames = titleStartOffsetFrames + titleDurationFrames;
   const previewDurationFrames = Math.max(
     previewMinimumFrames,
