@@ -111,6 +111,10 @@ export const ValueOrganize: FC = () => {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
+  const tagInCardOpacity = interpolate(workspaceProgress, [0, 1], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
 
   return (
     <BackgroundFrame
@@ -174,6 +178,7 @@ export const ValueOrganize: FC = () => {
                 fontFamily: bodyFont.fontFamily,
                 fontSize: 16,
                 color: colors.textStrong,
+                opacity: tagInCardOpacity,
               }}
             >
               <Img
@@ -267,10 +272,7 @@ export const ValueOrganize: FC = () => {
             });
             const tagPaddingX = 14;
             const tagPaddingY = 6;
-            const tagIconReserve = interpolate(morphProgress, [0, 1], [0, tagIconSize + 8], {
-              extrapolateLeft: "clamp",
-              extrapolateRight: "clamp",
-            });
+            const tagIconReserve = tagIconSize + 8;
             const tagHeightEstimate = interpolate(morphProgress, [0, 1], [40, 44], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
@@ -294,6 +296,10 @@ export const ValueOrganize: FC = () => {
             });
             const tagIconCenterX = tagLeft + tagTranslateX + tagPaddingX + tagIconSize / 2;
             const tagIconCenterY = tagTop + tagPaddingY + tagIconSize / 2;
+            const tagLogoFade = interpolate(morphProgress, [0.55, 1], [1, 0], {
+              extrapolateLeft: "clamp",
+              extrapolateRight: "clamp",
+            });
             const logoSize = interpolate(morphProgress, [0, 1], [96, tagIconSize], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
@@ -334,15 +340,25 @@ export const ValueOrganize: FC = () => {
                     left: tagLeft,
                     display: "inline-flex",
                     alignItems: "center",
-                    gap: 0,
+                    gap: 8,
                     padding: `${tagPaddingY}px ${tagPaddingX}px`,
                     width: morphProgress > 0.5 ? tagWidth : undefined,
                     borderRadius: 999,
                     backgroundColor: colors.cardWarm,
                     border: `1px solid ${colors.border}`,
                     transform: `translate(${tagTranslateX}px, 0px)`,
+                    overflow: "hidden",
                   }}
                 >
+                  <Img
+                    src={staticFile("github.png")}
+                    alt="GitHub"
+                    style={{
+                      width: tagIconSize,
+                      height: tagIconSize,
+                      opacity: 0.9 * tagLogoFade,
+                    }}
+                  />
                   <span
                     style={{
                       fontFamily: bodyFont.fontFamily,
@@ -352,7 +368,9 @@ export const ValueOrganize: FC = () => {
                       whiteSpace: "nowrap",
                       overflow: "hidden",
                       textOverflow: "ellipsis",
-                      paddingLeft: tagIconReserve,
+                      paddingLeft: 0,
+                      flex: 1,
+                      minWidth: 0,
                     }}
                   >
                     {repo.name}
