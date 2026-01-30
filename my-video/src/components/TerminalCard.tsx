@@ -1,4 +1,5 @@
 import type { CSSProperties, FC } from "react";
+import { Audio, Sequence, staticFile } from "remotion";
 import { TypewriterText } from "./TypewriterText";
 
 type TerminalCardProps = {
@@ -7,6 +8,7 @@ type TerminalCardProps = {
   statusOpacity?: number;
   charsPerSecond?: number;
   style?: CSSProperties;
+  typingAudio?: boolean;
 };
 
 export const TerminalCard: FC<TerminalCardProps> = ({
@@ -15,7 +17,9 @@ export const TerminalCard: FC<TerminalCardProps> = ({
   statusOpacity = 1,
   charsPerSecond = 26,
   style,
+  typingAudio = false,
 }) => {
+  const typingDurationFrames = Math.max(1, Math.ceil(commandText.length * (30 / charsPerSecond)));
   return (
     <div
       style={{
@@ -39,6 +43,11 @@ export const TerminalCard: FC<TerminalCardProps> = ({
         ...style,
       }}
     >
+      {typingAudio ? (
+        <Sequence from={0} durationInFrames={typingDurationFrames}>
+          <Audio src={staticFile("typing.mp3")} volume={0.5} />
+        </Sequence>
+      ) : null}
       <div
         style={{
           display: "flex",

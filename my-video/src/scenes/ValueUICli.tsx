@@ -31,6 +31,7 @@ export const ValueUICli: FC<ValueUICliProps> = ({ durationFrames }) => {
         <PreviewCliTerminal
           durationFrames={cliDuration}
           commandText="pnpm slidev-workspace preview"
+          statusOpacity={1}
         />
       </div>
     </BackgroundFrame>

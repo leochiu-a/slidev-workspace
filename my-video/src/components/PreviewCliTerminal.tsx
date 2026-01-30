@@ -83,6 +83,7 @@ export const PreviewCliTerminal: FC<PreviewCliTerminalProps> = ({
         commandText={commandText}
         statusText={statusText}
         statusOpacity={statusOpacity}
+        typingAudio
       />
     </div>
   );
