@@ -1,19 +1,19 @@
 import type { FC } from "react";
-import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
+import { interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
+import { BackgroundFrame } from "../components/BackgroundFrame";
+import { FlowLine } from "../components/FlowLine";
 import { colors, layout, shadow, typography } from "../theme/tokens";
 import { titleFont } from "../theme/fonts";
 
-const steps = ["Create", "Organize", "Share"];
+const steps = ["Organize", "Preview", "Build & Publish"];
 
 export const Flow: FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
   return (
-    <AbsoluteFill
+    <BackgroundFrame
       style={{
-        backgroundColor: colors.background,
-        color: colors.text,
         padding: layout.paddingY,
         justifyContent: "center",
         alignItems: "center",
@@ -24,12 +24,14 @@ export const Flow: FC = () => {
           fontFamily: titleFont.fontFamily,
           fontSize: typography.subtitleSize,
           fontWeight: 600,
-          marginBottom: 50,
+          marginBottom: 16,
+          color: colors.textStrong,
         }}
       >
-        Create → Organize → Share
+        Organize → Preview → Build & Publish
       </div>
-      <div style={{ display: "flex", alignItems: "center", gap: 36 }}>
+      <FlowLine width={620} thickness={6} delayMs={120} />
+      <div style={{ display: "flex", alignItems: "center", gap: 36, marginTop: 32 }}>
         {steps.map((step, index) => {
           const entrance = spring({
             frame: frame - index * 10,
@@ -57,7 +59,7 @@ export const Flow: FC = () => {
                   height: 140,
                   borderRadius: 24,
                   backgroundColor: colors.card,
-                  border: `1px solid ${colors.border}`,
+                  border: `1px solid ${colors.borderStrong}`,
                   boxShadow: shadow,
                   display: "flex",
                   alignItems: "center",
@@ -68,6 +70,7 @@ export const Flow: FC = () => {
                   opacity,
                   transform: `scale(${scale})`,
                   position: "relative",
+                  color: colors.textStrong,
                 }}
               >
                 {step}
@@ -76,7 +79,7 @@ export const Flow: FC = () => {
                     position: "absolute",
                     inset: -6,
                     borderRadius: 28,
-                    border: `1px solid rgba(88, 225, 193, ${0.4 * glow})`,
+                    border: `1px solid rgba(46, 196, 182, ${0.4 * glow})`,
                   }}
                 />
               </div>
@@ -95,6 +98,6 @@ export const Flow: FC = () => {
           );
         })}
       </div>
-    </AbsoluteFill>
+    </BackgroundFrame>
   );
 };

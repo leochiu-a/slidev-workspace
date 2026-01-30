@@ -1,6 +1,8 @@
 import type { FC } from "react";
-import { AbsoluteFill, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
+import { interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 import { TypewriterText } from "../components/TypewriterText";
+import { BackgroundFrame } from "../components/BackgroundFrame";
+import { FlowLine } from "../components/FlowLine";
 import { colors, layout, typography } from "../theme/tokens";
 import { bodyFont, titleFont } from "../theme/fonts";
 
@@ -18,10 +20,8 @@ export const Title: FC = () => {
   });
 
   return (
-    <AbsoluteFill
+    <BackgroundFrame
       style={{
-        backgroundColor: colors.background,
-        color: colors.text,
         padding: layout.paddingY,
         justifyContent: "center",
         alignItems: "center",
@@ -34,13 +34,17 @@ export const Title: FC = () => {
           fontSize: typography.titleSize,
           fontWeight: 700,
           letterSpacing: -1,
+          color: colors.textStrong,
         }}
       >
         <TypewriterText text={titleText} charsPerSecond={titleCharsPerSecond} />
       </div>
+      <div style={{ marginTop: 22 }}>
+        <FlowLine width={320} thickness={6} delayMs={180} />
+      </div>
       <div
         style={{
-          marginTop: 18,
+          marginTop: 20,
           fontFamily: bodyFont.fontFamily,
           fontSize: typography.subtitleSize,
           color: colors.muted,
@@ -49,6 +53,6 @@ export const Title: FC = () => {
       >
         All your Slidev decks, organized.
       </div>
-    </AbsoluteFill>
+    </BackgroundFrame>
   );
 };

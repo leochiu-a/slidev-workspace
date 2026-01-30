@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { colors, layout, shadow } from "../theme/tokens";
+import { colors, layout, softShadow } from "../theme/tokens";
 
 export type MockCardProps = {
   title: string;
@@ -15,10 +15,10 @@ export const MockCard: FC<MockCardProps> = ({ title, subtitle, highlight }) => {
         height: 220,
         borderRadius: layout.cardRadius,
         backgroundColor: colors.card,
-        border: `1px solid ${colors.border}`,
-        boxShadow: shadow,
+        border: `1px solid ${colors.borderStrong}`,
+        boxShadow: softShadow,
         padding: 24,
-        color: colors.text,
+        color: colors.textStrong,
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",

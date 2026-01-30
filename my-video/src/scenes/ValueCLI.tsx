@@ -1,23 +1,23 @@
 import type { FC } from "react";
-import { AbsoluteFill, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
+import { interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 import { TypewriterText } from "../components/TypewriterText";
+import { BackgroundFrame } from "../components/BackgroundFrame";
+import { FlowLine } from "../components/FlowLine";
 import { colors, layout, shadow, typography } from "../theme/tokens";
-import { bodyFont, titleFont } from "../theme/fonts";
+import { titleFont } from "../theme/fonts";
 
 export const ValueCLI: FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  const helperOpacity = interpolate(frame, [0.9 * fps, 1.4 * fps], [0, 1], {
+  const statusOpacity = interpolate(frame, [1.6 * fps, 2.2 * fps], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
 
   return (
-    <AbsoluteFill
+    <BackgroundFrame
       style={{
-        backgroundColor: colors.background,
-        color: colors.text,
         padding: layout.paddingY,
         justifyContent: "center",
       }}
@@ -28,39 +28,37 @@ export const ValueCLI: FC = () => {
           fontSize: typography.subtitleSize,
           fontWeight: 600,
           marginBottom: 30,
+          color: colors.textStrong,
         }}
       >
-        Manage decks from your terminal
+        Build all slides with one command
       </div>
+      <FlowLine width={520} thickness={6} delayMs={120} />
       <div
         style={{
           width: 980,
           height: 180,
           borderRadius: 20,
-          backgroundColor: "#0F172A",
-          border: `1px solid ${colors.border}`,
+          backgroundColor: colors.card,
+          border: `1px solid ${colors.borderStrong}`,
           boxShadow: shadow,
           padding: 26,
           fontFamily: "SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
-          fontSize: 34,
-          color: colors.primary,
+          fontSize: 32,
+          color: colors.textStrong,
           display: "flex",
-          alignItems: "center",
+          flexDirection: "column",
+          alignItems: "flex-start",
+          justifyContent: "center",
+          gap: 16,
+          marginTop: 32,
         }}
       >
-        <TypewriterText text="slidev-workspace sync" charsPerSecond={24} />
+        <TypewriterText text="pnpm slidev-workspace build" charsPerSecond={26} />
+        <div style={{ fontSize: 26, color: colors.muted, opacity: statusOpacity }}>
+          ✔ all slides built
+        </div>
       </div>
-      <div
-        style={{
-          marginTop: 24,
-          fontFamily: bodyFont.fontFamily,
-          fontSize: typography.captionSize,
-          color: colors.muted,
-          opacity: helperOpacity,
-        }}
-      >
-        Create, sync, publish — in seconds.
-      </div>
-    </AbsoluteFill>
+    </BackgroundFrame>
   );
 };

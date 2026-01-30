@@ -1,175 +1,357 @@
 import type { FC } from "react";
-import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
-import { colors, layout, typography } from "../theme/tokens";
+import {
+  Easing,
+  Img,
+  interpolate,
+  staticFile,
+  useCurrentFrame,
+  useVideoConfig,
+} from "remotion";
+import { BackgroundFrame } from "../components/BackgroundFrame";
+import { FlowLine } from "../components/FlowLine";
+import { colors, layout, shadow, typography } from "../theme/tokens";
 import { bodyFont, titleFont } from "../theme/fonts";
-import { MockCard } from "../components/MockCard";
 
-const cards = [
+type Repo = {
+  name: string;
+  subtitle: string;
+  position: { x: number; y: number };
+};
+
+const repos: Repo[] = [
   {
-    title: "deck-final.md",
-    subtitle: "Marketing",
-    messy: { x: -360, y: -140, rotate: -8 },
-    grid: { x: -396, y: -150 },
+    name: "tech-slides",
+    subtitle: "slides 1",
+    position: { x: -420, y: -120 },
   },
   {
-    title: "deck-final-v2.md",
-    subtitle: "Product",
-    messy: { x: -40, y: -220, rotate: 6 },
-    grid: { x: 0, y: -150 },
+    name: "product-updates",
+    subtitle: "slides 2",
+    position: { x: -420, y: 120 },
   },
   {
-    title: "deck-final-v2-real.md",
-    subtitle: "All Hands",
-    messy: { x: 360, y: -80, rotate: -4 },
-    grid: { x: 396, y: -150 },
+    name: "design-reviews",
+    subtitle: "slides 3",
+    position: { x: 420, y: 20 },
   },
-  {
-    title: "roadmap-q3.md",
-    subtitle: "Roadmap",
-    messy: { x: -420, y: 120, rotate: 10 },
-    grid: { x: -396, y: 150 },
-  },
-  {
-    title: "team-sync.md",
-    subtitle: "Ops",
-    messy: { x: 40, y: 190, rotate: -6 },
-    grid: { x: 0, y: 150 },
-  },
-  {
-    title: "launch-plan.md",
-    subtitle: "Launch",
-    messy: { x: 420, y: 120, rotate: 4 },
-    grid: { x: 396, y: 150 },
-  },
+];
+
+const slideTargets = [
+  { x: 0, y: -64 },
+  { x: 0, y: 20 },
+  { x: 0, y: 104 },
 ];
 
 export const ValueOrganize: FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  const textOpacity = interpolate(frame, [12, 30], [0, 1], {
+  const textOpacity = interpolate(frame, [0.9 * fps, 1.5 * fps], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
 
-  const organizeProgress = interpolate(frame, [0.6 * fps, 2.2 * fps], [0, 1], {
+  const entryStart = 0.2 * fps;
+  const entryDuration = 0.7 * fps;
+  const entryStagger = 0.25 * fps;
+
+  const workspaceStart = 1.6 * fps;
+  const workspaceEnd = 2.2 * fps;
+  const workspaceProgress = interpolate(frame, [workspaceStart, workspaceEnd], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+    easing: Easing.out(Easing.cubic),
+  });
+
+  const morphStart = 2.3 * fps;
+  const morphEnd = 3.9 * fps;
+  const morphProgress = interpolate(frame, [morphStart, morphEnd], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+    easing: Easing.inOut(Easing.cubic),
+  });
+
+  const workspaceWidth = interpolate(morphProgress, [0, 1], [320, 440], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+  const workspaceHeight = interpolate(morphProgress, [0, 1], [200, 340], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+  const workspaceScale = interpolate(workspaceProgress, [0, 1], [0.86, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+  const workspaceLift = interpolate(workspaceProgress, [0, 1], [26, 0], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+  const workspaceOpacity = interpolate(workspaceProgress, [0, 1], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+  const stackGlow = interpolate(morphProgress, [0, 1], [0, 0.35], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
 
   return (
-    <AbsoluteFill
+    <BackgroundFrame
       style={{
-        backgroundColor: colors.background,
-        color: colors.text,
         padding: layout.paddingY,
+        justifyContent: "center",
+        alignItems: "center",
       }}
     >
-      <div
-        style={{
-          fontFamily: titleFont.fontFamily,
-          fontSize: typography.subtitleSize,
-          fontWeight: 600,
-          marginBottom: 36,
-          opacity: textOpacity,
-        }}
-      >
-        Organize Slidev decks in seconds
-      </div>
-      <div style={{ display: "flex", gap: 36 }}>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 28 }}>
         <div
           style={{
-            width: 260,
-            borderRadius: 22,
-            border: `1px solid ${colors.border}`,
-            backgroundColor: colors.card,
-            padding: 22,
-            height: 520,
-            boxSizing: "border-box",
-            opacity: organizeProgress,
+            fontFamily: titleFont.fontFamily,
+            fontSize: typography.subtitleSize,
+            fontWeight: 600,
+            opacity: textOpacity,
+            textAlign: "center",
+            color: colors.textStrong,
           }}
         >
+          All your Slidev decks, organized.
+        </div>
+        <FlowLine width={540} thickness={6} delayMs={200} />
+        <div style={{ position: "relative", width: 1320, height: 520 }}>
           <div
             style={{
-              fontFamily: titleFont.fontFamily,
-              fontSize: 24,
-              fontWeight: 600,
-              marginBottom: 18,
+              position: "absolute",
+              left: "50%",
+              top: "50%",
+              transform: `translate(-50%, -50%) translateY(${workspaceLift}px) scale(${workspaceScale})`,
+              width: workspaceWidth,
+              height: workspaceHeight,
+              borderRadius: 32,
+              border: `1px solid ${colors.borderStrong}`,
+              backgroundColor: colors.card,
+              boxShadow: shadow,
+              padding: 22,
+              boxSizing: "border-box",
+              zIndex: 1,
+              opacity: workspaceOpacity,
             }}
           >
-            Workspace
-          </div>
-          {["All decks", "Marketing", "Product", "Roadmap", "All Hands"].map((label) => (
             <div
-              key={label}
               style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 10,
+                padding: "6px 12px",
+                borderRadius: 999,
+                backgroundColor: colors.cardWarm,
+                border: `1px solid ${colors.border}`,
                 fontFamily: bodyFont.fontFamily,
-                fontSize: 20,
-                color: colors.muted,
-                padding: "10px 12px",
-                borderRadius: 12,
-                backgroundColor: label === "All decks" ? "rgba(110, 168, 254, 0.12)" : "transparent",
-                marginBottom: 8,
+                fontSize: 16,
+                color: colors.textStrong,
               }}
             >
-              {label}
+              <Img
+                src={staticFile("github.png")}
+                alt="GitHub"
+                style={{ width: 16, height: 16, opacity: 0.9 }}
+              />
+              slidev-workspace
             </div>
-          ))}
-        </div>
-        <div style={{ position: "relative", height: 520, flex: 1 }}>
-          {cards.map((card, index) => {
-            const entrance = spring({
-              frame: frame - index * 6,
-              fps,
-              config: { damping: 200 },
-            });
-            const x = interpolate(entrance, [0, 1], [card.messy.x + 120, card.messy.x], {
+          </div>
+
+          <div
+            style={{
+              position: "absolute",
+              left: "50%",
+              top: "50%",
+              width: 520,
+              height: 200,
+              transform: "translate(-50%, -50%)",
+              background: "radial-gradient(circle, rgba(255, 183, 3, 0.25), transparent 70%)",
+              opacity: stackGlow,
+              filter: "blur(20px)",
+            }}
+          />
+
+          {repos.map((repo, index) => {
+            const entryProgress = interpolate(
+              frame,
+              [entryStart + index * entryStagger, entryStart + index * entryStagger + entryDuration],
+              [0, 1],
+              {
+                extrapolateLeft: "clamp",
+                extrapolateRight: "clamp",
+                easing: Easing.out(Easing.cubic),
+              }
+            );
+            const entryOffset = interpolate(entryProgress, [0, 1], [140, 0], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
             });
-            const y = interpolate(entrance, [0, 1], [card.messy.y + 80, card.messy.y], {
+            const entryScale = interpolate(entryProgress, [0, 1], [0.94, 1], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
             });
-            const organizedX = interpolate(organizeProgress, [0, 1], [x, card.grid.x], {
+            const entryOpacity = interpolate(entryProgress, [0, 1], [0, 1], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
             });
-            const organizedY = interpolate(organizeProgress, [0, 1], [y, card.grid.y], {
+
+            const target = slideTargets[index];
+            const x = interpolate(morphProgress, [0, 1], [repo.position.x, target.x], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
             });
-            const rotate = interpolate(organizeProgress, [0, 1], [card.messy.rotate, 0], {
+            const y = interpolate(
+              morphProgress,
+              [0, 1],
+              [repo.position.y + entryOffset, target.y],
+              {
+                extrapolateLeft: "clamp",
+                extrapolateRight: "clamp",
+              }
+            );
+            const width = interpolate(morphProgress, [0, 1], [280, 240], {
+              extrapolateLeft: "clamp",
+              extrapolateRight: "clamp",
+            });
+            const height = interpolate(morphProgress, [0, 1], [170, 70], {
+              extrapolateLeft: "clamp",
+              extrapolateRight: "clamp",
+            });
+            const radius = interpolate(morphProgress, [0, 1], [26, 18], {
+              extrapolateLeft: "clamp",
+              extrapolateRight: "clamp",
+            });
+            const tagInset = interpolate(morphProgress, [0, 1], [12, 20], {
+              extrapolateLeft: "clamp",
+              extrapolateRight: "clamp",
+            });
+            const tagWidth = interpolate(morphProgress, [0, 1], [200, width - 2 * tagInset], {
+              extrapolateLeft: "clamp",
+              extrapolateRight: "clamp",
+            });
+            const tagFontSize = interpolate(morphProgress, [0, 1], [15, 16], {
+              extrapolateLeft: "clamp",
+              extrapolateRight: "clamp",
+            });
+            const tagIconSize = interpolate(morphProgress, [0, 1], [18, 20], {
+              extrapolateLeft: "clamp",
+              extrapolateRight: "clamp",
+            });
+            const tagPaddingX = 14;
+            const tagPaddingY = 6;
+            const tagIconReserve = interpolate(morphProgress, [0, 1], [0, tagIconSize + 8], {
+              extrapolateLeft: "clamp",
+              extrapolateRight: "clamp",
+            });
+            const tagHeightEstimate = interpolate(morphProgress, [0, 1], [40, 44], {
+              extrapolateLeft: "clamp",
+              extrapolateRight: "clamp",
+            });
+            const tagLeft = interpolate(morphProgress, [0, 1], [tagInset, width / 2], {
+              extrapolateLeft: "clamp",
+              extrapolateRight: "clamp",
+            });
+            const tagTop = interpolate(
+              morphProgress,
+              [0, 1],
+              [tagInset, (height - tagHeightEstimate) / 2 + 4],
+              {
+              extrapolateLeft: "clamp",
+              extrapolateRight: "clamp",
+              }
+            );
+            const tagTranslateX = interpolate(morphProgress, [0, 1], [0, -tagWidth / 2], {
+              extrapolateLeft: "clamp",
+              extrapolateRight: "clamp",
+            });
+            const tagIconCenterX = tagLeft + tagTranslateX + tagPaddingX + tagIconSize / 2;
+            const tagIconCenterY = tagTop + tagPaddingY + tagIconSize / 2;
+            const logoSize = interpolate(morphProgress, [0, 1], [96, tagIconSize], {
+              extrapolateLeft: "clamp",
+              extrapolateRight: "clamp",
+            });
+            const logoX = interpolate(morphProgress, [0, 1], [width / 2, tagIconCenterX], {
+              extrapolateLeft: "clamp",
+              extrapolateRight: "clamp",
+            });
+            const logoY = interpolate(morphProgress, [0, 1], [height / 2 + 24, tagIconCenterY], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
             });
 
             return (
               <div
-                key={card.title}
+                key={repo.name}
                 style={{
                   position: "absolute",
                   left: "50%",
                   top: "50%",
-                  transform: `translate(${organizedX}px, ${organizedY}px) rotate(${rotate}deg)`,
+                  transform: `translate(-50%, -50%) translate(${x}px, ${y}px) scale(${entryScale})`,
+                  width,
+                  height,
+                  borderRadius: radius,
+                  border: `1px solid ${colors.borderStrong}`,
+                  backgroundColor: colors.card,
+                  boxShadow: shadow,
+                  padding: 16,
+                  boxSizing: "border-box",
+                  opacity: entryOpacity,
+                  zIndex: 2,
                 }}
               >
-                <MockCard title={card.title} subtitle={card.subtitle} highlight={index === 0} />
+                <div
+                  style={{
+                    position: "absolute",
+                    top: tagTop,
+                    left: tagLeft,
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 0,
+                    padding: `${tagPaddingY}px ${tagPaddingX}px`,
+                    width: morphProgress > 0.5 ? tagWidth : undefined,
+                    borderRadius: 999,
+                    backgroundColor: colors.cardWarm,
+                    border: `1px solid ${colors.border}`,
+                    transform: `translate(${tagTranslateX}px, 0px)`,
+                  }}
+                >
+                  <span
+                    style={{
+                      fontFamily: bodyFont.fontFamily,
+                      fontSize: tagFontSize,
+                      color: colors.textStrong,
+                      letterSpacing: -0.2,
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      paddingLeft: tagIconReserve,
+                    }}
+                  >
+                    {repo.name}
+                  </span>
+                </div>
+
+                <Img
+                  src={staticFile("slidev-logo.png")}
+                  alt="Slidev"
+                  style={{
+                    position: "absolute",
+                    left: 0,
+                    top: 0,
+                    width: logoSize,
+                    height: logoSize,
+                    opacity: entryOpacity,
+                    transform: `translate(${logoX - logoSize / 2}px, ${logoY - logoSize / 2}px)`,
+                  }}
+                />
               </div>
             );
           })}
         </div>
       </div>
-      <div
-        style={{
-          fontFamily: bodyFont.fontFamily,
-          fontSize: typography.captionSize,
-          color: colors.muted,
-          marginTop: 18,
-        }}
-      >
-        Centralize decks, tags, and owners in one place.
-      </div>
-    </AbsoluteFill>
+    </BackgroundFrame>
   );
 };

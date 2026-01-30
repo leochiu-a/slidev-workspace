@@ -1,13 +1,7 @@
 import type { FC } from "react";
-import {
-  AbsoluteFill,
-  Img,
-  interpolate,
-  spring,
-  staticFile,
-  useCurrentFrame,
-  useVideoConfig,
-} from "remotion";
+import { Img, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
+import { BackgroundFrame } from "../components/BackgroundFrame";
+import { FlowLine } from "../components/FlowLine";
 import { colors, layout, shadow, typography } from "../theme/tokens";
 import { titleFont } from "../theme/fonts";
 
@@ -28,10 +22,8 @@ export const Hook: FC = () => {
   });
 
   return (
-    <AbsoluteFill
+    <BackgroundFrame
       style={{
-        backgroundColor: colors.background,
-        color: colors.text,
         padding: layout.paddingY,
         justifyContent: "center",
         alignItems: "center",
@@ -69,7 +61,7 @@ export const Hook: FC = () => {
                 height: 260,
                 borderRadius: 24,
                 backgroundColor: colors.card,
-                border: `1px solid ${colors.border}`,
+                border: `1px solid ${colors.borderStrong}`,
                 boxShadow: shadow,
                 transform: `translate(-50%, -50%) translate(${card.x * spread}px, ${card.y * spread}px) rotate(${card.rotate * spread}deg) scale(${0.9 + 0.1 * spread})`,
                 display: "flex",
@@ -102,18 +94,20 @@ export const Hook: FC = () => {
           );
         })}
       </div>
+      <FlowLine width={420} thickness={6} delayMs={150} />
       <div
         style={{
-          marginTop: 60,
+          marginTop: 40,
           fontFamily: titleFont.fontFamily,
           fontSize: typography.titleSize,
           fontWeight: 600,
           opacity: textOpacity,
           textAlign: "center",
+          color: colors.textStrong,
         }}
       >
         Where is that Slidev deck?
       </div>
-    </AbsoluteFill>
+    </BackgroundFrame>
   );
 };

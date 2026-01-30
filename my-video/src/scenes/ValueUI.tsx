@@ -1,7 +1,9 @@
 import type { FC } from "react";
-import { AbsoluteFill, Img, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
+import { Img, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
+import { BackgroundFrame } from "../components/BackgroundFrame";
+import { FlowLine } from "../components/FlowLine";
 import { colors, layout, shadow, typography } from "../theme/tokens";
-import { titleFont } from "../theme/fonts";
+import { bodyFont } from "../theme/fonts";
 
 export const ValueUI: FC = () => {
   const frame = useCurrentFrame();
@@ -23,29 +25,32 @@ export const ValueUI: FC = () => {
     extrapolateRight: "clamp",
   });
 
-  const labelOpacity = interpolate(frame, [0.6 * fps, 1.4 * fps], [0, 1], {
+  const commandOpacity = interpolate(frame, [0.7 * fps, 1.3 * fps], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+  const previewGlow = interpolate(frame, [0.9 * fps, 1.6 * fps], [0, 0.14], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
 
   return (
-    <AbsoluteFill
+    <BackgroundFrame
       style={{
-        backgroundColor: colors.background,
-        color: colors.text,
         padding: layout.paddingY,
       }}
     >
       <div
         style={{
-          fontFamily: titleFont.fontFamily,
-        fontSize: typography.subtitleSize,
-        fontWeight: 600,
-        marginBottom: 24,
-      }}
-    >
-        Clean, modern UI for management
+          fontFamily: bodyFont.fontFamily,
+          fontSize: typography.captionSize,
+          color: colors.textStrong,
+          marginBottom: 12,
+        }}
+      >
+        Preview all slides in one place
       </div>
+      <FlowLine width={460} thickness={6} delayMs={150} />
 
       <div
         style={{
@@ -53,17 +58,38 @@ export const ValueUI: FC = () => {
           height: 720,
           borderRadius: 28,
           backgroundColor: colors.card,
-          border: `1px solid ${colors.border}`,
+          border: `1px solid ${colors.borderStrong}`,
           boxShadow: shadow,
           overflow: "hidden",
           opacity: browserOpacity,
           transform: `scale(${browserScale})`,
+          position: "relative",
+          marginTop: 28,
         }}
       >
         <div
           style={{
+            position: "absolute",
+            top: 18,
+            right: 24,
+            padding: "6px 12px",
+            borderRadius: 999,
+            border: `1px solid ${colors.border}`,
+            backgroundColor: colors.cardWarm,
+            fontFamily:
+              "SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
+            fontSize: 16,
+            color: colors.muted,
+            opacity: commandOpacity,
+            zIndex: 2,
+          }}
+        >
+          pnpm slidev-workspace preview
+        </div>
+        <div
+          style={{
             height: 64,
-            backgroundColor: "#0F172A",
+            backgroundColor: colors.cardWarm,
             borderBottom: `1px solid ${colors.border}`,
             display: "flex",
             alignItems: "center",
@@ -106,7 +132,7 @@ export const ValueUI: FC = () => {
               height: 34,
               flex: 1,
               borderRadius: 12,
-              backgroundColor: "#111827",
+              backgroundColor: "#FFF1C6",
               border: `1px solid ${colors.border}`,
             }}
           />
@@ -117,11 +143,20 @@ export const ValueUI: FC = () => {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            backgroundColor: "#0B1220",
+            backgroundColor: "#FFF6D8",
             padding: 48,
             position: "relative",
           }}
         >
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              backgroundColor: "rgba(255, 255, 255, 0.4)",
+              opacity: previewGlow,
+              pointerEvents: "none",
+            }}
+          />
           <Img
             src={staticFile("image.png")}
             alt="Slidev Workspace UI screenshot"
@@ -130,35 +165,11 @@ export const ValueUI: FC = () => {
               height: "100%",
               objectFit: "contain",
               borderRadius: 18,
-              border: "1px solid rgba(148,163,184,0.2)",
+              border: "1px solid rgba(210, 169, 82, 0.35)",
             }}
           />
-          {[
-            { label: "Owner", x: 80, y: 70 },
-            { label: "Status", x: 260, y: 70 },
-            { label: "Last updated", x: 470, y: 70 },
-          ].map((chip) => (
-            <div
-              key={chip.label}
-              style={{
-                position: "absolute",
-                top: chip.y,
-                left: chip.x,
-                padding: "6px 14px",
-                borderRadius: 999,
-                backgroundColor: "rgba(15, 23, 42, 0.7)",
-                border: `1px solid ${colors.border}`,
-                fontFamily: titleFont.fontFamily,
-                fontSize: 18,
-                color: colors.muted,
-                opacity: labelOpacity,
-              }}
-            >
-              {chip.label}
-            </div>
-          ))}
         </div>
       </div>
-    </AbsoluteFill>
+    </BackgroundFrame>
   );
 };

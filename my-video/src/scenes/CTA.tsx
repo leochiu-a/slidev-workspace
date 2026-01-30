@@ -1,6 +1,8 @@
 import type { FC } from "react";
-import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
-import { colors, layout, typography } from "../theme/tokens";
+import { interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
+import { BackgroundFrame } from "../components/BackgroundFrame";
+import { FlowLine } from "../components/FlowLine";
+import { colors, gradients, layout, shadow, typography } from "../theme/tokens";
 import { bodyFont, titleFont } from "../theme/fonts";
 
 export const CTA: FC = () => {
@@ -24,10 +26,8 @@ export const CTA: FC = () => {
   });
 
   return (
-    <AbsoluteFill
+    <BackgroundFrame
       style={{
-        backgroundColor: colors.background,
-        color: colors.text,
         padding: layout.paddingY,
         justifyContent: "center",
         alignItems: "center",
@@ -40,9 +40,10 @@ export const CTA: FC = () => {
           padding: "70px 140px",
           borderRadius: 36,
           backgroundColor: colors.card,
-          border: `1px solid ${colors.border}`,
+          border: `1px solid ${colors.borderStrong}`,
           transform: `scale(${scale})`,
           overflow: "hidden",
+          boxShadow: shadow,
         }}
       >
         <div
@@ -53,7 +54,7 @@ export const CTA: FC = () => {
             transform: `translateX(${sweepX}px)`,
             width: 320,
             height: "100%",
-            background: "linear-gradient(120deg, transparent, rgba(88, 225, 193, 0.2), transparent)",
+            background: gradients.cardGlow,
           }}
         />
         <div
@@ -62,9 +63,13 @@ export const CTA: FC = () => {
             fontFamily: titleFont.fontFamily,
             fontSize: typography.subtitleSize,
             fontWeight: 700,
+            color: colors.textStrong,
           }}
         >
           Start organizing today
+        </div>
+        <div style={{ display: "flex", justifyContent: "center", marginTop: 16 }}>
+          <FlowLine width={220} thickness={5} delayMs={200} />
         </div>
         <div
           style={{
@@ -78,6 +83,6 @@ export const CTA: FC = () => {
           slidev-workspace
         </div>
       </div>
-    </AbsoluteFill>
+    </BackgroundFrame>
   );
 };

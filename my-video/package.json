@@ -8,6 +8,7 @@
   "dependencies": {
     "@remotion/cli": "4.0.411",
     "@remotion/google-fonts": "4.0.411",
+    "animejs": "^4.3.5",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "remotion": "4.0.411"

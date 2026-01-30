@@ -1,5 +1,7 @@
 import type { FC } from "react";
-import { AbsoluteFill, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
+import { interpolate, useCurrentFrame, useVideoConfig } from "remotion";
+import { BackgroundFrame } from "../components/BackgroundFrame";
+import { FlowLine } from "../components/FlowLine";
 import { MockCard } from "../components/MockCard";
 import { colors, layout, typography } from "../theme/tokens";
 import { titleFont } from "../theme/fonts";
@@ -15,10 +17,8 @@ export const Results: FC = () => {
   const { fps } = useVideoConfig();
 
   return (
-    <AbsoluteFill
+    <BackgroundFrame
       style={{
-        backgroundColor: colors.background,
-        color: colors.text,
         padding: layout.paddingY,
         justifyContent: "center",
         alignItems: "center",
@@ -29,12 +29,14 @@ export const Results: FC = () => {
           fontFamily: titleFont.fontFamily,
           fontSize: typography.subtitleSize,
           fontWeight: 600,
-          marginBottom: 40,
+          marginBottom: 14,
+          color: colors.textStrong,
         }}
       >
         Everything in one workspace
       </div>
-      <div style={{ position: "relative", width: 420, height: 260 }}>
+      <FlowLine width={520} thickness={6} delayMs={120} />
+      <div style={{ position: "relative", width: 420, height: 260, marginTop: 32 }}>
         {cards.map((card, index) => {
           const start = index * 0.9 * fps;
           const end = start + 0.9 * fps;
@@ -60,11 +62,39 @@ export const Results: FC = () => {
                 transform: `translateY(${y}px)`,
               }}
             >
-              <MockCard title={card.title} highlight={index === 1} />
+              <div style={{ position: "relative", width: 360, height: 220 }}>
+                <MockCard title={card.title} highlight={index === 1} />
+                <div
+                  style={{
+                    position: "absolute",
+                    right: 18,
+                    bottom: 18,
+                    padding: "6px 12px",
+                    borderRadius: 999,
+                    border: `1px solid ${colors.border}`,
+                    backgroundColor: colors.cardWarm,
+                    fontSize: 16,
+                    color: colors.muted,
+                  }}
+                >
+                  GitHub Pages
+                </div>
+                <div
+                  style={{
+                    position: "absolute",
+                    left: 18,
+                    bottom: 18,
+                    fontSize: 16,
+                    color: colors.muted,
+                  }}
+                >
+                  Published · Updated
+                </div>
+              </div>
             </div>
           );
         })}
       </div>
-    </AbsoluteFill>
+    </BackgroundFrame>
   );
 };

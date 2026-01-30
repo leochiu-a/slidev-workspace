@@ -1,12 +1,12 @@
-import { loadFont as loadSpaceGrotesk } from "@remotion/google-fonts/SpaceGrotesk";
-import { loadFont as loadIbmPlexSans } from "@remotion/google-fonts/IBMPlexSans";
+import { loadFont as loadBricolageGrotesque } from "@remotion/google-fonts/BricolageGrotesque";
+import { loadFont as loadFigtree } from "@remotion/google-fonts/Figtree";
 
-export const titleFont = loadSpaceGrotesk("normal", {
-  weights: ["500", "600", "700"],
+export const titleFont = loadBricolageGrotesque("normal", {
+  weights: ["500", "600", "700", "800"],
   subsets: ["latin"],
 });
 
-export const bodyFont = loadIbmPlexSans("normal", {
+export const bodyFont = loadFigtree("normal", {
   weights: ["400", "500", "600"],
   subsets: ["latin"],
 });

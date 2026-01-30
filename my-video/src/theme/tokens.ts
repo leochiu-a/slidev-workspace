@@ -1,11 +1,24 @@
 export const colors = {
-  background: "#0B0F14",
-  text: "#F5F7FA",
-  primary: "#58E1C1",
-  secondary: "#6EA8FE",
-  muted: "#94A3B8",
-  card: "#111826",
-  border: "#1F2A37",
+  background: "#FBE7A3",
+  backgroundStrong: "#F7C94D",
+  backgroundDeep: "#F1B83C",
+  text: "#1F2937",
+  textStrong: "#111827",
+  primary: "#FFB703",
+  secondary: "#2EC4B6",
+  muted: "#6B7280",
+  card: "#FFFFFF",
+  cardWarm: "#FFF5D6",
+  border: "#F1D79B",
+  borderStrong: "#E8C676",
+};
+
+export const gradients = {
+  background:
+    "radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.75), transparent 42%)," +
+    "radial-gradient(circle at 75% 20%, rgba(255, 244, 214, 0.7), transparent 45%)," +
+    "linear-gradient(120deg, #FCEBB4 0%, #F9D46A 48%, #F3B43A 100%)",
+  cardGlow: "linear-gradient(130deg, rgba(255,255,255,0.9), rgba(255,255,255,0))",
 };
 
 export const layout = {
@@ -23,4 +36,5 @@ export const typography = {
   captionSize: 28,
 };
 
-export const shadow = "0 24px 60px rgba(0, 0, 0, 0.45)";
+export const shadow = "0 28px 60px rgba(174, 113, 27, 0.25)";
+export const softShadow = "0 16px 30px rgba(168, 110, 30, 0.18)";
