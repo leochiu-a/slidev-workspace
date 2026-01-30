@@ -1,5 +1,14 @@
 import type { FC } from "react";
-import { Easing, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
+import {
+  Audio,
+  Easing,
+  Sequence,
+  interpolate,
+  spring,
+  staticFile,
+  useCurrentFrame,
+  useVideoConfig,
+} from "remotion";
 import { BackgroundFrame } from "../components/BackgroundFrame";
 import { colors, layout, typography } from "../theme/tokens";
 import { titleFont } from "../theme/fonts";
@@ -38,6 +47,9 @@ export const Flow: FC = () => {
   });
   const entranceOpacity = interpolate(entrance, [0, 1], [0, 1]);
   const entranceY = interpolate(entrance, [0, 1], [18, 0]);
+  const whooshFrames = verbs
+    .slice(0, -1)
+    .map((_, index) => (index + 1) * stepFrames - transitionFrames);
 
   return (
     <BackgroundFrame
@@ -47,6 +59,11 @@ export const Flow: FC = () => {
         alignItems: "center",
       }}
     >
+      {whooshFrames.map((startFrame) => (
+        <Sequence key={`whoosh-${startFrame}`} from={startFrame}>
+          <Audio src={staticFile("whoosh.mp3")} volume={0.35} />
+        </Sequence>
+      ))}
       <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
         <div
           style={{
