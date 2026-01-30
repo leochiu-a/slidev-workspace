@@ -2,8 +2,8 @@ import type { FC } from "react";
 import { Sequence, useVideoConfig } from "remotion";
 import { CTA } from "./scenes/CTA";
 import { Flow } from "./scenes/Flow";
-import { Results } from "./scenes/Results";
-import { ValueCLI } from "./scenes/ValueCLI";
+import { ValueCLICli } from "./scenes/ValueCLICli";
+import { ValueCLITitle } from "./scenes/ValueCLITitle";
 import { ValueOrganize } from "./scenes/ValueOrganize";
 import { ValueUICli } from "./scenes/ValueUICli";
 import { ValueUIPreview } from "./scenes/ValueUIPreview";
@@ -16,11 +16,9 @@ export const Promo30: FC = () => {
   const valueUiStartFrames = 5 * fps + flowDurationFrames;
   const valueUiMinimumFrames = 5 * fps;
   const cliDurationFrames = Math.round(3.6 * fps);
-  const cliFlipEndFrames = Math.max(cliDurationFrames - Math.round(0.5 * fps), Math.round(1.9 * fps));
   const titleDurationFrames = Math.round(1.8 * fps);
-  const titleStartOffsetFrames = Math.max(cliFlipEndFrames - Math.round(0.4 * fps), 0);
   const previewMinimumFrames = Math.round(2.4 * fps);
-  const previewStartOffsetFrames = titleStartOffsetFrames + titleDurationFrames;
+  const previewStartOffsetFrames = cliDurationFrames + titleDurationFrames;
   const previewDurationFrames = Math.max(
     previewMinimumFrames,
     valueUiMinimumFrames - previewStartOffsetFrames
@@ -32,6 +30,12 @@ export const Promo30: FC = () => {
   );
   const previewExitStartFrames = Math.max(previewDurationFrames - Math.round(0.8 * fps), 0);
   const previewExitEndFrames = Math.max(previewDurationFrames - Math.round(0.1 * fps), 0);
+  const buildStartFrames = valueUiStartFrames + valueUiTotalFrames;
+  const buildDurationFrames = 5 * fps;
+  const buildCliDurationFrames = Math.round(3.2 * fps);
+  const buildTitleDurationFrames = Math.max(buildDurationFrames - buildCliDurationFrames, 0);
+  const ctaStartFrames = buildStartFrames + buildDurationFrames;
+  const ctaDurationFrames = 4 * fps;
 
   // Visual timing is verified in Remotion Studio; no automated tests are set up for motion sequencing.
   return (
@@ -51,10 +55,10 @@ export const Promo30: FC = () => {
         durationInFrames={cliDurationFrames}
         premountFor={1 * fps}
       >
-        <ValueUICli exitEndFrames={cliFlipEndFrames} durationFrames={cliDurationFrames} />
+        <ValueUICli durationFrames={cliDurationFrames} />
       </Sequence>
       <Sequence
-        from={valueUiStartFrames + titleStartOffsetFrames}
+        from={valueUiStartFrames + cliDurationFrames}
         durationInFrames={titleDurationFrames}
         premountFor={1 * fps}
       >
@@ -71,16 +75,24 @@ export const Promo30: FC = () => {
         />
       </Sequence>
       <Sequence
-        from={valueUiStartFrames + valueUiTotalFrames}
-        durationInFrames={5 * fps}
+        from={buildStartFrames}
+        durationInFrames={buildCliDurationFrames}
         premountFor={1 * fps}
       >
-        <ValueCLI />
+        <ValueCLICli durationFrames={buildCliDurationFrames} />
       </Sequence>
-      <Sequence from={20 * fps} durationInFrames={6 * fps} premountFor={1 * fps}>
-        <Results />
+      <Sequence
+        from={buildStartFrames + buildCliDurationFrames}
+        durationInFrames={buildTitleDurationFrames}
+        premountFor={1 * fps}
+      >
+        <ValueCLITitle />
       </Sequence>
-      <Sequence from={26 * fps} durationInFrames={4 * fps} premountFor={1 * fps}>
+      <Sequence
+        from={ctaStartFrames}
+        durationInFrames={ctaDurationFrames}
+        premountFor={1 * fps}
+      >
         <CTA />
       </Sequence>
     </BackgroundFrame>

@@ -1,16 +1,22 @@
 import type { FC } from "react";
-import { useVideoConfig } from "remotion";
+import { interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 import { BackgroundFrame } from "../components/BackgroundFrame";
 import { PreviewCliTerminal } from "../components/PreviewCliTerminal";
 import { layout } from "../theme/tokens";
 
-type ValueUICliProps = {
+type ValueCLICliProps = {
   durationFrames?: number;
 };
 
-export const ValueUICli: FC<ValueUICliProps> = ({ durationFrames }) => {
+export const ValueCLICli: FC<ValueCLICliProps> = ({ durationFrames }) => {
+  const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const cliDuration = durationFrames ?? Math.round(3 * fps);
+  const cliDuration = durationFrames ?? Math.round(3.2 * fps);
+
+  const statusOpacity = interpolate(frame, [1.6 * fps, 2.2 * fps], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
 
   return (
     <BackgroundFrame
@@ -27,10 +33,12 @@ export const ValueUICli: FC<ValueUICliProps> = ({ durationFrames }) => {
           height: 720,
           perspective: 1600,
         }}
-        >
+      >
         <PreviewCliTerminal
           durationFrames={cliDuration}
-          commandText="pnpm slidev-workspace preview"
+          commandText="pnpm slidev-workspace build"
+          statusText="✔ all slides built"
+          statusOpacity={statusOpacity}
         />
       </div>
     </BackgroundFrame>
