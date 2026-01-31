@@ -6,13 +6,13 @@ Short 30s promo video built with Remotion.
 
 ```bash
 pnpm install
-pnpm --filter my-video dev
+pnpm --filter intro-video dev
 ```
 
 ## Render
 
 ```bash
-pnpm --filter my-video exec remotion render
+pnpm --filter intro-video exec remotion render
 ```
 
 Notes:
