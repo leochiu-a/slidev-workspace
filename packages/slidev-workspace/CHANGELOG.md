@@ -1,5 +1,12 @@
 # slidev-workspace
 
+## 0.9.4
+
+### Patch Changes
+
+- 79b1e4f: Add Vitest unit test configuration with `src/preview` alias, add unit tests for `normalizeCategories`, and rename `dev:preview` script to `dev:watch` for clarity.
+- 71de4f1: Add a default favicon to the workspace preview page and a `favicon` option in `slidev-workspace.yaml` to override it
+
 ## 0.9.3
 
 ### Patch Changes
