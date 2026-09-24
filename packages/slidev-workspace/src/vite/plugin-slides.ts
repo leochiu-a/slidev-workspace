@@ -18,11 +18,16 @@ interface SlidesPluginOptions {
 export function slidesPlugin(options: SlidesPluginOptions = {}): Plugin {
   let devServers: DevServerInfo[] = [];
   const devServerBasePort = options.devServerBasePort ?? 3001;
+  let base = "/";
 
   return {
     name: "vite-plugin-slides",
+    configResolved(resolvedConfig) {
+      base = resolvedConfig.base;
+    },
+
     async transformIndexHtml(html) {
-      return await transformIndexHtml(html);
+      return await transformIndexHtml(html, base);
     },
 
     async closeBundle() {

@@ -85,11 +85,18 @@ describe("vite slidesPlugin", () => {
     ]);
   });
 
-  it("delegates transformIndexHtml", async () => {
+  it("delegates transformIndexHtml with the resolved base", async () => {
     transformIndexHtmlMock.mockResolvedValue("<html>ok</html>");
     const { slidesPlugin } = await import("./plugin-slides");
 
     const plugin = slidesPlugin();
+    const configResolvedHook = getHookHandler(plugin.configResolved);
+    await configResolvedHook?.call(
+      {} as never,
+      {
+        base: "/presentations/",
+      } as never,
+    );
     const transformHook = getHookHandler(plugin.transformIndexHtml);
     const result = await transformHook?.call(
       {} as never,
@@ -97,7 +104,10 @@ describe("vite slidesPlugin", () => {
       {} as never,
     );
 
-    expect(transformIndexHtmlMock).toHaveBeenCalledWith("<html></html>");
+    expect(transformIndexHtmlMock).toHaveBeenCalledWith(
+      "<html></html>",
+      "/presentations/",
+    );
     expect(result).toBe("<html>ok</html>");
   });
 

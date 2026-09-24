@@ -28,4 +28,6 @@ export interface SlidevWorkspaceConfig {
   hero: HeroConfig;
   /** Sidebar content surfaced by the preview application. */
   sidebar: SidebarConfig;
+  /** Favicon URL for the workspace preview page. Falls back to the bundled icon. */
+  favicon?: string;
 }
