@@ -40,10 +40,50 @@ describe("vite transformIndexHtml", () => {
         { property: "og:title", content: "Hero Title" },
         { property: "og:description", content: "Hero Description" },
       ],
+      link: [{ rel: "icon", href: "/favicon.svg" }],
     });
     expect(transformHtmlTemplateMock).toHaveBeenCalledWith(
       { push: headPush },
       "<html></html>",
+    );
+  });
+
+  it("prefixes the bundled favicon with the vite base", async () => {
+    const headPush = vi.fn();
+    createHeadMock.mockReturnValue({ push: headPush });
+    transformHtmlTemplateMock.mockResolvedValue("<html>ok</html>");
+    loadConfigMock.mockReturnValue({
+      hero: { title: "Hero Title", description: "Hero Description" },
+    });
+
+    const { transformIndexHtml } = await import("./transformIndexHtml");
+
+    await transformIndexHtml("<html></html>", "/presentations/");
+
+    expect(headPush).toHaveBeenCalledWith(
+      expect.objectContaining({
+        link: [{ rel: "icon", href: "/presentations/favicon.svg" }],
+      }),
+    );
+  });
+
+  it("uses the configured favicon when provided", async () => {
+    const headPush = vi.fn();
+    createHeadMock.mockReturnValue({ push: headPush });
+    transformHtmlTemplateMock.mockResolvedValue("<html>ok</html>");
+    loadConfigMock.mockReturnValue({
+      hero: { title: "Hero Title", description: "Hero Description" },
+      favicon: "https://example.com/icon.png",
+    });
+
+    const { transformIndexHtml } = await import("./transformIndexHtml");
+
+    await transformIndexHtml("<html></html>", "/presentations/");
+
+    expect(headPush).toHaveBeenCalledWith(
+      expect.objectContaining({
+        link: [{ rel: "icon", href: "https://example.com/icon.png" }],
+      }),
     );
   });
 

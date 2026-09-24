@@ -36,6 +36,16 @@ exclude:
   - "archived"
 ```
 
+## favicon
+
+**Default:** the bundled Slidev Workspace icon
+
+The favicon URL for the workspace preview page. Use an absolute URL or a path served from your deployed site.
+
+```yaml
+favicon: "https://example.com/favicon.png"
+```
+
 ## Hero Configuration
 
 The `hero` section allows you to customize the title and description displayed on the workspace preview page.
@@ -98,9 +108,10 @@ sidebar:
   githubUrl: "https://github.com/acme/presentations"
 
 baseUrl: "/presentations"
+favicon: "https://example.com/favicon.png"
 outputDir: "./dist"
 exclude:
   - "drafts"
 ```
 
-`hero.title`, `hero.description`, `baseUrl`, `outputDir`, and `exclude` are optional and will use their default values if not specified.
+`hero.title`, `hero.description`, `baseUrl`, `favicon`, `outputDir`, and `exclude` are optional and will use their default values if not specified.
