@@ -1,5 +1,9 @@
 import { computed, ref } from "vue";
-import type { HeroConfig, SidebarConfig } from "../../types/config.js";
+import type {
+  HeroConfig,
+  PaginationConfig,
+  SidebarConfig,
+} from "../../types/config.js";
 
 const DEFAULT_CONFIG = {
   hero: {
@@ -11,17 +15,22 @@ const DEFAULT_CONFIG = {
     title: "Slide Deck",
     githubUrl: "",
   },
+  pagination: {
+    pageSize: 12,
+  },
 };
 
 export function useConfig() {
   const heroData = ref<HeroConfig>(DEFAULT_CONFIG.hero);
   const sidebarData = ref<SidebarConfig>(DEFAULT_CONFIG.sidebar);
+  const paginationData = ref<PaginationConfig>(DEFAULT_CONFIG.pagination);
 
   const loadConfigData = async () => {
     try {
       const module = await import("slidev:config");
       heroData.value = module.default?.hero || heroData.value;
       sidebarData.value = module.default?.sidebar || sidebarData.value;
+      paginationData.value = module.default?.pagination || paginationData.value;
     } catch (error) {
       console.warn("Failed to load config data:", error);
     }
@@ -31,9 +40,11 @@ export function useConfig() {
 
   const hero = computed(() => heroData.value);
   const sidebar = computed(() => sidebarData.value);
+  const pagination = computed(() => paginationData.value);
 
   return {
     hero,
     sidebar,
+    pagination,
   };
 }

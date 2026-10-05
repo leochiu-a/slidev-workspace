@@ -54,6 +54,9 @@ describe("cli vite helpers", () => {
         title: "Slidev Workspace",
         githubUrl: "https://github.com/example",
       },
+      pagination: {
+        pageSize: 12,
+      },
     });
   });
 

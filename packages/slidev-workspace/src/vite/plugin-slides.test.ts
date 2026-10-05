@@ -78,6 +78,9 @@ describe("vite slidesPlugin", () => {
         title: "Sidebar",
         githubUrl: "https://github.com/example",
       },
+      pagination: {
+        pageSize: 12,
+      },
     });
     resolveSlidesDirsMock.mockReturnValue(["/workspace/slides"]);
     startAllSlidesDevServerMock.mockResolvedValue([

@@ -17,6 +17,9 @@ const DEFAULT_CONFIG: SlidevWorkspaceConfig = {
     title: "Slide Deck",
     githubUrl: "",
   },
+  pagination: {
+    pageSize: 12,
+  },
 };
 
 export function loadConfig(workingDir?: string): SlidevWorkspaceConfig {
@@ -39,7 +42,11 @@ export function loadConfig(workingDir?: string): SlidevWorkspaceConfig {
         if (configPath.endsWith(".yml") || configPath.endsWith(".yaml")) {
           const content = readFileSync(fullPath, "utf8");
           const config = parseYaml(content) as SlidevWorkspaceConfig;
-          return { ...DEFAULT_CONFIG, ...config };
+          return {
+            ...DEFAULT_CONFIG,
+            ...config,
+            pagination: { ...DEFAULT_CONFIG.pagination, ...config.pagination },
+          };
         }
         // For JS/TS config files, we'd need dynamic import here
         // For now, just use YAML configs

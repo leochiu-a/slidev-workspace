@@ -80,7 +80,7 @@
             class="grid grid-cols-1 gap-6 px-6 pb-12 sm:grid-cols-2 xl:grid-cols-3 lg:px-12"
           >
             <SlideCard
-              v-for="slide in filteredSlides"
+              v-for="slide in pagedSlides"
               :key="slide.url"
               :title="slide.title"
               :image="slide.image"
@@ -90,6 +90,12 @@
               :date="slide.date"
             />
           </div>
+          <SlidePagination
+            v-model:page="currentPage"
+            :total="filteredSlides.length"
+            :items-per-page="pagination.pageSize"
+            class="flex justify-center px-6 pb-12 lg:px-12"
+          />
         </div>
       </section>
     </div>
@@ -106,10 +112,11 @@ import { useDarkMode } from "../composables/useDarkMode";
 import { Drawer, DrawerContent, DrawerTrigger } from "../components/ui/drawer";
 import SlideCard from "./SlideCard.vue";
 import SlideSidebar from "./SlideSidebar.vue";
+import SlidePagination from "./SlidePagination.vue";
 
 const searchTerm = ref("");
 const { slides, slidesCount } = useSlides();
-const { hero, sidebar } = useConfig();
+const { hero, sidebar, pagination } = useConfig();
 const { isDark, toggleDarkMode } = useDarkMode();
 
 const uncategorizedLabel = "Uncategorized";
@@ -173,6 +180,22 @@ const filteredSlides = computed(() => {
         .includes(searchTerm.value.toLowerCase()) ||
       slide.author.toLowerCase().includes(searchTerm.value.toLowerCase()),
   );
+});
+
+const currentPage = ref(1);
+
+watch([searchTerm, selectedCategory, () => pagination.value.pageSize], () => {
+  currentPage.value = 1;
+});
+
+watch(currentPage, () => {
+  window.scrollTo({ top: 0 });
+});
+
+const pagedSlides = computed(() => {
+  const { pageSize } = pagination.value;
+  const start = (currentPage.value - 1) * pageSize;
+  return filteredSlides.value.slice(start, start + pageSize);
 });
 </script>
 
