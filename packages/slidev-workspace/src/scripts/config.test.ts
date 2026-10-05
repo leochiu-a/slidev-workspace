@@ -26,6 +26,22 @@ describe("scripts config", () => {
     expect(config.hero.title).toBe("Slide Deck");
     expect(config.sidebar.title).toBe("Slide Deck");
     expect(config.sidebar.githubUrl).toBe("");
+    expect(config.pagination).toEqual({ pageSize: 12 });
+  });
+
+  it("loadConfig reads pagination pageSize from yaml", () => {
+    writeFileSync(
+      join(tempRoot, "slidev-workspace.yaml"),
+      ["pagination:", "  pageSize: 6"].join("\n"),
+    );
+
+    expect(loadConfig(tempRoot).pagination).toEqual({ pageSize: 6 });
+  });
+
+  it("loadConfig keeps default pageSize when pagination is empty", () => {
+    writeFileSync(join(tempRoot, "slidev-workspace.yaml"), "pagination: {}");
+
+    expect(loadConfig(tempRoot).pagination).toEqual({ pageSize: 12 });
   });
 
   it("loadConfig merges yaml values with defaults", () => {
@@ -94,6 +110,9 @@ describe("scripts config", () => {
         },
         sidebar: {
           title: "Slide Deck",
+        },
+        pagination: {
+          pageSize: 12,
         },
       },
       tempRoot,

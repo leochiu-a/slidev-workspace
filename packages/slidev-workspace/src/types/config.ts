@@ -12,6 +12,11 @@ export interface SidebarConfig {
   githubUrl?: string;
 }
 
+export interface PaginationConfig {
+  /** Maximum number of slide cards shown per page on the workspace page. */
+  pageSize: number;
+}
+
 /**
  * Slidev Workspace configuration loaded from slidev-workspace.yaml.
  */
@@ -28,6 +33,8 @@ export interface SlidevWorkspaceConfig {
   hero: HeroConfig;
   /** Sidebar content surfaced by the preview application. */
   sidebar: SidebarConfig;
+  /** Pagination settings for the slide list on the workspace page. */
+  pagination: PaginationConfig;
   /** Favicon URL for the workspace preview page. Falls back to the bundled icon. */
   favicon?: string;
 }

@@ -94,6 +94,21 @@ sidebar:
   githubUrl: "https://github.com/your-org/your-repo"
 ```
 
+## Pagination Configuration
+
+The slide list on the workspace preview page is paginated. Pagination controls appear below the list when there are more slides than fit on one page.
+
+### pagination.pageSize
+
+**Default:** `12`
+
+The maximum number of slide cards shown per page.
+
+```yaml
+pagination:
+  pageSize: 9
+```
+
 ## Complete Example
 
 Here's a complete example configuration file:
@@ -107,6 +122,9 @@ sidebar:
   title: "Company Library"
   githubUrl: "https://github.com/acme/presentations"
 
+pagination:
+  pageSize: 9
+
 baseUrl: "/presentations"
 favicon: "https://example.com/favicon.png"
 outputDir: "./dist"
@@ -114,4 +132,4 @@ exclude:
   - "drafts"
 ```
 
-`hero.title`, `hero.description`, `baseUrl`, `favicon`, `outputDir`, and `exclude` are optional and will use their default values if not specified.
+`hero.title`, `hero.description`, `pagination.pageSize`, `baseUrl`, `favicon`, `outputDir`, and `exclude` are optional and will use their default values if not specified.

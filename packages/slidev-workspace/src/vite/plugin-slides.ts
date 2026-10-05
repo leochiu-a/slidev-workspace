@@ -148,6 +148,7 @@ export default slidesData;`;
           const configData = {
             hero: config.hero,
             sidebar: config.sidebar,
+            pagination: config.pagination,
           };
           return `export const configData = ${JSON.stringify(configData, null, 2)};
 export default configData;`;

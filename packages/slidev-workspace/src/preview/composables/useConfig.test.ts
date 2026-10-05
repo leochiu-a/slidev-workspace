@@ -15,6 +15,7 @@ describe("useConfig", () => {
   async function setupUseConfig(configData?: {
     hero: { title: string; description: string };
     sidebar?: { title: string; githubUrl?: string };
+    pagination?: { pageSize: number };
   }) {
     vi.resetModules();
 
@@ -160,6 +161,28 @@ describe("useConfig", () => {
 
       expect(result.sidebar.value.title).toBe("Slide Deck");
       expect(result.sidebar.value.githubUrl).toBe("");
+    });
+  });
+
+  describe("pagination config", () => {
+    it("should return pagination config from slidev:config", async () => {
+      const result = await setupUseConfig({
+        hero: {
+          title: "Test Workspace",
+          description: "Test Description",
+        },
+        pagination: {
+          pageSize: 6,
+        },
+      });
+
+      expect(result.pagination.value.pageSize).toBe(6);
+    });
+
+    it("should default pageSize to 12 when no config provided", async () => {
+      const result = await setupUseConfig();
+
+      expect(result.pagination.value.pageSize).toBe(12);
     });
   });
 

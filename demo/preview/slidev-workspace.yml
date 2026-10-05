@@ -7,3 +7,6 @@ sidebar:
   githubUrl: "https://github.com/leochiu-a/slidev-workspace"
 
 baseUrl: /slidev-workspace-starter/
+
+pagination:
+  pageSize: 1
