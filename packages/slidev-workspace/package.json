@@ -39,6 +39,7 @@
     "dev": "pnpm run dev",
     "dev:watch": "tsdown --watch",
     "test": "vitest",
+    "test:e2e": "playwright test",
     "typecheck": "vue-tsc --noEmit",
     "lint": "oxlint",
     "format": "prettier --write src/",
@@ -64,6 +65,7 @@
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^5.0.0",
+    "@playwright/test": "^1.58.1",
     "@prettier/plugin-oxc": "^0.0.4",
     "@storybook/addon-a11y": "^10.2.3",
     "@storybook/addon-docs": "^10.2.3",

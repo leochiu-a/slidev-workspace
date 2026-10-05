@@ -6,6 +6,7 @@
     :items-per-page="itemsPerPage"
     :sibling-count="1"
     show-edges
+    aria-label="Pagination"
   >
     <PaginationList v-slot="{ items }" class="flex items-center gap-1">
       <PaginationPrev :class="itemClass" aria-label="Previous page">
