@@ -19,15 +19,12 @@ catalogs:
       specifier: ^3.5.13
       version: 3.5.21
 
-overrides:
-  slidev-workspace: link:../../../../Library/pnpm/global/5/node_modules/slidev-workspace
-
 importers:
   .:
     dependencies:
       slidev-workspace:
-        specifier: link:../../../../Library/pnpm/global/5/node_modules/slidev-workspace
-        version: link:../../../../Library/pnpm/global/5/node_modules/slidev-workspace
+        specifier: link:../../packages/slidev-workspace
+        version: link:../../packages/slidev-workspace
 
   slides/slidev-starter-1:
     dependencies:
