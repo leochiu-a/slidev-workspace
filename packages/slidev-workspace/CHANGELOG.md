@@ -1,5 +1,11 @@
 # slidev-workspace
 
+## 0.10.0
+
+### Minor Changes
+
+- 050a240: Paginate the slide list on the workspace preview page, configurable with `pagination.pageSize` (default 12)
+
 ## 0.9.4
 
 ### Patch Changes
